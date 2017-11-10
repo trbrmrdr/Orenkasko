@@ -9,9 +9,17 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/android-design-library-master/1-Base" />
+            <option value="$PROJECT_DIR$/android-design-library-master/2-Color" />
+            <option value="$PROJECT_DIR$/android-design-library-master/3-Layout" />
+            <option value="$PROJECT_DIR$/android-design-library-master/4-RecyclerView" />
+            <option value="$PROJECT_DIR$/android-design-library-master/5-VectorAssets" />
+            <option value="$PROJECT_DIR$/android-design-library-master/6-PageElement" />
+            <option value="$PROJECT_DIR$/android-design-library-master/app" />
+            <option value="$PROJECT_DIR$/orenkasko" />
           </set>
         </option>
+        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>

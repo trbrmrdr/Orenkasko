@@ -2,8 +2,22 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/android-design-library-master/1-Base/1-Base.iml" filepath="$PROJECT_DIR$/android-design-library-master/1-Base/1-Base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-design-library-master/2-Color/2-Color.iml" filepath="$PROJECT_DIR$/android-design-library-master/2-Color/2-Color.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-design-library-master/3-Layout/3-Layout.iml" filepath="$PROJECT_DIR$/android-design-library-master/3-Layout/3-Layout.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-design-library-master/4-RecyclerView/4-RecyclerView.iml" filepath="$PROJECT_DIR$/android-design-library-master/4-RecyclerView/4-RecyclerView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-design-library-master/5-VectorAssets/5-VectorAssets.iml" filepath="$PROJECT_DIR$/android-design-library-master/5-VectorAssets/5-VectorAssets.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-design-library-master/6-PageElement/6-PageElement.iml" filepath="$PROJECT_DIR$/android-design-library-master/6-PageElement/6-PageElement.iml" />
       <module fileurl="file://$PROJECT_DIR$/Orenkasko.iml" filepath="$PROJECT_DIR$/Orenkasko.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://E:\staged\Orenkasko\android-design-library-master\1-Base\android-design-library-master-1-Base.iml" filepath="E:\staged\Orenkasko\android-design-library-master\1-Base\android-design-library-master-1-Base.iml" />
+      <module fileurl="file://E:\staged\Orenkasko\android-design-library-master\2-Color\android-design-library-master-2-Color.iml" filepath="E:\staged\Orenkasko\android-design-library-master\2-Color\android-design-library-master-2-Color.iml" />
+      <module fileurl="file://E:\staged\Orenkasko\android-design-library-master\3-Layout\android-design-library-master-3-Layout.iml" filepath="E:\staged\Orenkasko\android-design-library-master\3-Layout\android-design-library-master-3-Layout.iml" />
+      <module fileurl="file://E:\staged\Orenkasko\android-design-library-master\4-RecyclerView\android-design-library-master-4-RecyclerView.iml" filepath="E:\staged\Orenkasko\android-design-library-master\4-RecyclerView\android-design-library-master-4-RecyclerView.iml" />
+      <module fileurl="file://E:\staged\Orenkasko\android-design-library-master\5-VectorAssets\android-design-library-master-5-VectorAssets.iml" filepath="E:\staged\Orenkasko\android-design-library-master\5-VectorAssets\android-design-library-master-5-VectorAssets.iml" />
+      <module fileurl="file://E:\staged\Orenkasko\android-design-library-master\6-PageElement\android-design-library-master-6-PageElement.iml" filepath="E:\staged\Orenkasko\android-design-library-master\6-PageElement\android-design-library-master-6-PageElement.iml" />
+      <module fileurl="file://E:\staged\Orenkasko\android-design-library-master\app\android-design-library-master-app.iml" filepath="E:\staged\Orenkasko\android-design-library-master\app\android-design-library-master-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-design-library-master/app/app.iml" filepath="$PROJECT_DIR$/android-design-library-master/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/orenkasko/orenkasko.iml" filepath="$PROJECT_DIR$/orenkasko/orenkasko.iml" />
     </modules>
   </component>
 </project>
