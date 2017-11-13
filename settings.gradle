@@ -11,51 +11,17 @@ void Include(String pathTo) {
         path = pathTo.substring(0, last + 1)
         name = pathTo.substring(last + 1, pathTo.length())
     }
-    println("include [" + name + "]\n[" + getRootDir().absolutePath + '\\' + path + name + "]\n");
+    //println("include [" + name + "]\n[" + getRootDir().absolutePath + '\\' + path + name + "]\n");
     include ':' + name
     project(':' + name).projectDir = new File(getRootDir().absolutePath + '\\' + path + name)
 }
 
-if (false) {
+Include('android-design-library-master/app')
+Include('android-design-library-master/1-Base')
+Include('android-design-library-master/2-Color')
+Include('android-design-library-master/3-Layout')
+Include('android-design-library-master/4-RecyclerView')
+Include('android-design-library-master/5-VectorAssets')
+Include('android-design-library-master/6-PageElement')
 
-    String pwd = getRootDir().absolutePath
-    String basePath = '/../Orenkasko/'
-
-    List<String> includeList = [
-            'android-design-library-master/app',
-            'android-design-library-master/1-Base',
-            'android-design-library-master/2-Color',
-            'android-design-library-master/3-Layout',
-            'android-design-library-master/4-RecyclerView',
-            'android-design-library-master/5-VectorAssets',
-            'android-design-library-master/6-PageElement',
-    ]
-
-    includeList.each {
-        item ->
-            int last = item.lastIndexOf('/')
-            String path = ''
-            String name = ''
-            if (last == -1) {
-                name = item
-            } else {
-                path = item.substring(0, last + 1)
-                name = item.substring(last + 1, item.length())
-            }
-            println("include [" + name + "]\n[" + pwd + basePath + path + name + "]\n");
-
-            include ':' + name
-            project(':' + name).projectDir = new File(pwd + basePath + path + name)
-
-    }
-
-
-} else {
-    Include('android-design-library-master/app')
-    Include('android-design-library-master/1-Base')
-    Include('android-design-library-master/2-Color')
-    Include('android-design-library-master/3-Layout')
-    Include('android-design-library-master/4-RecyclerView')
-    Include('android-design-library-master/5-VectorAssets')
-    Include('android-design-library-master/6-PageElement')
-}
+Include('Resources/android-design-template-master/app_2')
