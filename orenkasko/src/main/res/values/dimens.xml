@@ -6,4 +6,11 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+
+    <dimen name="next_button_padding">25dp</dimen>
+
+
+    <dimen name="logo_height">80dp</dimen>
+    <dimen name="padding_from_logo">160dp</dimen>
 </resources>

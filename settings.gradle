@@ -1,5 +1,14 @@
 include ':orenkasko'
 //https://codelabs.developers.google.com
+/*
+https://codelabs.developers.google.com/codelabs/material-design-style
+https://developer.android.com/guide/topics/ui/controls/spinner.html
+
+https://developer.android.com/training/material/drawables.html
+
+https://material.io/icons/#ic_label_outline
+http://google.github.io/material-design-icons/
+*/
 
 void Include(String pathTo) {
     int last = pathTo.lastIndexOf('/')
