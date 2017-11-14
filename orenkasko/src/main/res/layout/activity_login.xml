@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,7 +11,7 @@
         android:id="@+id/login_progress"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/buttonLoginProgress"
+        android:background="@color/login_progress"
         android:focusableInTouchMode="true"
         android:gravity="center"
         android:visibility="gone">
@@ -36,10 +37,10 @@
         <LinearLayout
             android:id="@+id/phone_form"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/padding_from_logo"
+            android:paddingTop="@dimen/padding_from_logo"
             android:visibility="gone">
 
             <include layout="@layout/image_logo" />
@@ -70,18 +71,78 @@
                     android:selectAllOnFocus="false"
                     android:text="@string/phone_start_text"
                     android:textAlignment="center" />
+
             </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
         <!-- set new name #################### -->
+        <LinearLayout
+            android:id="@+id/name_form"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/padding_from_logo">
+
+            <include layout="@layout/image_logo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/name_text_hint" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:gravity="center"
+
+                    android:maxLength="20"
+                    android:maxLines="1"
+                    android:selectAllOnFocus="false"
+                    android:textAlignment="center" />
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                android:layout_gravity="bottom"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/credits_check_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/text_credits"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:autoLink="web"
+                    android:linksClickable="true"
+                    android:text="@string/text_credits" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
         <!-- register pass #################### -->
         <LinearLayout
             android:id="@+id/phone_pass_form"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/padding_from_logo">
+            android:paddingTop="@dimen/padding_from_logo"
+            android:visibility="gone">
 
             <include layout="@layout/image_logo" />
 

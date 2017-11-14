@@ -3,13 +3,19 @@
 
     <string name="action_next">ДАЛЕЕ</string>
 
-    <string name="phone_start_text" >+7(</string>
+    <string name="phone_start_text">+7(</string>
 
     <string name="error_incorrect_phone">Телефонный номер несуществует</string>
     <string name="error_invalid_phone">Этот номер телефона некорректный</string>
 
 
     <string name="error_field_required">Это поле обязательно для заполнения</string>
+
+
+    <string name="error_name_empty">Введите имя</string>
+    <string name="error_name_incorrect">Некорректное имя</string>
+
+
     <!-- template -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -23,4 +29,17 @@
     <string name="phone_pass_replay">Отправить повторно</string>
 
     <string name="error_invalid_phone_password">Код поддтверждения некорректный</string>
+    <string name="error_text_replay_pass">Отправить можно тольлко через </string>
+    <string name="name_text_hint">Имя</string>
+
+    <string name="text_credits">Я согласен с условиями <a href="https://www.google.ru">пользовательского соглашения</a></string>
+    <string name="error_incorrect_phone_code">Пароль неверен</string>
+    <string name="credits_link">https://www.google.ru</string>
+    <string name="credits_checked_error">Необходимо согласится с условиями пользовательского соглашения</string>
+    <string name="item_balance">Баланс</string>
+    <string name="item_osago">ОСАГО</string>
+    <string name="item_orders">Заявки</string>
+    <string name="item_logout">Выход</string>
+    <string name="item_info">О программе</string>
+
 </resources>

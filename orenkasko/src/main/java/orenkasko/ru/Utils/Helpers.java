@@ -1,12 +1,16 @@
 package orenkasko.ru.Utils;
 
 import android.content.Context;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import orenkasko.ru.LoginActivity;
 import orenkasko.ru.R;
 
 /**
@@ -25,15 +29,66 @@ public class Helpers {
         Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
     }
 
+    public static void setAutoInputText(final Context context, final EditText editText, long delay) {
+        setAutoInputText(context, editText, delay, null, null);
+    }
+
+    public static void setAutoInputText(final Context context, final EditText editText, long delay, CharSequence text, final Runnable callback) {
+
+        editText.setFocusable(false);
+        editText.setText("");
+
+        if (null == text || text.length() == 0) {
+            new Handler(context.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    editText.setFocusable(true);
+                    editText.setFocusableInTouchMode(true);
+
+                }
+            }, delay);
+            return;
+        }
+
+        final int lenght = text.length();
+        long delay_one_sumbol = lenght * 100;
+        long delay_start = delay - delay_one_sumbol;
+        if (delay_start <= 0) {
+            delay_start = delay;
+            delay_one_sumbol = 0;
+        }
+        for (int i = 0; i < lenght; ++i) {
+
+            final CharSequence new_text = text.subSequence(0, i + 1);
+            final boolean hasLast = i == lenght - 1;
+            new Handler(context.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    editText.setText(new_text);
+
+                    if (hasLast) {
+
+                        editText.setSelection(lenght);
+                        editText.setFocusable(true);
+                        editText.setFocusableInTouchMode(true);
+                        if (null != callback)
+                            callback.run();
+
+                    }
+                }
+            }, delay_start + delay_one_sumbol * i);
+        }
+    }
+
 
     public static class TextWatcher_Phone implements TextWatcher {
 
         private Context mContext;
-        private EditText mPhoneText;
+        private EditText editText;
 
         public TextWatcher_Phone(final Context context, EditText phoneText) {
             mContext = context;
-            mPhoneText = phoneText;
+            editText = phoneText;
         }
 
         @Override
@@ -113,14 +168,14 @@ public class Helpers {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (s.length() <= 0) return;
+            //if (s.length() <= 3 && mLastText.length() < s.length()) return;
             String newText = s.toString();
             if (newText.length() < 3) {
                 newText = mContext.getString(R.string.phone_start_text);
             }
 
             if (mLastText.length() == 0 || !newText.equals(mLastText))
-                mSelectPos = mPhoneText.getSelectionStart();
+                mSelectPos = editText.getSelectionStart();
 
             String phoneString = getNumber(newText);
             newText = setFromFormat(phoneString);
@@ -158,14 +213,14 @@ public class Helpers {
 
 
             //+7(981)-699-18-77
-            Log(mLastText + " " + newText);
+            //Log(mLastText + " " + newText);
             if (null == mLastText || !newText.equals(mLastText)) {
                 mLastText = newText;
-                mPhoneText.setText(newText);
+                editText.setText(newText);
                 if (!mHasAddToLast) {
                     if (mSelectPos == -1 || mSelectPos > newText.length())
                         mSelectPos = newText.length();
-                    mPhoneText.setSelection(mSelectPos);
+                    editText.setSelection(mSelectPos);
                 }
             }
             if (mHasAddToLast) {
@@ -174,7 +229,7 @@ public class Helpers {
                     mTextErace = false;
                 } else if (newText.length() >= 3)
                     mSelectPos = newText.length();
-                mPhoneText.setSelection(mSelectPos);
+                editText.setSelection(mSelectPos);
                 mLastText = newText;
             }
             return;

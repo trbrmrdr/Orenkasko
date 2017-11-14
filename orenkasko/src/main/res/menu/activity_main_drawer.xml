@@ -1,35 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camara"
-            android:icon="@android:drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_osago"
+            android:icon="@drawable/osago_black"
+            android:title="@string/item_osago" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@android:drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_balance"
+            android:icon="@drawable/ic_balance"
+            android:title="@string/item_balance" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@android:drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@android:drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_orders"
+            android:icon="@drawable/orders"
+            android:title="@string/item_orders" />
+
     </group>
 
-    <item android:title="Communicate">
+    
+    <item android:title="">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@android:drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/nav_info"
+                android:icon="@drawable/info"
+                android:title="@string/item_info" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@android:drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/nav_manage"
+                android:icon="@drawable/logout"
+                android:title="@string/item_logout" />
         </menu>
     </item>
 

@@ -4,15 +4,20 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -21,6 +26,11 @@ import java.util.Date;
 
 import orenkasko.ru.Utils.Helpers;
 
+import static orenkasko.ru.LoginActivity.Stage.Stage_Code;
+import static orenkasko.ru.LoginActivity.Stage.Stage_End;
+import static orenkasko.ru.LoginActivity.Stage.Stage_Name;
+import static orenkasko.ru.LoginActivity.Stage.Stage_Phone;
+import static orenkasko.ru.LoginActivity.Stage.Stage_Start;
 import static orenkasko.ru.Utils.Helpers.Toast;
 
 /**
@@ -37,11 +47,23 @@ public class LoginActivity extends AppCompatActivity {
 
     private UserLoginTask mAuthTask = null;
 
-    // UI references.
+    private final Long mSimulate_network_access_delay = 1500L;
+
     private View mProgressView;
 
     private long mTime_send_sms = -1;
-    private int mCurrStage = -1;
+
+    class Stage {
+        static final short
+                Stage_Start = -1,
+                Stage_Phone = 0,
+                Stage_Name = 1,
+                Stage_Code = 2,
+                Stage_End = 3;
+    }
+
+    private int mCurrStage = Stage_Start;
+
     private View mPhoneView;
     private EditText mPhoneText;
 
@@ -49,66 +71,69 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPhoneCodeText;
     private TextView mPhoneCodeReplayText;
 
+    private View mNameView;
+    private EditText mNameText;
+    private CheckBox mCreditCheckBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // Set up the login form.
+        //_________________Phone View
         mPhoneView = findViewById(R.id.phone_form);
         mPhoneText = (EditText) findViewById(R.id.phone);
-        mPhoneText.addTextChangedListener(new Helpers.TextWatcher_Phone(this, mPhoneText));
-        mPhoneText.setSelection(mPhoneText.getText().length());
-        mPhoneText.clearFocus();
-
+        //_________________Phone Code View
         mPhoneCodeView = findViewById(R.id.phone_pass_form);
         mPhoneCodeText = (EditText) findViewById(R.id.phone_pass);
+
         mPhoneCodeReplayText = (TextView) findViewById(R.id.replay_pass_textview);
         mPhoneCodeReplayText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 long delay = (4 * 60 * 1000) - (System.currentTimeMillis() - mTime_send_sms);
                 if (delay <= 0) {
-                    mCurrStage = 0;
-                    attemptLogin();
+                    processCurrStage(Stage_Code);
                 } else {
-                    SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
-                    Date resultdate = new Date(delay);
-                    Toast(LoginActivity.this, "отпраивть можно тольлко через " + sdf.format(resultdate));
+                    Toast(LoginActivity.this, getText(R.string.error_text_replay_pass) + new SimpleDateFormat("mm:ss").format(new Date(delay)));
                 }
             }
         });
-        /*
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        //_________________ Name View
+        mNameView = findViewById(R.id.name_form);
+        mNameText = (EditText) findViewById(R.id.name);
+        mCreditCheckBox = (CheckBox) findViewById(R.id.credits_check_box);
+
+        findViewById(R.id.text_credits).setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onEditorAction(TextView newTextView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
+            public void onClick(View v) {
+                try {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.credits_link)));
+                    startActivity(browserIntent);
+                } catch (Exception e) {
                 }
-                return false;
             }
         });
-*/
 
 
-        Button mSignNextButton = (Button) findViewById(R.id.sign_next_button);
-        mSignNextButton.setOnClickListener(new View.OnClickListener() {
-                                               @Override
-                                               public void onClick(View v) {
-                                                   attemptLogin();
-                                               }
-                                           }
+        //_________________Next Button
+        findViewById(R.id.sign_next_button).setOnClickListener(new View.OnClickListener() {
+                                                                   @Override
+                                                                   public void onClick(View v) {
+                                                                       processCurrStage(mCurrStage);
+                                                                   }
+                                                               }
 
         );
-
-        //mCurrStage = 0;
+        //__________________________________________________________________________________________
+        //mCurrStage = -1;//начало
+        //mCurrStage = Stage_Phone;//
         setCurrStage(true);
+
         mProgressView = findViewById(R.id.login_progress);
         getWindow().getDecorView().clearFocus();
         mProgressView.setFocusable(true);
     }
+
 
     @Override
     public void onBackPressed() {
@@ -122,87 +147,152 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void setCurrStage(Boolean success) {
-        if (mCurrStage == -1) {
-
+    void setVisible(View view) {
+        if (mPhoneView == view) {
             mPhoneView.setVisibility(View.VISIBLE);
+            mNameView.setVisibility(View.GONE);
             mPhoneCodeView.setVisibility(View.GONE);
 
-            mPhoneText.setFocusable(false);
-            mPhoneText.setText("");
-
-            new Handler(this.getMainLooper()).postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mPhoneText.setText(LoginActivity.this.getText(R.string.phone_start_text));
-
-                    mPhoneText.setFocusable(true);
-                    mPhoneText.setFocusableInTouchMode(true);
-                }
-            }, 1000L);
-            mCurrStage += 1;
-            return;
-        }
-
-        if (mCurrStage == 0) {
-            if (success) {
-                mTime_send_sms = System.currentTimeMillis();
-                Toast(LoginActivity.this, "пароль отправлен");
-                mCurrStage += 1;
-
-                mPhoneView.setVisibility(View.GONE);
-                mPhoneCodeView.setVisibility(View.VISIBLE);
-
-                mPhoneCodeText.setFocusable(false);
-                new Handler(this.getMainLooper()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mPhoneCodeText.setFocusable(true);
-                        mPhoneCodeText.setFocusableInTouchMode(true);
-                    }
-                }, 1000L);
-                return;
-            } else {
-                mPhoneText.setError(getString(R.string.error_incorrect_phone));
-                mPhoneText.requestFocus();
-                return;
-            }
-        }
-
-        if (mCurrStage == 1) {
-            Intent intent = new Intent(this, MainActivity.class);
-            this.startActivity(intent);
+            mPhoneCodeText.setFocusable(false);
+        } else if (mNameView == view) {
+            mPhoneView.setVisibility(View.GONE);
+            mNameView.setVisibility(View.VISIBLE);
+            mPhoneCodeView.setVisibility(View.GONE);
+        } else if (mPhoneCodeView == view) {
+            mPhoneView.setVisibility(View.GONE);
+            mNameView.setVisibility(View.GONE);
+            mPhoneCodeView.setVisibility(View.VISIBLE);
         }
     }
 
-    private void attemptLogin() {
+    boolean hasAddChangeListener = false;
+
+    private void setCurrStage(Boolean success) {
+        switch (mCurrStage) {
+            case Stage_Start: {
+                if (success) {
+                    //показываем окно набора телефона
+                    mCurrStage = Stage_Phone;
+                    setVisible(mPhoneView);
+
+                    Helpers.setAutoInputText(this, mPhoneText, 1000L, getText(R.string.phone_start_text),
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (!hasAddChangeListener) {
+                                        hasAddChangeListener = true;
+                                        mPhoneText.addTextChangedListener(new Helpers.TextWatcher_Phone(LoginActivity.this, mPhoneText));
+                                    }
+                                }
+                            });
+
+                } else {
+                    finish();
+                }
+            }
+            break;
+            case Stage_Phone:
+                if (success) {
+                    //показываем окно имени
+                    mCurrStage = Stage_Name;
+                    setVisible(mNameView);
+                } else {
+                    //показываем ошибку набора телефона
+                    setVisible(mPhoneView);
+                    //_____________
+                    mPhoneText.setFocusableInTouchMode(true);
+                    mPhoneText.setError(getString(R.string.error_incorrect_phone));
+                    mPhoneText.setSelection(mPhoneText.getText().length());
+                    mPhoneText.requestFocus();
+                }
+                return;
+            case Stage_Name:
+                if (success) {
+                    //показываем окно ввода пароля СМС
+                    mCurrStage = Stage_Code;
+                    setVisible(mPhoneCodeView);
+                    //_________________
+                    mTime_send_sms = System.currentTimeMillis();
+                    Toast(LoginActivity.this, "пароль отправлен");
+
+                    Helpers.setAutoInputText(this, mPhoneCodeText, 1000L);
+
+                } else {
+                    //ошибка ввода имени
+                    setVisible(mNameView);
+
+                    mNameText.setFocusableInTouchMode(true);
+                    mNameText.setError(getString(R.string.error_name_incorrect));
+                    mNameText.requestFocus();
+                }
+                break;
+            case Stage_Code: {
+                if (success) {
+                    Intent intent = new Intent(this, MainActivity.class);
+                    this.startActivity(intent);
+                } else {
+                    //ошибка ввода пароля из СМС
+                    setVisible(mPhoneCodeView);
+                    mPhoneCodeText.setFocusableInTouchMode(true);
+                    mPhoneCodeText.setError(getString(R.string.error_incorrect_phone_code));
+                    mPhoneCodeText.requestFocus();
+                }
+            }
+            break;
+            case Stage_End:
+                break;
+        }
+
+        return;
+    }
+
+    private void processCurrStage(int stage) {
+        mCurrStage = stage;
         if (mAuthTask != null) {
             return;
         }
         // Reset errors.
         mPhoneText.setError(null);
+        mNameText.setError(null);
+        mPhoneCodeText.setError(null);
+
         View focusView = null;
 
-        if (mCurrStage == 0) {
-            String phone = mPhoneText.getText().toString();
-            if (TextUtils.isEmpty(phone)) {
-                mPhoneText.setError(getString(R.string.error_field_required));
-                focusView = mPhoneText;
-
-            } else if (!isPhoneValid(phone)) {
-                mPhoneText.setError(getString(R.string.error_invalid_phone));
-                focusView = mPhoneText;
+        switch (mCurrStage) {
+            case Stage_Phone: {
+                String phone = mPhoneText.getText().toString();
+                if (TextUtils.isEmpty(phone)) {
+                    mPhoneText.setError(getString(R.string.error_field_required));
+                    focusView = mPhoneText;
+                } else if (!isPhoneValid(phone)) {
+                    mPhoneText.setError(getString(R.string.error_invalid_phone));
+                    focusView = mPhoneText;
+                }
             }
-        } else if (mCurrStage == 1) {
-            String phone_pass = mPhoneCodeText.getText().toString();
-            if (TextUtils.isEmpty(phone_pass)) {
-                mPhoneCodeText.setError(getString(R.string.error_field_required));
-                focusView = mPhoneCodeText;
-
-            } else if (!isPhonePassValid(phone_pass)) {
-                mPhoneCodeText.setError(getString(R.string.error_invalid_phone_password));
-                focusView = mPhoneCodeText;
+            break;
+            case Stage_Name: {
+                String name = mNameText.getText().toString();
+                if (TextUtils.isEmpty(name)) {
+                    mNameText.setError(getString(R.string.error_name_empty));
+                    focusView = mNameText;
+                } else if (!mCreditCheckBox.isChecked()) {
+                    focusView = mCreditCheckBox;
+                    Toast(this, getString(R.string.credits_checked_error));
+                }
             }
+            break;
+            case Stage_Code: {
+                String phone_pass = mPhoneCodeText.getText().toString();
+                if (TextUtils.isEmpty(phone_pass)) {
+                    mPhoneCodeText.setError(getString(R.string.error_field_required));
+                    focusView = mPhoneCodeText;
+
+                } else if (!isPhonePassValid(phone_pass)) {
+                    mPhoneCodeText.setError(getString(R.string.error_invalid_phone_password));
+                    focusView = mPhoneCodeText;
+                }
+            }
+            break;
         }
 
         if (null != focusView) {
@@ -268,9 +358,11 @@ public class LoginActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
+            if (mCurrStage == Stage_Name)//skip set name
+                return true;
             try {
                 // Simulate network access.
-                Thread.sleep(3000);
+                Thread.sleep(mSimulate_network_access_delay);
             } catch (InterruptedException e) {
                 return false;
             }
