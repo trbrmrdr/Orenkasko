@@ -24,6 +24,10 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
 import orenkasko.ru.Utils.Helpers;
 
 import static orenkasko.ru.LoginActivity.Stage.Stage_Code;
@@ -49,7 +53,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private final Long mSimulate_network_access_delay = 1500L;
 
-    private View mProgressView;
+    @Bind(R.id.login_progress)
+    View mProgressView;
 
     private long mTime_send_sms = -1;
 
@@ -64,72 +69,60 @@ public class LoginActivity extends AppCompatActivity {
 
     private int mCurrStage = Stage_Start;
 
-    private View mPhoneView;
-    private EditText mPhoneText;
+    @Bind(R.id.phone_form)
+    View mPhoneView;
 
-    private View mPhoneCodeView;
-    private EditText mPhoneCodeText;
-    private TextView mPhoneCodeReplayText;
+    @Bind(R.id.phone)
+    EditText mPhoneText;
 
-    private View mNameView;
-    private EditText mNameText;
-    private CheckBox mCreditCheckBox;
+    @Bind(R.id.phone_pass_form)
+    View mPhoneCodeView;
+    @Bind(R.id.phone_pass)
+    EditText mPhoneCodeText;
+    @Bind(R.id.replay_pass_textview)
+    TextView mPhoneCodeReplayText;
+
+    @OnClick(R.id.replay_pass_textview)
+    public void replay_stage_code(View v) {
+        long delay = (4 * 60 * 1000) - (System.currentTimeMillis() - mTime_send_sms);
+        if (delay <= 0) {
+            processCurrStage(Stage_Code);
+        } else {
+            Toast(LoginActivity.this, getText(R.string.error_text_replay_pass) + new SimpleDateFormat("mm:ss").format(new Date(delay)));
+        }
+    }
+
+    @Bind(R.id.name_form)
+    View mNameView;
+    @Bind(R.id.name)
+    EditText mNameText;
+    @Bind(R.id.credits_check_box)
+    CheckBox mCreditCheckBox;
+
+    @OnClick(R.id.text_credits)
+    public void credits_click(View v) {
+        try {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.credits_link)));
+            startActivity(browserIntent);
+        } catch (Exception e) {
+        }
+    }
+
+    @OnClick(R.id.sign_next_button)
+    public void next_button(View v) {
+        processCurrStage(mCurrStage);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        //_________________Phone View
-        mPhoneView = findViewById(R.id.phone_form);
-        mPhoneText = (EditText) findViewById(R.id.phone);
-        //_________________Phone Code View
-        mPhoneCodeView = findViewById(R.id.phone_pass_form);
-        mPhoneCodeText = (EditText) findViewById(R.id.phone_pass);
+        ButterKnife.bind(this);
 
-        mPhoneCodeReplayText = (TextView) findViewById(R.id.replay_pass_textview);
-        mPhoneCodeReplayText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                long delay = (4 * 60 * 1000) - (System.currentTimeMillis() - mTime_send_sms);
-                if (delay <= 0) {
-                    processCurrStage(Stage_Code);
-                } else {
-                    Toast(LoginActivity.this, getText(R.string.error_text_replay_pass) + new SimpleDateFormat("mm:ss").format(new Date(delay)));
-                }
-            }
-        });
-        //_________________ Name View
-        mNameView = findViewById(R.id.name_form);
-        mNameText = (EditText) findViewById(R.id.name);
-        mCreditCheckBox = (CheckBox) findViewById(R.id.credits_check_box);
-
-        findViewById(R.id.text_credits).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.credits_link)));
-                    startActivity(browserIntent);
-                } catch (Exception e) {
-                }
-            }
-        });
-
-
-        //_________________Next Button
-        findViewById(R.id.sign_next_button).setOnClickListener(new View.OnClickListener() {
-                                                                   @Override
-                                                                   public void onClick(View v) {
-                                                                       processCurrStage(mCurrStage);
-                                                                   }
-                                                               }
-
-        );
-        //__________________________________________________________________________________________
         //mCurrStage = -1;//начало
         //mCurrStage = Stage_Phone;//
         setCurrStage(true);
 
-        mProgressView = findViewById(R.id.login_progress);
         getWindow().getDecorView().clearFocus();
         mProgressView.setFocusable(true);
     }
@@ -228,7 +221,7 @@ public class LoginActivity extends AppCompatActivity {
                 break;
             case Stage_Code: {
                 if (success) {
-                    Intent intent = new Intent(this, MainActivity.class);
+                    Intent intent = new Intent(this, BalanceActivity.class);
                     this.startActivity(intent);
                 } else {
                     //ошибка ввода пароля из СМС

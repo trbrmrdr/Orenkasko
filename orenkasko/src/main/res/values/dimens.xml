@@ -1,16 +1,56 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="nav_header_vertical_spacing">16dp</dimen>
-    <dimen name="nav_header_height">160dp</dimen>
+    <dimen name="nav_header_vertical_spacing">20dp</dimen>
+    <dimen name="nav_header_height">210dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+
+    <dimen name="activity_blance_horizontal_margin">6dp</dimen>
+    <dimen name="activity_balance_vertical_margin">6dp</dimen>
+
+
     <dimen name="fab_margin">16dp</dimen>
 
 
     <dimen name="next_button_padding">25dp</dimen>
+    <dimen name="disable_item_padding">25dp</dimen>
+
+    <dimen name="disable_item_height">80dp</dimen>
 
 
     <dimen name="logo_height">80dp</dimen>
     <dimen name="padding_from_logo">80dp</dimen>
+
+
+    <!-- item_card -->
+    <dimen name="title_size">16sp</dimen>
+    <dimen name="title_top_margin">12dp</dimen>
+    <dimen name="title_left_margin">12dp</dimen>
+
+    <dimen name="title_erace_button_width">48dp</dimen>
+    <dimen name="title_erace_button_height">48dp</dimen>
+
+
+
+    <dimen name="bd_margin">16dp</dimen>
+    <dimen name="bd_margin_top">8dp</dimen>
+    <dimen name="card_height">144dp</dimen>
+    <!-- temp -->
+
+
+    <dimen name="tile_padding">8dp</dimen>
+    <dimen name="tile_height">160dp</dimen>
+    <dimen name="app_bar_height">256dp</dimen>
+    <dimen name="article_keylines">72dp</dimen>
+    <dimen name="avator_size">40dp</dimen>
+    <dimen name="card_title_height">40dp</dimen>
+    <dimen name="article_titles">20sp</dimen>
+
+
+    <dimen name="card_image_height">200dp</dimen>
+    <dimen name="list_body">14sp</dimen>
+    <dimen name="navheader_height">222dp</dimen>
+
 </resources>

@@ -41,5 +41,7 @@
     <string name="item_orders">Заявки</string>
     <string name="item_logout">Выход</string>
     <string name="item_info">О программе</string>
+    <string name="action_balance">Пополнить</string>
+    <string name="order_title">ОСАГО #12343</string>
 
 </resources>

@@ -26,6 +26,8 @@ void Include(String pathTo) {
 }
 
 Include('android-design-library-master/app')
+
+Include('Resources/android-design-template-master/app_2')
 return;
 Include('android-design-library-master/1-Base')
 Include('android-design-library-master/2-Color')
@@ -34,4 +36,4 @@ Include('android-design-library-master/4-RecyclerView')
 Include('android-design-library-master/5-VectorAssets')
 Include('android-design-library-master/6-PageElement')
 
-Include('Resources/android-design-template-master/app_2')
+

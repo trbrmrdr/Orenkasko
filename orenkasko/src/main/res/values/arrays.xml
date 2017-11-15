@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2016 The Android Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<resources>
+    <string-array name="ids">
+        <item>234342</item>
+        <item>75892</item>
+        <item>09685</item>
+        <item>12366</item>
+        <item>9622</item>
+        <item>8679434</item>
+    </string-array>
+
+    <string-array name="names">
+        <item>Кастынков</item>
+        <item>Игнатенко</item>
+        <item>Рубелёв</item>
+        <item>Стогницын</item>
+        <item>Лееев</item>
+        <item>Макаров</item>
+    </string-array>
+    <string-array name="avto_types">
+        <item>Авто</item>
+        <item>Авто etc</item>
+        <item>Автобус</item>
+        <item>Трактор</item>
+        <item>Мото</item>
+        <item>Мото</item>
+    </string-array>
+    <string-array name="dates">
+        <item>12.04.2007</item>
+        <item>12.04.2017</item>
+        <item>10.03.2001</item>
+        <item>20.10.2010</item>
+        <item>22.03.1908</item>
+        <item>06.12.2009</item>
+    </string-array>
+    <!-- ###################################################### -->
+    <!--
+    <select class="field field_select" name="possessor" id="possessor">
+              <option value="1" selected="">Физическое лицо</option>
+              <option value="2">Юридическое лицо</option>
+            </select>
+            -->
+    <string-array name="array_spin_way">
+        <item>Физическое лицо</item>
+        <item>Юридическое лицо</item>
+    </string-array>
+
+    <!--
+    <select class="field field_select" name="type">
+                  <option title="type_b" value="b">Легковой автомобиль</option>
+                  <option title="type_c" value="c">Грузовой автомобиль</option>
+                  <option title="type_d" value="d">Автобус</option>
+                  <option title="1215" value="a">Мотоцикл, мотороллер</option>
+                  <option title="1010" value="tramvai">Трамвай</option>
+                  <option title="1620" value="trolleibus">Троллейбус</option>
+                  <option title="1215" value="traktor">Трактор, самоходная дорожно-строительная или иная машина</option>
+
+    </select>
+    -->
+    <string-array name="array_spin_type">
+        <item>Легковой автомобиль</item>
+        <item>Грузовой автомобиль</item>
+        <item>Автобус</item>
+        <item>Мотоцикл, мотороллер</item>
+        <item>Трамвай</item>
+        <item>Троллейбус</item>
+        <item>Трактор, самоходная дорожно-строительная или иная машина</item>
+    </string-array>
+
+
+    <!--
+<div class="form-control__value_select sub_type">
+<select class="field field_select" name="type_b" style="display: block;">
+<option title="4118" value="0">Для личного использования</option>
+maybe <option title="2965" value="1">Используемый в качестве такси</option>
+</select>
+<select class="field field_select" name="type_c" style="display: none;">
+<option title="7397" value="0">С прицепом и разрешенной максимальной массой 16 тонн и менее</option>
+<option title="6605" value="1">С прицепом и разрешенной максимальной массой более 16 тонн</option>
+<option title="5284" value="1">Без прицепа</option>
+</select>
+<select class="field field_select" name="type_d" style="display: none;">
+<option title="2965" value="0">Используемый в качестве такси</option>
+<option title="1620" value="1">С числом мест сидения до 20 (включительно)</option>
+<option title="2025" value="2">С числом мест сидения свыше 20</option>
+</select>
+<select class="field field_select" name="type_p" style="display: none;">
+<option title="810" value="c">К грузовым автомобилям, полуприцепы, прицепы-роспуски</option>
+<option title="395" value="b">К легковым автомобилям (юр. лица), мотоциклам, мотороллерам</option>
+<option title="305" value="traktor">К тракторам, самоходным дорожно-строительным и иным машинам</option>
+</select>
+    </div>
+-->
+    <string-array name="array_spin_type_b">
+        <item>Для личного использования</item>
+    </string-array>
+
+    <string-array name="array_spin_type_c">
+        <item>С прицепом и разрешенной максимальной массой 16 тонн и менее</item>
+        <item>С прицепом и разрешенной максимальной массой более 16 тонн</item>
+        <item>Без прицепа</item>
+    </string-array>
+    <string-array name="array_spin_type_d">
+        <item>Используемый в качестве такси</item>
+        <item>С числом мест сидения до 20 (включительно)</item>
+        <item>С числом мест сидения свыше 20</item>
+    </string-array>
+    <string-array name="array_spin_type_p">
+        <item>К грузовым автомобилям, полуприцепы, прицепы-роспуски</item>
+        <item>К легковым автомобилям (юр. лица), мотоциклам, мотороллерам</item>
+        <item>К тракторам, самоходным дорожно-строительным и иныммашинам</item>
+    </string-array>
+
+<!-- ############################################## -->
+
+
+    <!--
+    <array name="place_avator">
+        <item>@drawable/a_avator</item>
+        <item>@drawable/b_avator</item>
+        <item>@drawable/c_avator</item>
+        <item>@drawable/d_avator</item>
+        <item>@drawable/e_avator</item>
+        <item>@drawable/f_avator</item>
+    </array>
+    -->
+</resources>

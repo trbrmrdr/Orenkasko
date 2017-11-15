@@ -43,7 +43,7 @@
             android:paddingTop="@dimen/padding_from_logo"
             android:visibility="gone">
 
-            <include layout="@layout/image_logo" />
+            <include layout="@layout/include_image_logo" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -84,7 +84,7 @@
             android:orientation="vertical"
             android:paddingTop="@dimen/padding_from_logo">
 
-            <include layout="@layout/image_logo" />
+            <include layout="@layout/include_image_logo" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -144,7 +144,7 @@
             android:paddingTop="@dimen/padding_from_logo"
             android:visibility="gone">
 
-            <include layout="@layout/image_logo" />
+            <include layout="@layout/include_image_logo" />
 
             <TextView
                 android:layout_width="wrap_content"

@@ -5,7 +5,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_osago"
-            android:icon="@drawable/osago_black"
+            android:icon="@drawable/osago"
             android:title="@string/item_osago" />
         <item
             android:id="@+id/nav_balance"
@@ -24,7 +24,7 @@
                     android:icon="@drawable/info"
                     android:title="@string/item_info" />
                 <item
-                    android:id="@+id/nav_manage"
+                    android:id="@+id/nav_logout"
                     android:icon="@drawable/logout"
                     android:title="@string/item_logout" />
             </menu>

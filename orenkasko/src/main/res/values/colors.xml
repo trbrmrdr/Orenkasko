@@ -1,12 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- items -->
+    <color name="item_1">#81f8b008</color>
+    <color name="item_2">#8afe8502</color>
+    <!-- header gradient -->
+    <color name="color_1">#e4be94</color>
+    <color name="color_2">#f4bd4f</color>
+    <color name="color_3">#f18b1d</color>
+    <!-- -->
     <color name="colorPrimary">#ebac68</color>
     <color name="colorPrimaryDark">#202d7c</color>
     <color name="colorAccent">#fcf8b008</color>
+    <color name="theme_window_background">#FFF5F5F5</color>
+
+    <color name="primary_text">#102546</color>
+    <color name="secondary_text">#727272</color>
 
     <color name="buttonNormal">#fe8502</color>
 
     <color name="login_progress">#95111154</color>
 
     <color name="colorItems">#000000</color>
+
+
+    <!-- temp -->
+    <color name="green_temp">#23A96E</color>
+    <color name="green_dark">#159204</color>
+    <color name="bright_green">#02D8B0</color>
+    <color name="button_green">#10a54a</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="dark_grey">#424242</color>
+    <color name="medium_grey">#9E9E9E</color>
+    <color name="button_grey">#757575</color>
 </resources>
