@@ -34,7 +34,7 @@
         <activity
             android:name=".BalanceActivity"
             android:label="@string/item_balance"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity
             android:name=".ProfileActivity"

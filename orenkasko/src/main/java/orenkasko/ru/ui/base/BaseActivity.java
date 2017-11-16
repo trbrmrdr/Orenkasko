@@ -7,6 +7,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -30,6 +31,11 @@ import orenkasko.ru.R;
  * The navigation logic is handled in {@link BaseActivity#goToNavDrawerItem(int)}
  */
 public abstract class BaseActivity extends AppCompatActivity {
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
     private static final String TAG = "BaseActivity";
 
     public final static void Log(final String msg) {

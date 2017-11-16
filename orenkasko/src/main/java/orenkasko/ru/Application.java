@@ -1,8 +1,14 @@
 package orenkasko.ru;
 
+import android.support.v7.app.AppCompatDelegate;
+
 import orenkasko.ru.Utils.AppResource;
 
 public class Application extends android.app.Application {
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
 
     private static final String TAG = "Game";
     private static Application mApplication;
@@ -13,7 +19,6 @@ public class Application extends android.app.Application {
         super.onCreate();
         mApplication = this;
         appResources = new AppResource(mApplication);
-
 
     }
 

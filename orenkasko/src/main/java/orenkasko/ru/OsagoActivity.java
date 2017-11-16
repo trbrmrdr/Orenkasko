@@ -1,6 +1,7 @@
 package orenkasko.ru;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -171,6 +172,7 @@ public class OsagoActivity extends BaseActivity {
     int navigators = 0;
 
     int navigation;
+
     @OnClick(R.id.item_navigator_add)
     void navigator_add(View view) {
         navigators += 1;

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!-- ###################  way-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -182,7 +183,9 @@
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@+id/item_navigator_text_count"
             android:layout_toStartOf="@+id/item_navigator_text_count"
-            android:background="@drawable/ic_remove" />
+
+            android:background="@null"
+            app:srcCompat="@drawable/ic_remove" />
 
         <TextView
             android:id="@+id/item_navigator_text_count"
@@ -201,9 +204,9 @@
             android:id="@+id/item_navigator_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_alignParentRight="true"
-            android:background="@drawable/ic_add" />
+            android:background="@null"
+            app:srcCompat="@drawable/ic_add" />
 
         <include layout="@layout/separator_content_osago" />
     </RelativeLayout>
