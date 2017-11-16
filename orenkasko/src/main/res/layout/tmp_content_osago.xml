@@ -128,16 +128,6 @@
             android:spinnerMode="dialog" />
 
         <include layout="@layout/separator_content_osago" />
-
-        <Spinner
-            android:id="@+id/spin_city"
-            style="@style/item_spin"
-            android:layout_width="@dimen/spin_width_2"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="22dp" />
     </RelativeLayout>
 
     <!-- ################### city_way-->
@@ -153,6 +143,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/spin_city" />
+
+        <Spinner
+            android:id="@+id/spin_city"
+            style="@style/item_spin"
+            android:layout_width="@dimen/spin_width_2"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:spinnerMode="dialog" />
+
 
         <include layout="@layout/separator_content_osago" />
     </RelativeLayout>

@@ -10,11 +10,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.LinearLayout;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnTouch;
 import orenkasko.ru.BalanceActivity;
 import orenkasko.ru.LoginActivity;
 import orenkasko.ru.OrdersActivity;
 import orenkasko.ru.OsagoActivity;
+import orenkasko.ru.ProfileActivity;
 import orenkasko.ru.R;
 
 /**
@@ -51,11 +58,33 @@ public abstract class BaseActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /*
+    @OnTouch(R.id.linearLayout_nav_header)
+    public boolean on_toucn_profile(View v, MotionEvent event) {
+        startActivity(new Intent(this, ProfileActivity.class));
+        return true;
+    }
+    */
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         setupNavDrawer();
         setupToolbar();
+        ButterKnife.bind(this);
+
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View tmp = navigationView.getHeaderView(0);
+        if (null != tmp) {
+            tmp.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    startActivity(new Intent(BaseActivity.this, ProfileActivity.class));
+                    return true;
+                }
+            });
+        }
     }
 
     /**

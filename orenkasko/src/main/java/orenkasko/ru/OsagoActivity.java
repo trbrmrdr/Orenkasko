@@ -30,11 +30,18 @@ public class OsagoActivity extends BaseActivity {
     @OnClick(R.id.item_spin_way)
     public void on_click_spin_way(View v) {
         spin_way.performClick();
-
     }
+
+    int possessor = 1;
 
     @OnItemSelected(R.id.spin_way)
     public void spin_way_selected(int index) {
+        possessor = index + 1;
+        if (1 == possessor) {
+            item_spin_driver_age.setEnabled(true);
+        } else if (2 == possessor) {
+            item_spin_driver_age.setEnabled(false);
+        }
     }
 
     //___________________________
@@ -163,6 +170,7 @@ public class OsagoActivity extends BaseActivity {
 
     int navigators = 0;
 
+    int navigation;
     @OnClick(R.id.item_navigator_add)
     void navigator_add(View view) {
         navigators += 1;
@@ -170,15 +178,17 @@ public class OsagoActivity extends BaseActivity {
     }
 
     private void change_navigators() {
-
-
         if (navigators < 1) {
-            item_spin_driver_age.setVisibility(View.GONE);
+            navigation = 1;
+            //item_spin_driver_age.setVisibility(View.GONE);
+            item_spin_driver_age.setEnabled(true);
             item_navigator_text_count.setText("Без ограничений");
 
             navigator_remove.setVisibility(View.GONE);
         } else {
-            item_spin_driver_age.setVisibility(View.VISIBLE);
+            navigation = 2;
+            //item_spin_driver_age.setVisibility(View.VISIBLE);
+            item_spin_driver_age.setEnabled(false);
             navigator_remove.setVisibility(View.VISIBLE);
             item_navigator_text_count.setText(String.valueOf(navigators));
         }
@@ -243,6 +253,9 @@ public class OsagoActivity extends BaseActivity {
         Kbm = adapter_discount_val[index];
     }
 
+    //__________________________
+    @Bind(R.id.spin_insurance)
+    Spinner spin_insurance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -281,6 +294,9 @@ public class OsagoActivity extends BaseActivity {
         //setDropDownAdapter(spin_type, R.layout.oreder_spin_dropdown_item);
         //___________
         navigator_add(null);
+        //____________
+        spin_insurance.setEnabled(false);
+
     }
 
     private float[] getFloatArray(String[] strings) {

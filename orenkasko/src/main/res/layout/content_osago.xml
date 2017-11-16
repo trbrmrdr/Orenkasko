@@ -54,7 +54,7 @@
                 </RelativeLayout>
 
                 <!--
- -->
+                -->
                 <include layout="@layout/tmp_content_osago" />
 
 
@@ -81,6 +81,33 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:entries="@array/array_spin_discount" />
+
+                    <include layout="@layout/separator_content_osago" />
+                </RelativeLayout>
+
+                <!-- ############### discount ###################### -->
+
+                <RelativeLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_spin_height"
+                    android:layout_gravity="center_vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        style="@style/item_spin_text"
+                        android:layout_width="@dimen/spin_width"
+                        android:layout_height="wrap_content"
+                        android:text="@string/spin_name_insurance" />
+
+                    <Spinner
+                        android:id="@+id/spin_insurance"
+                        style="@style/item_spin"
+                        android:layout_width="@dimen/spin_width_2"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:entries="@array/array_spin_insurance" />
 
                     <include layout="@layout/separator_content_osago" />
                 </RelativeLayout>

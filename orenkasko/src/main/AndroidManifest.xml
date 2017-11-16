@@ -16,35 +16,35 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".OsagoActivity"
-            android:label="@string/item_osago"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".LoginActivity"
+            android:theme="@style/AppTheme.NoTopBar">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+
+        <activity
+            android:name=".OsagoActivity"
+            android:label="@string/item_osago"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity
             android:name=".BalanceActivity"
             android:label="@string/item_balance"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/item_profile"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".OrdersActivity"
             android:label="@string/item_orders"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-
-        <activity
-            android:name=".LoginActivity"
-            android:theme="@style/AppTheme.NoTopBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

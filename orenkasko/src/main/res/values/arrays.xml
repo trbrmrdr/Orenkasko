@@ -967,6 +967,9 @@
         <item>0.65</item>
         <item>0.6</item>
     </string-array>
+    <string-array name="array_spin_insurance">
+        <item>РСА</item>
+    </string-array>
 
 
     <!--

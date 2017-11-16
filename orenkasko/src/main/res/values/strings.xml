@@ -52,11 +52,14 @@
     <string name="spin_period">Срок страхования</string>
     <string name="spin_region">Место регистрации собственника</string>
     <string name="spin_city">Населенный пункт</string>
-    <string name="spin_navigat" >Допущенные к управлению</string>
+    <string name="spin_navigat" >Допущенные к управлению водители</string>
     <string name="spin_driver_age">Возраст и водительский стаж</string>
     <string name="spin_first">Страхование впервые?</string>
     <string name="spin_discount">Скидка за безаварийную езду:</string>
 
     <string name="action_osago">Оформить</string>
     <string name="amount_text" >Стоимость : </string>
+    <string name="spin_name_insurance">Страховая компания</string>
+    <string name="item_profile">Провиль</string>
+    <string name="you_photo">Ваша фотография</string>
 </resources>
