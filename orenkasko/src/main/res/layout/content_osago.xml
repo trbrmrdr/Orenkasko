@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -15,40 +14,108 @@
         android:paddingRight="@dimen/activity_blance_horizontal_margin"
         android:paddingTop="@dimen/activity_balance_vertical_margin">
 
+
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+
             <LinearLayout
                 style="@style/Widget.CardContent"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
 
+                <!-- ############### way ###################### -->
 
                 <RelativeLayout
+                    android:id="@+id/item_spin_way"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="10dp">
+                    android:layout_height="@dimen/item_spin_height"
+                    android:layout_gravity="center_vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp">
 
                     <TextView
+                        style="@style/item_spin_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Владелец"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                        android:text="@string/spin_way" />
 
                     <Spinner
                         android:id="@+id/spin_way"
-                        android:layout_width="wrap_content"
+                        style="@style/item_spin"
+                        android:layout_width="@dimen/spin_width_2"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat" />
+                        android:entries="@array/array_spin_way" />
+
+                    <include layout="@layout/separator_content_osago" />
                 </RelativeLayout>
 
-                <include layout="@layout/separator" />
+                <!--
+ -->
+                <include layout="@layout/tmp_content_osago" />
 
 
+                <!-- ############### discount ###################### -->
+
+                <RelativeLayout
+                    android:id="@+id/item_spin_discount"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_spin_height"
+                    android:layout_gravity="center_vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        style="@style/item_spin_text"
+                        android:layout_width="@dimen/spin_width"
+                        android:layout_height="wrap_content"
+                        android:text="@string/spin_discount" />
+
+                    <Spinner
+                        android:id="@+id/spin_discount"
+                        style="@style/item_spin"
+                        android:layout_width="@dimen/spin_width_2"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:entries="@array/array_spin_discount" />
+
+                    <include layout="@layout/separator_content_osago" />
+                </RelativeLayout>
+
+                <!-- ############### discount ###################### -->
+
+                <RelativeLayout
+                    android:id="@+id/item_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_spin_height"
+                    android:layout_gravity="center_vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        style="@style/item_spin_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/amount_text" />
+
+                </RelativeLayout>
+
+                <!-- ################# end ########### -->
+                <Button
+
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:padding="@dimen/next_button_padding"
+
+                    android:text="@string/action_osago"
+                    android:textStyle="bold" />
+
+                <!-- ################# end ########### -->
             </LinearLayout>
 
 

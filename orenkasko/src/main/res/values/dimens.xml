@@ -37,6 +37,10 @@
     <dimen name="bd_margin">16dp</dimen>
     <dimen name="bd_margin_top">8dp</dimen>
     <dimen name="card_height">144dp</dimen>
+
+    <dimen name="spin_width" >140dp</dimen>
+    <dimen name="spin_width_2" >140dp</dimen>
+    <dimen name="item_spin_height">60dp</dimen>
     <!-- temp -->
 
 
@@ -52,5 +56,7 @@
     <dimen name="card_image_height">200dp</dimen>
     <dimen name="list_body">14sp</dimen>
     <dimen name="navheader_height">222dp</dimen>
+
+
 
 </resources>

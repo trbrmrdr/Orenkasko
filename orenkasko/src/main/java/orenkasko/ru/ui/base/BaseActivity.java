@@ -2,7 +2,6 @@ package orenkasko.ru.ui.base;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,6 +14,7 @@ import android.view.MenuItem;
 import orenkasko.ru.BalanceActivity;
 import orenkasko.ru.LoginActivity;
 import orenkasko.ru.OrdersActivity;
+import orenkasko.ru.OsagoActivity;
 import orenkasko.ru.R;
 
 /**
@@ -25,7 +25,7 @@ import orenkasko.ru.R;
 public abstract class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity";
 
-    private final static void Log(final String msg) {
+    public final static void Log(final String msg) {
         Log.e(TAG, msg);
     }
 
@@ -135,7 +135,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 startActivity(new Intent(this, OrdersActivity.class));
                 break;
             case R.id.nav_osago:
-                //startActivity(new Intent(this, SettingsActivity.class));
+                startActivity(new Intent(this, OsagoActivity.class));
                 break;
             case R.id.nav_logout:
                 startActivity(new Intent(this, LoginActivity.class));

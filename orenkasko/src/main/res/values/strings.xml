@@ -44,4 +44,19 @@
     <string name="action_balance">Пополнить</string>
     <string name="order_title">ОСАГО #12343</string>
 
+    <string name="spin_way">Владелец</string>
+    <string name="spin_type">Тип транспорта</string>
+
+    <string name="spin_sub_type" />
+    <string name="spin_power">Мощность двигателя</string>
+    <string name="spin_period">Срок страхования</string>
+    <string name="spin_region">Место регистрации собственника</string>
+    <string name="spin_city">Населенный пункт</string>
+    <string name="spin_navigat" >Допущенные к управлению</string>
+    <string name="spin_driver_age">Возраст и водительский стаж</string>
+    <string name="spin_first">Страхование впервые?</string>
+    <string name="spin_discount">Скидка за безаварийную езду:</string>
+
+    <string name="action_osago">Оформить</string>
+    <string name="amount_text" >Стоимость : </string>
 </resources>

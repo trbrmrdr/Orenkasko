@@ -48,84 +48,925 @@
         <item>06.12.2009</item>
     </string-array>
     <!-- ###################################################### -->
-    <!--
-    <select class="field field_select" name="possessor" id="possessor">
-              <option value="1" selected="">Физическое лицо</option>
-              <option value="2">Юридическое лицо</option>
-            </select>
-            -->
     <string-array name="array_spin_way">
         <item>Физическое лицо</item>
         <item>Юридическое лицо</item>
     </string-array>
 
-    <!--
-    <select class="field field_select" name="type">
-                  <option title="type_b" value="b">Легковой автомобиль</option>
-                  <option title="type_c" value="c">Грузовой автомобиль</option>
-                  <option title="type_d" value="d">Автобус</option>
-                  <option title="1215" value="a">Мотоцикл, мотороллер</option>
-                  <option title="1010" value="tramvai">Трамвай</option>
-                  <option title="1620" value="trolleibus">Троллейбус</option>
-                  <option title="1215" value="traktor">Трактор, самоходная дорожно-строительная или иная машина</option>
 
-    </select>
-    -->
     <string-array name="array_spin_type">
-        <item>Легковой автомобиль</item>
-        <item>Грузовой автомобиль</item>
-        <item>Автобус</item>
-        <item>Мотоцикл, мотороллер</item>
-        <item>Трамвай</item>
-        <item>Троллейбус</item>
-        <item>Трактор, самоходная дорожно-строительная или иная машина</item>
+        <item title="type_b">Легковой автомобиль</item>
+        <item title="type_c">Грузовой автомобиль</item>
+        <item title="type_d">Автобус</item>
+        <item title="1215">Мотоцикл, мотороллер</item>
+        <item title="1010">Трамвай</item>
+        <item title="1620">Троллейбус</item>
+        <item title="1215">Трактор, самоходная дорожно-строительная или иная машина</item>
     </string-array>
 
 
-    <!--
-<div class="form-control__value_select sub_type">
-<select class="field field_select" name="type_b" style="display: block;">
-<option title="4118" value="0">Для личного использования</option>
-maybe <option title="2965" value="1">Используемый в качестве такси</option>
-</select>
-<select class="field field_select" name="type_c" style="display: none;">
-<option title="7397" value="0">С прицепом и разрешенной максимальной массой 16 тонн и менее</option>
-<option title="6605" value="1">С прицепом и разрешенной максимальной массой более 16 тонн</option>
-<option title="5284" value="1">Без прицепа</option>
-</select>
-<select class="field field_select" name="type_d" style="display: none;">
-<option title="2965" value="0">Используемый в качестве такси</option>
-<option title="1620" value="1">С числом мест сидения до 20 (включительно)</option>
-<option title="2025" value="2">С числом мест сидения свыше 20</option>
-</select>
-<select class="field field_select" name="type_p" style="display: none;">
-<option title="810" value="c">К грузовым автомобилям, полуприцепы, прицепы-роспуски</option>
-<option title="395" value="b">К легковым автомобилям (юр. лица), мотоциклам, мотороллерам</option>
-<option title="305" value="traktor">К тракторам, самоходным дорожно-строительным и иным машинам</option>
-</select>
-    </div>
--->
-    <string-array name="array_spin_type_b">
-        <item>Для личного использования</item>
+    <string-array name="array_spin_type_b" style="display: block;" class="field field_string-array">
+        <item title="4118" value="0">Для личного использования</item>
+        <!-- <item title="2965" value="1">Используемый в качестве такси</item> -->
+    </string-array>
+    <string-array name="array_spin_type_c" style="display: none;" class="field field_string-array">
+        <item title="7397" value="0">С прицепом и разрешенной максимальной массой 16 тонн и менее</item>
+        <item title="6605" value="1">С прицепом и разрешенной максимальной массой более 16 тонн
+        </item>
+        <item title="5284" value="1">Без прицепа</item>
+    </string-array>
+    <string-array name="array_spin_type_d" style="display: none;" class="field field_string-array">
+        <item title="2965" value="0">Используемый в качестве такси</item>
+        <item title="1620" value="1">С числом мест сидения до 20 (включительно)</item>
+        <item title="2025" value="2">С числом мест сидения свыше 20</item>
+    </string-array>
+    <string-array name="array_spin_type_p" style="display: none;" class="field field_string-array">
+        <item title="810" value="c">К грузовым автомобилям, полуприцепы, прицепы-роспуски</item>
+        <item title="395" value="b">К легковым автомобилям (юр. лица), мотоциклам, мотороллерам</item>
+        <item title="305" value="traktor">К тракторам, самоходным дорожно-строительным и иным машинам</item>
     </string-array>
 
-    <string-array name="array_spin_type_c">
-        <item>С прицепом и разрешенной максимальной массой 16 тонн и менее</item>
-        <item>С прицепом и разрешенной максимальной массой более 16 тонн</item>
-        <item>Без прицепа</item>
-    </string-array>
-    <string-array name="array_spin_type_d">
-        <item>Используемый в качестве такси</item>
-        <item>С числом мест сидения до 20 (включительно)</item>
-        <item>С числом мест сидения свыше 20</item>
-    </string-array>
-    <string-array name="array_spin_type_p">
-        <item>К грузовым автомобилям, полуприцепы, прицепы-роспуски</item>
-        <item>К легковым автомобилям (юр. лица), мотоциклам, мотороллерам</item>
-        <item>К тракторам, самоходным дорожно-строительным и иныммашинам</item>
+
+    <string-array name="array_spin_power">
+        <item title="0.6" value="0">до 50 включительно</item>
+        <item title="1" value="1">свыше 50 до 70 включительно</item>
+        <item string-arrayed="" title="1.1" value="2">свыше 70 до 100 включительно</item>
+        <item title="1.2" value="3">свыше 100 до 120 включительно</item>
+        <item title="1.4" value="4">свыше 120 до 150 включительно</item>
+        <item title="1.6" value="5">свыше 150</item>
     </string-array>
 
-<!-- ############################################## -->
+    <string-array name="array_spin_period" class="field field_string-array" data-string-array-like-a-boss="1">
+        <item title="1" value="0">1 год</item>
+        <item title="0.95" value="1">9 месяцев</item>
+        <item title="0.9" value="2">8 месяцев</item>
+        <item title="0.9" value="3">8 месяцев</item>
+        <item title="0.8" value="4">7 месяцев</item>
+        <item title="0.7" value="5">6 месяцев</item>
+        <item title="0.65" value="6">5 месяцев</item>
+        <item title="0.6" value="7">4 месяца</item>
+        <item title="0.5" value="8">3 месяца</item>
+    </string-array>
+
+    <string-array name="array_spin_region">
+        <item title="2_1.2" value="3">Москва (77, 99, 97, 177, 199, 197)</item>
+        <item title="1.7_1" value="3">Московская область (50, 90, 150)</item>
+        <item title="1.8_1" value="1">Санкт-Петербург (78, 98, 178)</item>
+        <item title="1.6_1" value="2">Ленинградская область (47)</item>
+        <item title="1.1_0.8" value="5">Республика Адыгея (1)</item>
+        <item title="_" value="8">Республика Башкирия (2, 102)</item>
+        <item title="_" value="22">Республика Бурятия (3)</item>
+        <item title="_" value="25">Республика Алтай (4)</item>
+        <item title="_" value="28">Республика Дагестан (5)</item>
+        <item title="_" value="35">Республика Ингушетия (6)</item>
+        <item title="_" value="44">Кабардино-Балкарская Республика (7)</item>
+        <item title="_" value="48">Республика Калмыкия (8)</item>
+        <item title="_" value="51">Карачаево-Черкесская Республика (9)</item>
+        <item title="_" value="54">Республика Карелия (10)</item>
+        <item title="_" value="57">Республика Коми (11)</item>
+        <item title="_" value="64">Марийская Республика (12)</item>
+        <item title="_" value="68">Республика Мордовия (13)</item>
+        <item title="_" value="72">Республика Якутия (14)</item>
+        <item title="_" value="76">Республика Северная Осетия-Алания (15)</item>
+        <item title="_" value="79">Республика Татария (16)</item>
+        <item title="_" value="90">Республика Тува (17)</item>
+        <item title="_" value="93">Республика Удмуртия (18)</item>
+        <item title="_" value="99">Республика Хакасия (19)</item>
+        <item title="_" value="104">Чеченская Республика (20)</item>
+        <item title="_" value="106">Чувашская Республика (21)</item>
+        <item title="_" value="111">Алтайский край (22)</item>
+        <item title="_" value="118">Краснодарский край (23, 93)</item>
+        <item title="_" value="136">Красноярский край (24)</item>
+        <item title="_" value="147">Приморский край (25)</item>
+        <item title="_" value="155">Ставропольский край (26)</item>
+        <item title="_" value="166">Хабаровский край (27)</item>
+        <item title="_" value="171">Амурская область (28)</item>
+        <item title="_" value="176">Архангельская область (29)</item>
+        <item title="_" value="181">Астраханская область (30)</item>
+        <item title="_" value="184">Белгородская область (31)</item>
+        <item title="_" value="189">Брянская область (32)</item>
+        <item title="_" value="193">Владимирская область (33)</item>
+        <item title="_" value="200">Волгоградская область (34)</item>
+        <item title="_" value="206">Вологодская область (35)</item>
+        <item title="_" value="210">Воронежская область (36)</item>
+        <item title="_" value="216">Ивановская область (37)</item>
+        <item title="_" value="221">Иркутская область (38)</item>
+        <item title="_" value="232">Калининградская область (39)</item>
+        <item title="_" value="235">Калужская область (40)</item>
+        <item title="_" value="239">Камчатская область (41)</item>
+        <item title="_" value="242">Кемеровская область (42)</item>
+        <item title="_" value="255">Кировская область (43)</item>
+        <item title="_" value="259">Костромская область (44)</item>
+        <item title="_" value="262">Курганская область (45)</item>
+        <item title="_" value="266">Курская область (46)</item>
+        <item title="_" value="270">Липецкая область (48)</item>
+        <item title="_" value="274">Магаданская область (49)</item>
+        <item title="_" value="277">Мурманская область (51)</item>
+        <item title="_" value="283">Нижегородская область (52)</item>
+        <item title="_" value="294">Новгородская область (53)</item>
+        <item title="_" value="298">Новосибирская область (54)</item>
+        <item title="_" value="304">Омская область (55)</item>
+        <item string-arrayed="" title="_" value="307">Оренбургская область (56)</item>
+        <item title="_" value="314">Орловская область (57)</item>
+        <item title="_" value="319">Пензенская область (58)</item>
+        <item title="_" value="324">Пермская область (59)</item>
+        <item title="_" value="334">Псковская область (60)</item>
+        <item title="_" value="338">Ростовская область (61)</item>
+        <item title="_" value="351">Рязанская область (62)</item>
+        <item title="_" value="354">Самарская область (63)</item>
+        <item title="_" value="362">Саратовская область (64)</item>
+        <item title="_" value="369">Сахалинская область (65)</item>
+        <item title="_" value="372">Свердловская область (66)</item>
+        <item title="_" value="388">Смоленская область (67)</item>
+        <item title="_" value="395">Тамбовская область (68)</item>
+        <item title="_" value="399">Тверская область (69)</item>
+        <item title="_" value="405">Томская область (70)</item>
+        <item title="_" value="409">Тульская область (71)</item>
+        <item title="_" value="417">Тюменская область (72)</item>
+        <item title="_" value="422">Ульяновская область (73)</item>
+        <item title="_" value="426">Челябинская область (74)</item>
+        <item title="_" value="437">Забайкальский край (75)</item>
+        <item title="_" value="441">Ярославская область (76)</item>
+        <item title="_" value="445">Еврейская автономная область (79)</item>
+        <item title="_" value="448">Агинский Бурятский автономный (80)</item>
+        <item title="_" value="450">Коми-Пермяцкий автономный округ (81)</item>
+        <item title="_" value="452">Республика Крым (82)</item>
+        <item title="_" value="454">Ненецкий автономный округ (83)</item>
+        <item title="_" value="456">Таймырский автономный округ (84)</item>
+        <item title="_" value="458">Усть-Ордынский автономный округ (85)</item>
+        <item title="_" value="460">Ханты-Мансийский автономный округ (86)</item>
+        <item title="_" value="468">Чукотский автономный округ (87)</item>
+        <item title="_" value="470">Эвенский автономный округ (88)</item>
+        <item title="_" value="472">Ямало-Ненецкий автономный округ (89)</item>
+        <item title="0.6_0.6" value="476">Севастополь (92)</item>
+        <item title="1_1" value="477">Байконур (94)</item>
+
+    </string-array>
+
+    <integer-array name="array_spin_region_value">
+        <item>-1</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>8</item>
+        <item>22</item>
+        <item>25</item>
+        <item>28</item>
+        <item>35</item>
+        <item>44</item>
+        <item>48</item>
+        <item>51</item>
+        <item>54</item>
+        <item>57</item>
+        <item>64</item>
+        <item>68</item>
+        <item>72</item>
+        <item>76</item>
+        <item>79</item>
+        <item>90</item>
+        <item>93</item>
+        <item>99</item>
+        <item>104</item>
+        <item>106</item>
+        <item>111</item>
+        <item>118</item>
+        <item>136</item>
+        <item>147</item>
+        <item>155</item>
+        <item>166</item>
+        <item>171</item>
+        <item>176</item>
+        <item>181</item>
+        <item>184</item>
+        <item>189</item>
+        <item>193</item>
+        <item>200</item>
+        <item>206</item>
+        <item>210</item>
+        <item>216</item>
+        <item>221</item>
+        <item>232</item>
+        <item>235</item>
+        <item>239</item>
+        <item>242</item>
+        <item>255</item>
+        <item>259</item>
+        <item>262</item>
+        <item>266</item>
+        <item>270</item>
+        <item>274</item>
+        <item>277</item>
+        <item>283</item>
+        <item>294</item>
+        <item>298</item>
+        <item>304</item>
+        <item>307</item>
+        <item>314</item>
+        <item>319</item>
+        <item>324</item>
+        <item>334</item>
+        <item>338</item>
+        <item>351</item>
+        <item>354</item>
+        <item>362</item>
+        <item>369</item>
+        <item>372</item>
+        <item>388</item>
+        <item>395</item>
+        <item>399</item>
+        <item>405</item>
+        <item>409</item>
+        <item>417</item>
+        <item>422</item>
+        <item>426</item>
+        <item>437</item>
+        <item>441</item>
+        <item>445</item>
+        <item>448</item>
+        <item>450</item>
+        <item>452</item>
+        <item>454</item>
+        <item>456</item>
+        <item>458</item>
+        <item>460</item>
+        <item>468</item>
+        <item>470</item>
+        <item>472</item>
+        <item>-1</item>
+        <item>-1</item>
+    </integer-array>
+
+    <string-array name="array_spin_city_5" style="display: none;" class="field field_string-array">
+        <item title="1.1_0.8" value="7">Республика Адыгея (1)</item>
+    </string-array>
+    <string-array name="array_spin_city_8" style="display: none;" class="field field_string-array">
+        <item title="1.8_1" value="9">Уфа (2)</item>
+        <item title="1.2_0.8" value="10">Благовещенск (2)</item>
+        <item title="1.1_0.8" value="12">Ишимбай (2)</item>
+        <item title="1.1_0.8" value="13">Кумертау (2)</item>
+        <item title="1.2_0.8" value="16">Октябрьский (2)</item>
+        <item title="1.1_0.8" value="17">Салават (2)</item>
+        <item title="1.3_0.8" value="19">Стерлитамак (2)</item>
+        <item title="1.3_0.8" value="20">Туймазы (2)</item>
+        <item title="1_0.8" value="21">Республика Башкирия - другие населенные пункты (2)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_22" style="display: none;" class="field field_string-array">
+        <item title="1.3_0.8" value="23">Улан-Удэ (3)</item>
+        <item title="0.6_0.5" value="24">Республика Бурятия - другие населенные пункты (3)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_25" style="display: none;" class="field field_string-array">
+        <item title="1.3_0.8" value="26">Горно-Алтайск (4)</item>
+        <item title="0.7_0.5" value="27">Республика Алтай - другие населенные пункты (4)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_28" style="display: none;" class="field field_string-array">
+        <item title="1_0.8" value="29">Буйнакск (5)</item>
+        <item title="1_0.8" value="30">Дербент (5)</item>
+        <item title="1_0.8" value="31">Каспийск (5)</item>
+        <item title="1_0.8" value="32">Махачкала (5)</item>
+        <item title="1_0.8" value="33">Хасавюрт (5)</item>
+        <item title="0.7_0.5" value="34">Республика Дагестан - другие населенные пункты (5)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_35" style="display: none;" class="field field_string-array">
+        <item title="1.2_0.8" value="38">Малгобек (6)</item>
+        <item title="1_0.8" value="39">Назрань (6)</item>
+        <item title="0.7_0.5" value="43">Республика Ингушетия - другие населенные пункты (6)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_44" style="display: none;" class="field field_string-array">
+        <item title="1_0.8" value="45">Нальчик (7)</item>
+        <item title="1_0.8" value="46">Прохладный (7)</item>
+        <item title="0.7_0.5" value="47">Кабардино-Балкарская Республика - другие населенные
+            пункты (7)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_48" style="display: none;" class="field field_string-array">
+        <item title="1.3_0.8" value="49">Элиста (8)</item>
+        <item title="0.6_0.5" value="50">Республика Калмыкия - другие населенные пункты (8)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_51" style="display: none;" class="field field_string-array">
+        <item title="1_0.8" value="53">Карачаево-Черкесская Республика (9)</item>
+    </string-array>
+    <string-array name="array_spin_city_54" style="display: none;" class="field field_string-array">
+        <item title="1.3_0.8" value="55">Петрозаводск (10)</item>
+        <item title="0.8_0.5" value="56">Республика Карелия - другие населенные пункты (10)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_57" style="display: none;" class="field field_string-array">
+        <item title="1.6_1" value="58">Сыктывкар (11)</item>
+        <item title="1.3_0.8" value="62">Ухта (11)</item>
+        <item title="1_0.8" value="63">Республика Коми - другие населенные пункты (11)
+        </item>
+    </string-array>
+
+    <string-array name="array_spin_city_64" style="display: none;" class="field field_string-array">
+        <item title="1_0.8" value="65">Волжск (12)</item>
+        <item title="1.3_0.8" value="66">Йошкар-Ола (12)</item>
+        <item title="0.7_0.5" value="67">Республика Марий Эл - другие населенные пункты (12)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_68" style="display: none;" class="field field_string-array">
+        <item title="1_0.8" value="69">Рузаевка (13)</item>
+        <item title="1.2_0.8" value="70">Саранск (13)</item>
+        <item title="0.7_0.5" value="71">Республика Мордовия - другие населенные пункты (13)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_72" style="display: none;" class="field field_string-array">
+        <item title="1.3_0.8" value="73">Нерюнгри (14)</item>
+        <item title="2_1.2" value="74">Якутск (14)</item>
+        <item title="0.8_0.5" value="75">Республика Саха (Якутия) - другие населенные пункты
+            (14)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_76" style="display: none;" class="field field_string-array">
+        <item title="1_0.8" value="77">Владикавказ (15)</item>
+        <item title="0.8_0.5" value="78">Республика Северная Осетия-Алания - другие населенные
+            пункты (15)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_79" style="display: none;" class="field field_string-array">
+        <item title="2_1.2" value="80">Казань (16)</item>
+        <item title="1.7_1" value="81">Набережные Челны (16)</item>
+        <item title="1.3_0.8" value="82">Альметьевск (16)</item>
+        <item title="1_0.8" value="83">Бугульма (16)</item>
+        <item title="1.2_0.8" value="84">Елабуга (16)</item>
+        <item title="1.3_0.8" value="85">Зеленодольск (16)</item>
+        <item title="1_0.8" value="86">Лениногорск (16)</item>
+        <item title="1.3_0.8" value="87">Нижнекамск (16)</item>
+        <item title="1_0.8" value="88">Чистополь (16)</item>
+        <item title="1.1_0.8" value="89">Республика Татария - другие населенные пункты (16)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_90" style="display: none;" class="field field_string-array">
+        <item title="1_0.8" value="91">Кызыл (17)</item>
+        <item title="0.6_0.5" value="92">Республика Тыва - другие населенные пункты (17)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_93" style="display: none;" class="field field_string-array">
+        <item title="1.6_1" value="94">Ижевск (18)</item>
+        <item title="1.1_0.8" value="95">Воткинск (18)</item>
+        <item title="1_0.8" value="96">Глазов (18)</item>
+        <item title="1_0.8" value="97">Сарапул (18)</item>
+        <item title="0.8_0.5" value="98">Республика Удмуртия - другие населенные пункты (18)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_99" style="display: none;" class="field field_string-array">
+        <item title="1_0.8" value="100">Абакан (19)</item>
+        <item title="1_0.8" value="101">Саяногорск (19)</item>
+        <item title="1_0.8" value="102">Черногорск (19)</item>
+        <item title="0.6_0.5" value="103">Республика Хакасия - другие населенные пункты (19)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_104" style="display: none;" class="field field_string-array">
+        <item title="0.7_0.5" value="105">Чеченская Республика - другие населенные пункты
+            (20)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_106" style="display: none;" class="field field_string-array">
+        <item title="1.6_1" value="107">Чебоксары (21)</item>
+        <item title="1_0.8" value="108">Канаш (21)</item>
+        <item title="1.1_0.8" value="109">Новочебоксарск (21)</item>
+        <item title="0.8_0.5" value="110">Чувашская Республика - другие населенные пункты
+            (21)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_111" style="display: none;" class="field field_string-array">
+        <item title="1.7_1" value="112">Барнаул (22)</item>
+        <item title="1.2_0.8" value="113">Бийск (22)</item>
+        <item title="1.1_0.8" value="114">Заринск (22)</item>
+        <item title="1.1_0.8" value="115">Новоалтайск (22)</item>
+        <item title="1.1_0.8" value="116">Рубцовск (22)</item>
+        <item title="0.7_0.5" value="117">Алтайский край - другие населенные пункты (22)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_118" style="display: none;" class="field field_string-array">
+        <item title="1.8_1" value="119">Краснодар (23)</item>
+        <item title="1.3_0.8" value="120">Анапа (23)</item>
+        <item title="1.2_0.8" value="121">Армавир (23)</item>
+        <item title="1.1_0.8" value="122">Белореченск (23)</item>
+        <item title="1.3_0.8" value="123">Геленджик (23)</item>
+        <item title="1.1_0.8" value="124">Ейск (23)</item>
+        <item title="1.1_0.8" value="125">Кропоткин (23)</item>
+        <item title="1.1_0.8" value="126">Крымск (23)</item>
+        <item title="1.1_0.8" value="127">Курганинск (23)</item>
+        <item title="1.1_0.8" value="128">Лабинск (23)</item>
+        <item title="1.8_1" value="129">Новороссийск (23)</item>
+        <item title="1.1_0.8" value="130">Славянск-на-Кубани (23)</item>
+        <item title="1.2_0.8" value="131">Сочи (23)</item>
+        <item title="1.1_0.8" value="132">Тимашевск (23)</item>
+        <item title="1.1_0.8" value="133">Тихорецк (23)</item>
+        <item title="1.2_0.8" value="134">Туапсе (23)</item>
+        <item title="1_0.8" value="135">Краснодарский край - другие населенные пункты (23)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_136" style="display: none;" class="field field_string-array">
+        <item title="1.8_1" value="137">Красноярск (24)</item>
+        <item title="1.1_0.8" value="138">Ачинск (24)</item>
+        <item title="1.1_0.8" value="139">Зеленогорск (24)</item>
+        <item title="1_0.8" value="140">Канск (24)</item>
+        <item title="1_0.8" value="141">Лесосибирск (24)</item>
+        <item title="1_0.8" value="142">Минусинск (24)</item>
+        <item title="1_0.8" value="143">Назарово (24)</item>
+        <item title="1.3_0.8" value="144">Норильск (24)</item>
+        <item title="1.3_0.8" value="145">Железногорск (24)</item>
+        <item title="0.9_0.5" value="146">Красноярский край - другие населенные пункты (24)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_147" style="display: none;" class="field field_string-array">
+        <item title="1.4_1" value="148">Владивосток (25)</item>
+        <item title="1_0.8" value="149">Арсеньев (25)</item>
+        <item title="1_0.8" value="150">Артём (25)</item>
+        <item title="1_0.8" value="151">Находка (25)</item>
+        <item title="1_0.8" value="152">Спасск-Дальний (25)</item>
+        <item title="1_0.8" value="153">Уссурийск (25)</item>
+        <item title="0.7_0.5" value="154">Приморский край - другие населенные пункты (25)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_155" style="display: none;" class="field field_string-array">
+        <item title="1_0.8" value="156">Будённовск (26)</item>
+        <item title="1_0.8" value="157">Георгиевск (26)</item>
+        <item title="1_0.8" value="158">Ессентуки (26)</item>
+        <item title="1.2_0.8" value="159">Кисловодск (26)</item>
+        <item title="1_0.8" value="160">Минеральные Воды (26)</item>
+        <item title="1.2_0.8" value="161">Михайловск (26)</item>
+        <item title="1_0.8" value="162">Невинномысск (26)</item>
+        <item title="1_0.8" value="163">Пятигорск (26)</item>
+        <item title="1.2_0.8" value="164">Ставрополь (26)</item>
+        <item title="0.7_0.5" value="165">Ставропольский край - другие населенные пункты
+            (26)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_166" style="display: none;" class="field field_string-array">
+        <item title="1.7_1" value="167">Хабаровск (27)</item>
+        <item title="1_0.8" value="168">Амурск (27)</item>
+        <item title="1.3_0.8" value="169">Комсомольск-на-Амуре (27)</item>
+        <item title="0.8_0.5" value="170">Хабаровский край - другие населенные пункты (27)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_171" style="display: none;" class="field field_string-array">
+        <item title="1_0.8" value="172">Белогорск (28)</item>
+        <item title="1.4_0.8" value="173">Благовещенск (Амурской обл.) (28)</item>
+        <item title="1_0.8" value="174">Свободный (28)</item>
+        <item title="0.85_0.5" value="175">Амурская область - другие населенные пункты (28)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_176" style="display: none;" class="field field_string-array">
+        <item title="1.7_1" value="177">Северодвинск (29)</item>
+        <item title="1.8_1" value="178">Архангельск (29)</item>
+        <item title="1.6_1" value="179">Котлас (29)</item>
+        <item title="0.85_0.5" value="180">Архангельская область - другие населенные пункты
+            (29)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_181" style="display: none;" class="field field_string-array">
+        <item title="1.4_1" value="182">Астрахань (30)</item>
+        <item title="0.8_0.5" value="183">Астраханская область - другие населенные пункты
+            (30)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_184" style="display: none;" class="field field_string-array">
+        <item title="1.3_0.8" value="185">Белгород (31)</item>
+        <item title="1_0.8" value="186">Губкин (31)</item>
+        <item title="1_0.8" value="187">Старый Оскол (31)</item>
+        <item title="0.8_0.5" value="188">Белгородская область - другие населенные пункты
+            (31)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_189" style="display: none;" class="field field_string-array">
+        <item title="1.5_1" value="190">Брянск (32)</item>
+        <item title="1_0.8" value="191">Клинцы (32)</item>
+        <item title="0.7_0.5" value="192">Брянская область - другие населенные пункты (32)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_193" style="display: none;" class="field field_string-array">
+        <item title="1.6_1" value="195">Владимир (33)</item>
+        <item title="1.1_0.8" value="196">Гусь-Хрустальный (33)</item>
+        <item title="1.2_0.8" value="198">Муром (33)</item>
+        <item title="1_0.8" value="199">Владимирская область - другие населенные пункты (33)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_200" style="display: none;" class="field field_string-array">
+        <item title="1.3_0.8" value="201">Волгоград (34)</item>
+        <item title="1.1_0.8" value="202">Волжский (34)</item>
+        <item title="1_0.8" value="203">Камышин (34)</item>
+        <item title="1_0.8" value="204">Михайловка (34)</item>
+        <item title="0.7_0.5" value="205">Волгоградская область - другие населенные пункты
+            (34)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_206" style="display: none;" class="field field_string-array">
+        <item title="1.7_1" value="207">Вологда (35)</item>
+        <item title="1.8_1" value="208">Череповец (35)</item>
+        <item title="0.9_0.5" value="209">Вологодская область - другие населенные пункты
+            (35)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_210" style="display: none;" class="field field_string-array">
+        <item title="1.4_1" value="211">Воронеж (36)</item>
+        <item title="1_0.8" value="212">Борисоглебск (36)</item>
+        <item title="1_0.8" value="213">Лиски (36)</item>
+        <item title="1_0.8" value="214">Россошь (36)</item>
+        <item title="0.7_0.5" value="215">Воронежская область - другие населенные пункты
+            (36)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_216" style="display: none;" class="field field_string-array">
+        <item title="1.8_1" value="217">Иваново (37)</item>
+        <item title="1.1_0.8" value="218">Кинешма (37)</item>
+        <item title="1_0.8" value="219">Шуя (37)</item>
+        <item title="0.9_0.5" value="220">Ивановская область - другие населенные пункты (37)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_221" style="display: none;" class="field field_string-array">
+        <item title="1.7_1" value="222">Иркутск (38)</item>
+        <item title="1.2_0.8" value="223">Ангарск (38)</item>
+        <item title="1_0.8" value="224">Братск (38)</item>
+        <item title="1_0.8" value="225">Тулун (38)</item>
+        <item title="1.1_0.8" value="226">Усолье-Сибирское (38)</item>
+        <item title="1_0.8" value="227">Усть-Илимск (38)</item>
+        <item title="1_0.8" value="228">Усть-Кут (38)</item>
+        <item title="1_0.8" value="229">Черемхово (38)</item>
+        <item title="1.3_0.8" value="230">Шелехов (38)</item>
+        <item title="0.8_0.5" value="231">Иркутская область - другие населенные пункты (38)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_232" style="display: none;" class="field field_string-array">
+        <item title="1.1_0.8" value="233">Калининград (39)</item>
+        <item title="0.8_0.5" value="234">Калининградская область - другие населенные пункты
+            (39)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_235" style="display: none;" class="field field_string-array">
+        <item title="1.2_0.8" value="236">Калуга (40)</item>
+        <item title="1.3_0.8" value="237">Обнинск (40)</item>
+        <item title="0.9_0.5" value="238">Калужская область - другие населенные пункты (40)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_239" style="display: none;" class="field field_string-array">
+        <item title="1.1_0.8" value="240">Петропавловск-Камчатский (41)</item>
+        <item title="0.8_0.5" value="241">Камчатская область - другие населенные пункты (41)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_242" style="display: none;" class="field field_string-array">
+        <item title="1.9_1" value="243">Кемерово (42)</item>
+        <item title="1.8_1" value="244">Новокузнецк (42)</item>
+        <item title="1.2_0.8" value="245">Анжеро-Судженск (42)</item>
+        <item title="1.3_0.8" value="246">Белово (42)</item>
+        <item title="1.3_0.8" value="247">Берёзовский (42)</item>
+        <item title="1.2_0.8" value="248">Киселёвск (42)</item>
+        <item title="1.3_0.8" value="250">Междуреченск (42)</item>
+        <item title="1.3_0.8" value="251">Осинники (42)</item>
+        <item title="1.3_0.8" value="252">Прокопьевск (42)</item>
+        <item title="1.2_0.8" value="253">Юрга (42)</item>
+        <item title="1.1_0.8" value="254">Кемеровская область - другие населенные пункты
+            (42)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_255" style="display: none;" class="field field_string-array">
+        <item title="1.4_1" value="256">Киров (Кировской обл.) (43)</item>
+        <item title="1.2_0.8" value="257">Кирово-Чепецк (43)</item>
+        <item title="0.8_0.5" value="258">Кировская область - другие населенные пункты (43)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_259" style="display: none;" class="field field_string-array">
+        <item title="1.3_0.8" value="260">Кострома (44)</item>
+        <item title="0.7_0.5" value="261">Костромская область - другие населенные пункты
+            (44)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_262" style="display: none;" class="field field_string-array">
+        <item title="1.3_0.8" value="263">Курган (45)</item>
+        <item title="1_0.8" value="264">Шадринск (45)</item>
+        <item title="0.6_0.5" value="265">Курганская область - другие населенные пункты (45)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_266" style="display: none;" class="field field_string-array">
+        <item title="1.2_0.8" value="267">Курск (46)</item>
+        <item title="1_0.8" value="268">Железногорск Курской обл (46)</item>
+        <item title="0.7_0.5" value="269">Курская область - другие населенные пункты (46)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_270" style="display: none;" class="field field_string-array">
+        <item title="1.5_1" value="271">Липецк (48)</item>
+        <item title="1_0.8" value="272">Елец (48)</item>
+        <item title="0.8_0.5" value="273">Липецкая область - другие населенные пункты (48)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_274" style="display: none;" class="field field_string-array">
+        <item title="1.2_0.8" value="275">Магадан (49)</item>
+        <item title="0.6_0.5" value="276">Магаданская область - другие населенные пункты
+            (49)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_277" style="display: none;" class="field field_string-array">
+        <item title="1.1_0.8" value="278">Апатиты (51)</item>
+        <item title="1.1_0.8" value="279">Мончегорск (51)</item>
+        <item title="1.7_1" value="280">Мурманск (51)</item>
+        <item title="1.3_0.8" value="281">Североморск (51)</item>
+        <item title="1_0.8" value="282">Мурманская область - другие населенные пункты (51)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_283" style="display: none;" class="field field_string-array">
+        <item title="1.8_1" value="284">Нижний Новгород (52)</item>
+        <item title="1.1_0.8" value="285">Арзамас (52)</item>
+        <item title="1.3_0.8" value="286">Балахна (52)</item>
+        <item title="1.3_0.8" value="287">Бор (52)</item>
+        <item title="1.1_0.8" value="288">Выкса (52)</item>
+        <item title="1.3_0.8" value="289">Дзержинск (52)</item>
+        <item title="1.2_0.8" value="290">Кстово (52)</item>
+        <item title="1.1_0.8" value="292">Саров (52)</item>
+        <item title="1_0.8" value="293">Нижегородская область - другие населенные пункты
+            (52)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_294" style="display: none;" class="field field_string-array">
+        <item title="1_0.8" value="295">Боровичи (53)</item>
+        <item title="1.3_0.8" value="296">Великий Новгород (53)</item>
+        <item title="0.9_0.5" value="297">Новгородская область - другие населенные пункты
+            (53)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_298" style="display: none;" class="field field_string-array">
+        <item title="1.7_1" value="299">Новосибирск (54)</item>
+        <item title="1.3_0.8" value="300">Бердск (54)</item>
+        <item title="1.2_0.8" value="301">Искитим (54)</item>
+        <item title="1_0.8" value="302">Куйбышев (54)</item>
+        <item title="0.9_0.5" value="303">Новосибирская область - другие населенные пункты
+            (54)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_304" style="display: none;" class="field field_string-array">
+        <item title="1.6_1" value="305">Омск (55)</item>
+        <item title="0.9_0.5" value="306">Омская область - другие населенные пункты (55)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_307" style="display: none;" class="field field_string-array">
+        <item title="1.7_1" value="308">Оренбург (56)</item>
+        <item title="1_0.8" value="309">Бугуруслан (56)</item>
+        <item title="1_0.8" value="310">Бузулук (56)</item>
+        <item title="1_0.8" value="311">Новотроицк (56)</item>
+        <item title="1.1_0.8" value="312">Орск (56)</item>
+        <item title="0.8_0.5" value="313">Оренбургская область - другие населенные пункты
+            (56)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_314" style="display: none;" class="field field_string-array">
+        <item title="1_0.8" value="315">Ливны (57)</item>
+        <item title="1_0.8" value="316">Мценск (57)</item>
+        <item title="1.2_0.8" value="317">Орёл (57)</item>
+        <item title="0.7_0.5" value="318">Орловская область - другие населенные пункты (57)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_319" style="display: none;" class="field field_string-array">
+        <item title="1.4_1" value="320">Пенза (58)</item>
+        <item title="1.2_0.8" value="321">Заречный Пензенской обл. (58)</item>
+        <item title="1_0.8" value="322">Кузнецк (58)</item>
+        <item title="0.7_0.5" value="323">Пензенская область - другие населенные пункты (58)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_324" style="display: none;" class="field field_string-array">
+        <item title="2_1.2" value="325">Пермь (59)</item>
+        <item title="1.3_0.8" value="326">Березники (59)</item>
+        <item title="1.3_0.8" value="327">Краснокамск (59)</item>
+        <item title="1_0.8" value="329">Лысьва (59)</item>
+        <item title="1.2_0.8" value="330">Соликамск (59)</item>
+        <item title="1_0.8" value="331">Чайковский (59)</item>
+        <item title="1.1_0.8" value="333">Пермская область - другие населенные пункты (59)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_334" style="display: none;" class="field field_string-array">
+        <item title="1_0.8" value="335">Великие Луки (60)</item>
+        <item title="1.2_0.8" value="336">Псков (60)</item>
+        <item title="0.7_0.5" value="337">Псковская область - другие населенные пункты (60)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_338" style="display: none;" class="field field_string-array">
+        <item title="1.8_1" value="339">Ростов-на-Дону (61)</item>
+        <item title="1.2_0.8" value="340">Азов (61)</item>
+        <item title="1.3_0.8" value="341">Батайск (61)</item>
+        <item title="1_0.8" value="342">Волгодонск (61)</item>
+        <item title="1_0.8" value="343">Гуково (61)</item>
+        <item title="1_0.8" value="344">Каменск-Шахтинский (61)</item>
+        <item title="1_0.8" value="345">Новочеркасск (61)</item>
+        <item title="1_0.8" value="346">Новошахтинск (61)</item>
+        <item title="1_0.8" value="347">Сальск (61)</item>
+        <item title="1_0.8" value="348">Таганрог (61)</item>
+        <item title="1.1_0.8" value="349">Шахты (61)</item>
+        <item title="0.8_0.5" value="350">Ростовская область - другие населенные пункты (61)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_351" style="display: none;" class="field field_string-array">
+        <item title="1.4_1" value="352">Рязань (62)</item>
+        <item title="0.9_0.5" value="353">Рязанская область - другие населенные пункты (62)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_354" style="display: none;" class="field field_string-array">
+        <item title="1.6_1" value="355">Самара (63)</item>
+        <item title="1.5_1" value="356">Тольятти (63)</item>
+        <item title="1.1_0.8" value="357">Новокуйбышевск (63)</item>
+        <item title="1.1_0.8" value="359">Сызрань (63)</item>
+        <item title="1.2_0.8" value="360">Чапаевск (63)</item>
+        <item title="0.9_0.5" value="361">Самарская область - другие населенные пункты (63)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_362" style="display: none;" class="field field_string-array">
+        <item title="1.6_1" value="363">Саратов (64)</item>
+        <item title="1_0.8" value="364">Балаково (64)</item>
+        <item title="1_0.8" value="365">Балашов (64)</item>
+        <item title="1_0.8" value="366">Вольск (64)</item>
+        <item title="1.2_0.8" value="367">Энгельс (64)</item>
+        <item title="0.7_0.5" value="368">Саратовская область - другие населенные пункты
+            (64)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_369" style="display: none;" class="field field_string-array">
+        <item title="1.5_1" value="370">Южно-Сахалинск (65)</item>
+        <item title="0.9_0.5" value="371">Сахалинская область - другие населенные пункты
+            (65)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_372" style="display: none;" class="field field_string-array">
+        <item title="1.8_1" value="373">Екатеринбург (66)</item>
+        <item title="1.1_0.8" value="374">Асбест (66)</item>
+        <item title="1.3_0.8" value="375">Березовский (66)</item>
+        <item title="1.3_0.8" value="376">Верхняя Пышма (66)</item>
+        <item title="1.2_0.8" value="377">Верхняя Салда (66)</item>
+        <item title="1.3_0.8" value="382">Новоуральск (66)</item>
+        <item title="1.3_0.8" value="383">Первоуральск (66)</item>
+        <item title="1.2_0.8" value="384">Полевской (66)</item>
+        <item title="1.1_0.8" value="385">Ревда (66)</item>
+        <item title="1_0.8" value="387">Свердловская область - другие населенные пункты (66)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_388" style="display: none;" class="field field_string-array">
+        <item title="1_0.8" value="389">Вязьма (67)</item>
+        <item title="1_0.8" value="390">Рославль (67)</item>
+        <item title="1_0.8" value="391">Сафоново (67)</item>
+        <item title="1.2_0.8" value="392">Смоленск (67)</item>
+        <item title="1_0.8" value="393">Ярцево (67)</item>
+        <item title="0.7_0.5" value="394">Смоленская область - другие населенные пункты (67)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_395" style="display: none;" class="field field_string-array">
+        <item title="1_0.8" value="396">Мичуринск (68)</item>
+        <item title="1.2_0.8" value="397">Тамбов (68)</item>
+        <item title="0.8_0.5" value="398">Тамбовская область - другие населенные пункты (68)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_399" style="display: none;" class="field field_string-array">
+        <item title="1.5_1" value="400">Тверь (69)</item>
+        <item title="1_0.8" value="401">Вышний Волочёк (69)</item>
+        <item title="1_0.8" value="402">Кимры (69)</item>
+        <item title="1_0.8" value="403">Ржев (69)</item>
+        <item title="0.8_0.5" value="404">Тверская область - другие населенные пункты (69)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_405" style="display: none;" class="field field_string-array">
+        <item title="1.6_1" value="406">Томск (70)</item>
+        <item title="1.2_0.8" value="407">Северск (70)</item>
+        <item title="0.9_0.5" value="408">Томская область - другие населенные пункты (70)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_409" style="display: none;" class="field field_string-array">
+        <item title="1.5_1" value="410">Тула (71)</item>
+        <item title="1_0.8" value="411">Алексин (71)</item>
+        <item title="1_0.8" value="412">Ефремов (71)</item>
+        <item title="1_0.8" value="413">Новомосковск (71)</item>
+        <item title="1.2_0.8" value="414">Узловая (71)</item>
+        <item title="1.2_0.8" value="415">Щёкино (71)</item>
+        <item title="0.9_0.5" value="416">Тульская область - другие населенные пункты (71)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_417" style="display: none;" class="field field_string-array">
+        <item title="2_1.2" value="418">Тюмень (72)</item>
+        <item title="1.3_0.8" value="420">Тобольск (72)</item>
+        <item title="1.1_0.8" value="421">Тюменская область - другие населенные пункты (72)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_422" style="display: none;" class="field field_string-array">
+        <item title="1.4_1" value="423">Ульяновск (73)</item>
+        <item title="1.1_0.8" value="424">Димитровград (73)</item>
+        <item title="0.8_0.5" value="425">Ульяновская область - другие населенные пункты
+            (73)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_426" style="display: none;" class="field field_string-array">
+        <item title="1.7_1" value="427">Магнитогорск (74)</item>
+        <item title="2_1.2" value="428">Челябинск (74)</item>
+        <item title="1.3_0.8" value="429">Златоуст (74)</item>
+        <item title="1.5_1" value="430">Копейск (74)</item>
+        <item title="1.3_0.8" value="431">Миасс (74)</item>
+        <item title="1.1_0.8" value="433">Сатка (74)</item>
+        <item title="1.1_0.8" value="435">Чебаркуль (74)</item>
+        <item title="1_0.8" value="436">Челябинская область - другие населенные пункты (74)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_437" style="display: none;" class="field field_string-array">
+        <item title="1_0.8" value="438">Краснокаменск (75)</item>
+        <item title="1.1_0.8" value="439">Чита (75)</item>
+        <item title="0.7_0.5" value="440">Забайкальский край - другие населенные пункты (75)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_441" style="display: none;" class="field field_string-array">
+        <item title="1.5_1" value="442">Ярославль (76)</item>
+        <item title="0.9_0.5" value="444">Ярославская область - другие населенные пункты
+            (76)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_445" style="display: none;" class="field field_string-array">
+        <item title="1_0.8" value="446">Биробиджан (79)</item>
+        <item title="0.7_0.5" value="447">Еврейская автономная область - другие населенные
+            пункты (79)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_448" style="display: none;" class="field field_string-array">
+        <item title="0.55_0.5" value="449">Агинский Бурятский автономный - другие населенные
+            пункты (80)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_450" style="display: none;" class="field field_string-array">
+        <item title="0.85_0.5" value="451">Коми-Пермяцкий автономный округ - другие населенные
+            пункты (81)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_452" style="display: none;" class="field field_string-array">
+        <item title="0.6_0.6" value="478">Симферополь (82)</item>
+        <item title="0.6_0.6" value="453">Республика Крым - другие населенные пункты (82)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_454" style="display: none;" class="field field_string-array">
+        <item title="0.8_0.5" value="455">Ненецкий автономный округ - другие населенные пункты
+            (83)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_456" style="display: none;" class="field field_string-array">
+        <item title="0.55_0.5" value="457">Таймырский автономный округ - другие населенные
+            пункты (84)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_458" style="display: none;" class="field field_string-array">
+        <item title="1_0.8" value="459">Усть-Ордынский автономный округ - другие населенные
+            пункты (85)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_460" style="display: inline-block;" class="field field_string-array">
+        <item title="2_1.2" value="461">Сургут (86)</item>
+        <item title="1_0.8" value="462">Когалым (86)</item>
+        <item title="1.3_0.8" value="463">Нефтеюганск (86)</item>
+        <item title="1.8_1" value="464">Нижневартовск (86)</item>
+        <item title="1.3_0.8" value="465">Нягань (86)</item>
+        <item title="1.5_1" value="466">Ханты-Мансийск (86)</item>
+        <item title="1.1_0.8" value="467">Ханты-Мансийский автономный округ - другие
+            населенные пункты (86)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_468" style="display: none;" class="field field_string-array">
+        <item title="0.7_0.5" value="469">Чукотский автономный округ - другие населенные
+            пункты (87)
+        </item>
+    </string-array>
+    <string-array name="array_spin_city_472" style="display: none;" class="field field_string-array">
+        <item title="1_0.8" value="473">Новый Уренгой (89)</item>
+        <item title="1.7_1" value="474">Ноябрьск (89)</item>
+        <item title="1.1_0.8" value="475">Ямало-Ненецкий автономный округ - другие населенные пункты (89)
+        </item>
+    </string-array>
+
+
+    <string-array name="array_spin_driver_age">
+        <item title="1" value="0">старше 22 лет, стаж свыше 3 лет</item>
+        <item title="1.7" value="1">старше 22 лет, стаж до 3 лет включительно</item>
+        <item title="1.6" value="2">до 22 лет включительно, стаж свыше 3 лет</item>
+        <item title="1.8" value="3">до 22 лет включительно, стаж до 3 лет включительно</item>
+    </string-array>
+
+
+    <string-array name="array_spin_discount" disabled="disabled">
+        <item title="0.95" value="0">1 год без аварий (класс 4, кбм 0,95) </item>
+        <item title="0.9" value="1">2 года без аварий (класс 5, кбм 0,9) </item>
+        <item title="0.85" value="2">3 года без аварий (класс 6, кбм 0,85) </item>
+        <item title="0.8" value="3">4 года без аварий (класс 7, кбм 0,8) </item>
+        <item title="0.75" value="4">5 лет без аварий (класс 8, кбм 0,75) </item>
+        <item title="0.7" value="5">6 лет без аварий (класс 9, кбм 0,7) </item>
+        <item title="0.65" value="6">7 лет без аварий (класс 10, кбм 0,65) </item>
+        <item title="0.6" value="7">8 лет без аварий (класс 11, кбм 0,6) </item>
+    </string-array>
+
+    <string-array name="array_spin_discount_val">
+        <item>0.95</item>
+        <item>0.9</item>
+        <item>0.85</item>
+        <item>0.8</item>
+        <item>0.75</item>
+        <item>0.7</item>
+        <item>0.65</item>
+        <item>0.6</item>
+    </string-array>
 
 
     <!--

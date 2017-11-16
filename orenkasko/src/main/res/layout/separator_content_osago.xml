@@ -3,5 +3,5 @@
     android:id="@+id/separator"
     android:layout_width="match_parent"
     android:layout_height="1dp"
-    android:layout_below="@+id/erace_button"
+    android:layout_alignParentBottom="true"
     android:background="@color/colorPrimaryDark" />

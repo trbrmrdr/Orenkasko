@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?><!-- ###################  way-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- ################### Type--><!-- ################### Sub Type-->
+    <RelativeLayout
+        android:id="@+id/item_spin_type"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_spin_height"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+        <TextView
+            style="@style/item_spin_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/spin_type" />
+
+        <Spinner
+            android:id="@+id/spin_type"
+            style="@style/item_spin"
+            android:layout_width="@dimen/spin_width_2"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:entries="@array/array_spin_type" />
+
+        <include layout="@layout/separator_content_osago" />
+    </RelativeLayout>
+
+
+    <!-- ################### -->
+    <RelativeLayout
+        android:id="@+id/item_spin_sub_type"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_spin_height"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+        <TextView
+            style="@style/item_spin_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/spin_sub_type" />
+
+        <Spinner
+            android:id="@+id/spin_sub_type"
+            android:layout_width="@dimen/spin_width_2"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:entries="@array/array_spin_type_b" />
+
+        <include layout="@layout/separator_content_osago" />
+    </RelativeLayout>
+
+
+    <!-- ################### --><!-- ################### Power -->
+    <RelativeLayout
+        android:id="@+id/item_spin_power"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_spin_height"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+        <TextView
+            style="@style/item_spin_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/spin_power" />
+
+        <Spinner
+            android:id="@+id/spin_power"
+            style="@style/item_spin"
+            android:layout_width="@dimen/spin_width_2"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:entries="@array/array_spin_power" />
+
+        <include layout="@layout/separator_content_osago" />
+    </RelativeLayout>
+
+    <!-- ################### Period_ispolzovania -->
+    <RelativeLayout
+        android:id="@+id/item_spin_period"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_spin_height"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+        <TextView
+            style="@style/item_spin_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/spin_period" />
+
+        <Spinner
+            android:id="@+id/spin_period"
+            style="@style/item_spin"
+            android:layout_width="@dimen/spin_width_2"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:entries="@array/array_spin_period" />
+
+        <include layout="@layout/separator_content_osago" />
+    </RelativeLayout><!-- ################### region_way-->
+    <RelativeLayout
+        android:id="@+id/item_spin_region"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_spin_height"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+        <TextView
+            style="@style/item_spin_text"
+            android:layout_width="@dimen/spin_width"
+            android:layout_height="wrap_content"
+            android:text="@string/spin_region" />
+
+        <Spinner
+            android:id="@+id/spin_region"
+            style="@style/item_spin"
+            android:layout_width="@dimen/spin_width_2"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:entries="@array/array_spin_region"
+            android:spinnerMode="dialog" />
+
+        <include layout="@layout/separator_content_osago" />
+
+        <Spinner
+            android:id="@+id/spin_city"
+            style="@style/item_spin"
+            android:layout_width="@dimen/spin_width_2"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="22dp" />
+    </RelativeLayout>
+
+    <!-- ################### city_way-->
+    <RelativeLayout
+        android:id="@+id/item_spin_city"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_spin_height"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+        <TextView
+            style="@style/item_spin_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/spin_city" />
+
+        <include layout="@layout/separator_content_osago" />
+    </RelativeLayout>
+
+    <!-- ################### navigat-->
+
+    <RelativeLayout
+        android:id="@+id/item_spin_navigat"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_spin_height"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+        <TextView
+            android:id="@+id/item_navigator_text"
+            style="@style/item_spin_text"
+            android:layout_width="@dimen/spin_width"
+            android:layout_height="wrap_content"
+            android:text="@string/spin_navigat" />
+
+        <ImageButton
+
+            android:id="@+id/item_navigator_remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/item_navigator_text_count"
+            android:layout_toStartOf="@+id/item_navigator_text_count"
+            android:background="@drawable/ic_remove" />
+
+        <TextView
+            android:id="@+id/item_navigator_text_count"
+            style="@style/item_spin_text"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/item_navigator_add"
+            android:layout_toStartOf="@+id/item_navigator_add"
+            android:minWidth="24dp"
+            android:text="2"
+            android:textAlignment="center" />
+
+        <ImageButton
+
+            android:id="@+id/item_navigator_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ic_add" />
+
+        <include layout="@layout/separator_content_osago" />
+    </RelativeLayout>
+
+    <!-- ############### driver_age ###################### -->
+
+    <RelativeLayout
+        android:id="@+id/item_spin_driver_age"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_spin_height"
+        android:layout_gravity="center_vertical"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+        <TextView
+            style="@style/item_spin_text"
+            android:layout_width="@dimen/spin_width"
+            android:layout_height="wrap_content"
+            android:text="@string/spin_driver_age" />
+
+        <Spinner
+            android:id="@+id/spin_driver_age"
+            style="@style/item_spin"
+            android:layout_width="@dimen/spin_width_2"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:entries="@array/array_spin_driver_age" />
+
+        <include layout="@layout/separator_content_osago" />
+    </RelativeLayout>
+
+    <!-- ############### first ###################### -->
+
+    <RelativeLayout
+        android:id="@+id/item_spin_first"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_spin_height"
+        android:layout_gravity="center_vertical"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+        <TextView
+            style="@style/item_spin_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/spin_first" />
+
+        <Switch
+            android:id="@+id/switch_first"
+            style="@style/item_spin"
+            android:layout_width="@dimen/spin_width_2"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" />
+
+        <include layout="@layout/separator_content_osago" />
+    </RelativeLayout>
+
+</LinearLayout>
+

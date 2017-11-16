@@ -39,7 +39,12 @@
             android:tint="@color/button_grey"
             app:srcCompat="@drawable/ic_erace" />
 
-        <include layout="@layout/separator" />
+        <View
+            android:id="@+id/separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/erace_button"
+            android:background="@color/colorPrimaryDark" />
 
         <TextView
             android:id="@+id/card_name"
