@@ -77,7 +77,7 @@
     </style>
 
     <style name="item_spin">
-        <item name="android:textSize">6pt</item>
+        <item name="android:textSize">4pt</item>
         <item name="android:textStyle">italic</item>
     </style>
 

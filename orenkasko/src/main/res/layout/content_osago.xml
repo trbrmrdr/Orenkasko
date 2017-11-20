@@ -29,7 +29,7 @@
                 <!-- ############### way ###################### -->
 
                 <RelativeLayout
-                    android:id="@+id/item_spin_way"
+                    android:id="@+id/item_spin_possessor"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/item_spin_height"
                     android:layout_gravity="center_vertical"
@@ -43,12 +43,12 @@
                         android:text="@string/spin_way" />
 
                     <Spinner
-                        android:id="@+id/spin_way"
+                        android:id="@+id/spin_possessor"
                         style="@style/item_spin"
                         android:layout_width="@dimen/spin_width_2"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:entries="@array/array_spin_way" />
+                        android:entries="@array/array_spin_possessor" />
 
                     <include layout="@layout/separator_content_osago" />
                 </RelativeLayout>

@@ -11,30 +11,37 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnItemSelected;
+import orenkasko.ru.Utils.Helpers;
 import orenkasko.ru.ui.base.BaseActivity;
 
 public class OsagoActivity extends BaseActivity {
 
 
-    @Bind(R.id.spin_way)
-    Spinner spin_way;
+    @Bind(R.id.spin_possessor)
+    Spinner spin_possessor;
 
-    @OnClick(R.id.item_spin_way)
-    public void on_click_spin_way(View v) {
-        spin_way.performClick();
+    @OnClick(R.id.item_spin_possessor)
+    public void on_click_spin_possessor(View v) {
+        spin_possessor.performClick();
     }
 
     int possessor = 1;
 
-    @OnItemSelected(R.id.spin_way)
-    public void spin_way_selected(int index) {
+    @OnItemSelected(R.id.spin_possessor)
+    public void spin_possessor_selected(int index) {
         possessor = index + 1;
         if (1 == possessor) {
             item_spin_driver_age.setEnabled(true);
@@ -43,7 +50,7 @@ public class OsagoActivity extends BaseActivity {
         }
     }
 
-    //___________________________
+    //______________________________________________________________________________________________
     @Bind(R.id.spin_sub_type)
     Spinner spin_sub_type;
 
@@ -67,6 +74,8 @@ public class OsagoActivity extends BaseActivity {
     ArrayAdapter<String> adapter_sub_type_c;
     ArrayAdapter<String> adapter_sub_type_d;
 
+    boolean type_traktor;
+
     @OnItemSelected(R.id.spin_type)
     public void spin_type_selected(int index) {
         if (0 == index) {
@@ -86,6 +95,8 @@ public class OsagoActivity extends BaseActivity {
             item_spin_sub_type.setVisibility(View.VISIBLE);
         } else
             item_spin_sub_type.setVisibility(View.GONE);
+
+        type_traktor = index == 6;
     }
 
     @OnItemSelected(R.id.spin_sub_type)
@@ -93,7 +104,7 @@ public class OsagoActivity extends BaseActivity {
 
     }
 
-    //________________ power
+    //______________power___________________________________________________________________________
     @Bind(R.id.spin_power)
     Spinner spin_power;
 
@@ -106,23 +117,69 @@ public class OsagoActivity extends BaseActivity {
     public void spin_power_selected(int index) {
     }
 
-    //________________ period
-    @Bind(R.id.spin_period)
+    //______________period_ispolzovania_____________________________________________________________
+    @Bind(R.id.spin_period_ispolzovania)
     Spinner spin_period;
 
-    @OnClick(R.id.item_spin_period)
+    @OnClick(R.id.item_spin_period_ispolzovania)
     public void on_click_spin_period(View v) {
         spin_period.performClick();
     }
 
-    @OnItemSelected(R.id.spin_period)
+    @OnItemSelected(R.id.spin_period_ispolzovania)
     public void spin_period_selected(int index) {
     }
 
-    //________________ _region
-
+    //_____________region___________________________________________________________________________
     int[] adapter_region_value;
-    HashMap<Integer, ArrayAdapter> adapters_city = new HashMap<>();
+
+    private class Region {
+        public ArrayAdapter<?> arrayAdapter;
+
+        public int region_id;
+
+        public Region() {
+
+        }
+
+        public Region(int id) {
+            region_id = id;
+        }
+
+
+        public ArrayList<float[]> titles = new ArrayList<>();
+        ArrayList<String> items = new ArrayList<>();
+
+        public void add_item(String line) {
+
+            String[] new_item = line.split(Pattern.quote("|"));
+
+            String item = new_item[1];
+            String[] tmp = new_item[0].split("_");
+            float[] title = new float[tmp.length];
+            int i = 0;
+            for (String it : tmp) {
+                title[i] = Float.parseFloat(it);
+                i++;
+            }
+            titles.add(title);
+            items.add(item);
+        }
+
+        public boolean isEmpty() {
+            return null == arrayAdapter;
+        }
+
+        public void end() {
+            arrayAdapter = new ArrayAdapter<>(OsagoActivity.this,
+                    android.R.layout.simple_spinner_item,
+                    items);
+            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        }
+    }
+
+    HashMap<Integer, Region> regions;
+    Region region_selected;
 
     @Bind(R.id.spin_region)
     Spinner spin_region;
@@ -134,17 +191,19 @@ public class OsagoActivity extends BaseActivity {
 
     @OnItemSelected(R.id.spin_region)
     public void spin_region_selected(int index) {
+
         int id = adapter_region_value[index];
-        if (-1 == id) {
+        region_selected = regions.get(id);
+        if (region_selected.isEmpty()) {
             item_spin_city.setVisibility(View.GONE);
+            spin_city_selected(-1);
         } else {
             item_spin_city.setVisibility(View.VISIBLE);
-
-            spin_city.setAdapter(adapters_city.get(id));
+            spin_city.setAdapter(region_selected.arrayAdapter);
         }
     }
 
-    //________________ _city
+    //___________________city_______________________________________________________________________
     @Bind(R.id.item_spin_city)
     RelativeLayout item_spin_city;
 
@@ -158,20 +217,26 @@ public class OsagoActivity extends BaseActivity {
 
     @OnItemSelected(R.id.spin_city)
     public void spin_city_selected(int index) {
+        if (-1 == index) {
+            Kt = 0;
+            return;
+        }
+        float[] title = region_selected.titles.get(index);
+        Kt = type_traktor ? title[1] : title[0];
     }
 
-    //________________
-    @Bind(R.id.item_navigator_text_count)
+    //______________________________________________________________________________________________
+    @Bind(R.id.item_navigation_text_count)
     TextView item_navigator_text_count;
 
-    @Bind(R.id.item_navigator_remove)
+    @Bind(R.id.item_navigation_remove)
     ImageButton navigator_remove;
 
     int navigators = 0;
 
     int navigation;
 
-    @OnClick(R.id.item_navigator_add)
+    @OnClick(R.id.item_navigation_add)
     void navigator_add(View view) {
         navigators += 1;
         change_navigators();
@@ -195,33 +260,33 @@ public class OsagoActivity extends BaseActivity {
 
     }
 
-    @OnClick(R.id.item_navigator_remove)
+    @OnClick(R.id.item_navigation_remove)
     void navigator_remove(View view) {
         navigators -= 1;
         change_navigators();
     }
 
     //________________ _driver_age
-    @Bind(R.id.item_spin_driver_age)
+    @Bind(R.id.item_spin_driverAgeStage)
     RelativeLayout item_spin_driver_age;
 
-    @Bind(R.id.spin_driver_age)
+    @Bind(R.id.spin_driverAgeStage)
     Spinner spin_driver_age;
 
-    @OnClick(R.id.item_spin_driver_age)
+    @OnClick(R.id.item_spin_driverAgeStage)
     public void on_click_spin_driver_age(View v) {
         spin_driver_age.performClick();
     }
 
-    @OnItemSelected(R.id.spin_driver_age)
+    @OnItemSelected(R.id.spin_driverAgeStage)
     public void spin_driver_age_selected(int index) {
     }
 
     //________________ _first
-    @Bind(R.id.switch_first)
+    @Bind(R.id.switch_firstInsurance)
     Switch switch_first;
 
-    @OnCheckedChanged(R.id.switch_first)
+    @OnCheckedChanged(R.id.switch_firstInsurance)
     public void switch_first_changed(CompoundButton buttonView, boolean isChecked) {
         Log("");
         if (isChecked) {
@@ -263,6 +328,7 @@ public class OsagoActivity extends BaseActivity {
         setContentView(R.layout.activity_osago);
         ButterKnife.bind(this);
 
+
         switch_first.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -278,35 +344,14 @@ public class OsagoActivity extends BaseActivity {
         adapter_discount_val = getFloatArray(getResources().getStringArray(R.array.array_spin_discount_val));
         //___________________
         adapter_region_value = getResources().getIntArray(R.array.array_spin_region_value);
-
-        int i = 0;
-        for (int id : adapter_region_value) {
-            if (id == -1) continue;
-            try {
-                ArrayAdapter adapter = createAdapter(Application.getAppResources().getArrayId("array_spin_city_" + id));
-                adapters_city.put(id, adapter);
-            } catch (Exception e) {
-
-            }
-        }
-
-        //setDropDownAdapter(spin_way, R.layout.oreder_spin_dropdown_item);
+        read_regions();
+        //setDropDownAdapter(spin_possessor, R.layout.oreder_spin_dropdown_item);
         //setDropDownAdapter(spin_type, R.layout.oreder_spin_dropdown_item);
         //___________
         navigator_add(null);
         //____________
         spin_insurance.setEnabled(false);
 
-    }
-
-    private float[] getFloatArray(String[] strings) {
-        float[] ret = new float[strings.length];
-        for (int i = 0; i < ret.length; i++) {
-            ret[i] = Float.parseFloat(strings[i]);
-        }
-        return ret;
-        //return Arrays.stream(strings).map(Float::valueOf).toArray(Float[]::new);
-        //return Arrays.stream(strings).mapToDouble(Float::parseFloat).toArray();
     }
 
     float Tb = 0; // Базовая ставка // тип ТС
@@ -317,7 +362,11 @@ public class OsagoActivity extends BaseActivity {
     float Kp = 0; // коэф срока страхования
     float Kbm = 1; // коэф за безаварийную езду
 
-    void calculate() {
+    void cost() {
+        //swRegion
+        //  spin_city_selected(-1);
+
+
         /*
         var sum = Math.round(Number(Tb) * Number(Kt) * Number(Kvs_Ko) * Number(Km) * Number(Kc) * Number(Kp) * Number(Kbm) * 100) / 100;
 
@@ -339,15 +388,59 @@ public class OsagoActivity extends BaseActivity {
    */
     }
 
+    private void read_regions() {
+        ArrayList<Region> temp = readFile();
+        regions = new HashMap<>();
+        for (int id : adapter_region_value) {
+            if (regions.containsKey(id)) continue;
+            Region cr = null;
+            for (Region region : temp) {
+                if (region.region_id == id) {
+                    cr = region;
+                    break;
+                }
+            }
+            regions.put(id, null == cr ? new Region() : cr);
+        }
+    }
+
+    private ArrayList<Region> readFile() {
+        ArrayList<Region> ret = new ArrayList<>();
+        String file = Helpers.ReadFromfile(this, "array_spin_city");
+
+        String[] lines = file.split("\n");
+
+        Region region = null;
+        for (String line : lines) {
+            if (line.contains("array_spin_city_")) {
+                if (null != region) {
+                    region.end();
+                    ret.add(region);
+                }
+
+                int id = Integer.parseInt(line.replace("array_spin_city_", ""));
+                region = new Region(id);
+                continue;
+            }
+            region.add_item(line);
+        }
+        return ret;
+    }
+
+    private float[] getFloatArray(String[] strings) {
+        float[] ret = new float[strings.length];
+        for (int i = 0; i < ret.length; i++) {
+            ret[i] = Float.parseFloat(strings[i]);
+        }
+        return ret;
+        //return Arrays.stream(strings).map(Float::valueOf).toArray(Float[]::new);
+        //return Arrays.stream(strings).mapToDouble(Float::parseFloat).toArray();
+    }
+
     private ArrayAdapter<?> createAdapter(int array_res_id) {
         ArrayAdapter<?> ret = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(array_res_id));
         ret.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         return ret;
-    }
-
-    private void setDropDownAdapter(Spinner spiner, int dropdown_item_red_id) {
-        ArrayAdapter<String> adapter = (ArrayAdapter<String>) spiner.getAdapter();
-        adapter.setDropDownViewResource(dropdown_item_red_id);
     }
 
 

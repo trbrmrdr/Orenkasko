@@ -168,7 +168,7 @@ public class LoginActivity extends AppCompatActivity {
                     mCurrStage = Stage_Phone;
                     setVisible(mPhoneView);
 
-                    Helpers.setAutoInputText(this, mPhoneText, 1000L, getText(R.string.phone_start_text),
+                    Helpers.SetAutoInputText(this, mPhoneText, 1000L, getText(R.string.phone_start_text),
                             new Runnable() {
                                 @Override
                                 public void run() {
@@ -208,7 +208,7 @@ public class LoginActivity extends AppCompatActivity {
                     mTime_send_sms = System.currentTimeMillis();
                     Toast(LoginActivity.this, "пароль отправлен");
 
-                    Helpers.setAutoInputText(this, mPhoneCodeText, 1000L);
+                    Helpers.SetAutoInputText(this, mPhoneCodeText, 1000L);
 
                 } else {
                     //ошибка ввода имени

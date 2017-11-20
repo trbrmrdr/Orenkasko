@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!-- ###################  way-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -11,19 +12,21 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_spin_height"
         android:paddingBottom="10dp"
+
         android:paddingTop="10dp">
 
         <TextView
             style="@style/item_spin_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:text="@string/spin_type" />
 
         <Spinner
             android:id="@+id/spin_type"
             style="@style/item_spin"
             android:layout_width="@dimen/spin_width_2"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:entries="@array/array_spin_type" />
 
@@ -83,7 +86,7 @@
 
     <!-- ################### Period_ispolzovania -->
     <RelativeLayout
-        android:id="@+id/item_spin_period"
+        android:id="@+id/item_spin_period_ispolzovania"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_spin_height"
         android:paddingBottom="10dp"
@@ -94,15 +97,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:text="@string/spin_period" />
+            android:text="@string/spin_period_ispolzovania" />
 
         <Spinner
-            android:id="@+id/spin_period"
+            android:id="@+id/spin_period_ispolzovania"
             style="@style/item_spin"
             android:layout_width="@dimen/spin_width_2"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:entries="@array/array_spin_period" />
+            android:entries="@array/array_spin_period_ispolzovania" />
 
         <include layout="@layout/separator_content_osago" />
     </RelativeLayout><!-- ################### region_way-->
@@ -160,14 +163,14 @@
     <!-- ################### navigat-->
 
     <RelativeLayout
-        android:id="@+id/item_spin_navigat"
+        android:id="@+id/item_spin_navigation"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_spin_height"
         android:paddingBottom="10dp"
         android:paddingTop="10dp">
 
         <TextView
-            android:id="@+id/item_navigator_text"
+            android:id="@+id/item_navigation_text"
             style="@style/item_spin_text"
             android:layout_width="@dimen/spin_width"
             android:layout_height="wrap_content"
@@ -175,33 +178,33 @@
 
         <ImageButton
 
-            android:id="@+id/item_navigator_remove"
+            android:id="@+id/item_navigation_remove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
 
             android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/item_navigator_text_count"
-            android:layout_toStartOf="@+id/item_navigator_text_count"
+            android:layout_toLeftOf="@+id/item_navigation_text_count"
+            android:layout_toStartOf="@+id/item_navigation_text_count"
 
             android:background="@null"
             app:srcCompat="@drawable/ic_remove" />
 
         <TextView
-            android:id="@+id/item_navigator_text_count"
+            android:id="@+id/item_navigation_text_count"
             style="@style/item_spin_text"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/item_navigator_add"
-            android:layout_toStartOf="@+id/item_navigator_add"
+            android:layout_toLeftOf="@+id/item_navigation_add"
+            android:layout_toStartOf="@+id/item_navigation_add"
             android:minWidth="24dp"
             android:text="2"
             android:textAlignment="center" />
 
         <ImageButton
 
-            android:id="@+id/item_navigator_add"
+            android:id="@+id/item_navigation_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -214,7 +217,7 @@
     <!-- ############### driver_age ###################### -->
 
     <RelativeLayout
-        android:id="@+id/item_spin_driver_age"
+        android:id="@+id/item_spin_driverAgeStage"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_spin_height"
         android:layout_gravity="center_vertical"
@@ -228,12 +231,12 @@
             android:text="@string/spin_driver_age" />
 
         <Spinner
-            android:id="@+id/spin_driver_age"
+            android:id="@+id/spin_driverAgeStage"
             style="@style/item_spin"
             android:layout_width="@dimen/spin_width_2"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:entries="@array/array_spin_driver_age" />
+            android:entries="@array/array_spin_driverAgeStage" />
 
         <include layout="@layout/separator_content_osago" />
     </RelativeLayout>
@@ -241,7 +244,7 @@
     <!-- ############### first ###################### -->
 
     <RelativeLayout
-        android:id="@+id/item_spin_first"
+        android:id="@+id/item_spin_firstInsurance"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_spin_height"
         android:layout_gravity="center_vertical"
@@ -255,7 +258,7 @@
             android:text="@string/spin_first" />
 
         <Switch
-            android:id="@+id/switch_first"
+            android:id="@+id/switch_firstInsurance"
             style="@style/item_spin"
             android:layout_width="@dimen/spin_width_2"
             android:layout_height="wrap_content"

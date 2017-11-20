@@ -50,7 +50,7 @@
 
     <string name="spin_sub_type" />
     <string name="spin_power">Мощность двигателя</string>
-    <string name="spin_period">Срок страхования</string>
+    <string name="spin_period_ispolzovania">Срок страхования</string>
     <string name="spin_region">Место регистрации собственника</string>
     <string name="spin_city">Населенный пункт</string>
     <string name="spin_navigat" >Допущенные к управлению водители</string>
