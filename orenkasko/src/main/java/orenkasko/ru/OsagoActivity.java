@@ -1,9 +1,7 @@
 package orenkasko.ru;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatDelegate;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
@@ -353,33 +351,16 @@ public class OsagoActivity extends BaseActivity {
     }
 
 
+    @OnClick(R.id.action_next)
+    void action_next(View view) {
+        startActivity(new Intent(this, PersonalDataActivity.class));
+    }
     //________________________________________
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.sample_actions, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                openDrawer();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     protected int getSelfNavDrawerItem() {
         return R.id.nav_osago;
     }
-
-    @Override
-    public boolean providesActivityToolbar() {
-        return true;
-    }
-
 
 }

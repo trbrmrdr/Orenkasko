@@ -82,8 +82,4 @@ public class OrdersActivity extends BaseActivity {
         return R.id.nav_orders;
     }
 
-    @Override
-    public boolean providesActivityToolbar() {
-        return true;
-    }
 }

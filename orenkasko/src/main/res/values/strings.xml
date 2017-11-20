@@ -25,6 +25,7 @@
 
 
     <string name="phone_text_hint">номер телефона</string>
+    <string name="phone_text_hint_2">+7(9..)-..</string>
     <string name="phone_pass_text_hint">Код подтверждения из СМС</string>
     <string name="phone_pass_replay">Отправить повторно</string>
 
@@ -62,4 +63,10 @@
     <string name="spin_name_insurance">Страховая компания</string>
     <string name="item_profile">Провиль</string>
     <string name="you_photo">Ваша фотография</string>
+    <string name="personal_data">Личные данные</string>
+    <string name="fio">Ф.И.О.</string>
+    <string name="email">Эл. почта</string>
+    <string name="docs">Документы</string>
+    <string name="comments">Комментарии</string>
+    <string name="pasport_way">Паспорт страхователя</string>
 </resources>

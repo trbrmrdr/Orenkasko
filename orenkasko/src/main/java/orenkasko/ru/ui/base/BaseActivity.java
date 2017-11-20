@@ -13,11 +13,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.LinearLayout;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnTouch;
 import orenkasko.ru.BalanceActivity;
 import orenkasko.ru.LoginActivity;
 import orenkasko.ru.OrdersActivity;
@@ -216,7 +213,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         drawerLayout.closeDrawer(GravityCompat.START);
     }
 
-    public abstract boolean providesActivityToolbar();
+    //public abstract boolean providesActivityToolbar();
+
+    public boolean providesActivityToolbar() {
+        return true;
+    }
 
     public void setToolbar(Toolbar toolbar) {
         setSupportActionBar(toolbar);
