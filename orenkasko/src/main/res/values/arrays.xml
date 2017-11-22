@@ -64,21 +64,48 @@
         <item title="1215">Трактор, самоходная дорожно-строительная или иная машина</item>
     </string-array>
 
+    <string-array name="array_spin_type_def">
+        <item>-1</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>1215</item>
+        <item>1010</item>
+        <item>1620</item>
+        <item>1215</item>
+    </string-array>
+
 
     <string-array name="array_spin_type_b">
         <item title="4118" value="0">Для личного использования</item>
         <!-- <item title="2965" value="1">Используемый в качестве такси</item> -->
     </string-array>
+    <string-array name="array_spin_type_b_title">
+        <item>4118</item>
+    </string-array>
+
     <string-array name="array_spin_type_c">
         <item title="7397" value="0">С прицепом и разрешенной максимальной массой 16 тонн и менее</item>
         <item title="6605" value="1">С прицепом и разрешенной максимальной массой более 16 тонн</item>
         <item title="5284" value="1">Без прицепа</item>
     </string-array>
+    <string-array name="array_spin_type_c_title">
+        <item>7397</item>
+        <item>6605</item>
+        <item>5284</item>
+    </string-array>
+
     <string-array name="array_spin_type_d">
         <item title="2965" value="0">Используемый в качестве такси</item>
         <item title="1620" value="1">С числом мест сидения до 20 (включительно)</item>
         <item title="2025" value="2">С числом мест сидения свыше 20</item>
     </string-array>
+    <string-array name="array_spin_type_d_title">
+        <item>2965</item>
+        <item>1620</item>
+        <item>2025</item>
+    </string-array>
+
+
     <string-array name="array_spin_type_p">
         <item title="810" value="c">К грузовым автомобилям, полуприцепы, прицепы-роспуски</item>
         <item title="395" value="b">К легковым автомобилям (юр. лица), мотоциклам, мотороллерам</item>
@@ -88,14 +115,22 @@
 
     <string-array name="array_spin_power">
         <item title="0.6" value="0">до 50 включительно</item>
-        <item title="1" value="1">свыше 50 до 70 включительно</item>
-        <item string-arrayed="" title="1.1" value="2">свыше 70 до 100 включительно</item>
+        <item title="1.0" value="1">свыше 50 до 70 включительно</item>
+        <item title="1.1" value="2">свыше 70 до 100 включительно</item>
         <item title="1.2" value="3">свыше 100 до 120 включительно</item>
         <item title="1.4" value="4">свыше 120 до 150 включительно</item>
         <item title="1.6" value="5">свыше 150</item>
     </string-array>
+    <string-array name="array_spin_power_title">
+        <item>0.6</item>
+        <item>1.0</item>
+        <item>1.1</item>
+        <item>1.2</item>
+        <item>1.4</item>
+        <item>1.6</item>
+    </string-array>
 
-    <string-array name="array_spin_period_ispolzovania" class="field field_string-array" data-string-array-like-a-boss="1">
+    <string-array name="array_spin_period_ispolzovania">
         <item title="1" value="0">1 год</item>
         <item title="0.95" value="1">9 месяцев</item>
         <item title="0.9" value="2">8 месяцев</item>
@@ -106,9 +141,20 @@
         <item title="0.6" value="7">4 месяца</item>
         <item title="0.5" value="8">3 месяца</item>
     </string-array>
+    <string-array name="array_spin_period_ispolzovania_title">
+        <item>1.00</item>
+        <item>0.95</item>
+        <item>0.90</item>
+        <item>0.90</item>
+        <item>0.80</item>
+        <item>0.70</item>
+        <item>0.65</item>
+        <item>0.60</item>
+        <item>0.50</item>
+    </string-array>
 
     <string-array name="array_spin_region">
-        <item title="2_1.2" value="3">Москва (77, 99, 97, 177, 199, 197)</item>
+        <item title="2_1.2" value="4">Москва (77, 99, 97, 177, 199, 197)</item>
         <item title="1.7_1" value="3">Московская область (50, 90, 150)</item>
         <item title="1.8_1" value="1">Санкт-Петербург (78, 98, 178)</item>
         <item title="1.6_1" value="2">Ленинградская область (47)</item>
@@ -165,7 +211,7 @@
         <item title="_" value="294">Новгородская область (53)</item>
         <item title="_" value="298">Новосибирская область (54)</item>
         <item title="_" value="304">Омская область (55)</item>
-        <item string-arrayed="" title="_" value="307">Оренбургская область (56)</item>
+        <item title="_" value="307">Оренбургская область (56)</item>
         <item title="_" value="314">Орловская область (57)</item>
         <item title="_" value="319">Пензенская область (58)</item>
         <item title="_" value="324">Пермская область (59)</item>
@@ -203,7 +249,7 @@
     </string-array>
 
     <integer-array name="array_spin_region_value">
-        <item>3</item>
+        <item>4</item>
         <item>3</item>
         <item>1</item>
         <item>2</item>
@@ -302,6 +348,12 @@
         <item title="1.6" value="2">до 22 лет включительно, стаж свыше 3 лет</item>
         <item title="1.8" value="3">до 22 лет включительно, стаж до 3 лет включительно</item>
     </string-array>
+    <string-array name="array_spin_driverAgeStage_title">
+        <item>1.0</item>
+        <item>1.7</item>
+        <item>1.6</item>
+        <item>1.8</item>
+    </string-array>
 
 
     <string-array name="array_spin_discount" disabled="disabled">
@@ -313,6 +365,16 @@
         <item title="0.7" value="5">6 лет без аварий (класс 9, кбм 0,7) </item>
         <item title="0.65" value="6">7 лет без аварий (класс 10, кбм 0,65) </item>
         <item title="0.6" value="7">8 лет без аварий (класс 11, кбм 0,6) </item>
+    </string-array>
+    <string-array name="array_spin_discount_title">
+        <item>0.95</item>
+        <item>0.90</item>
+        <item>0.85</item>
+        <item>0.80</item>
+        <item>0.75</item>
+        <item>0.70</item>
+        <item>0.65</item>
+        <item>0.60</item>
     </string-array>
 
     <string-array name="array_spin_discount_val">

@@ -72,6 +72,7 @@
                         style="@style/item_spin_text"
                         android:layout_width="@dimen/spin_width"
                         android:layout_height="wrap_content"
+
                         android:text="@string/spin_discount" />
 
                     <Spinner
@@ -98,6 +99,7 @@
                     <TextView
                         style="@style/item_spin_text"
                         android:layout_width="@dimen/spin_width"
+
                         android:layout_height="wrap_content"
                         android:text="@string/spin_name_insurance" />
 
@@ -114,21 +116,31 @@
 
                 <!-- ############### discount ###################### -->
 
-                <RelativeLayout
+                <LinearLayout
                     android:id="@+id/item_amount"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/item_spin_height"
                     android:layout_gravity="center_vertical"
+                    android:orientation="horizontal"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp">
 
                     <TextView
+                        android:id="@+id/item_amount_title"
                         style="@style/item_spin_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:text="@string/amount_text" />
 
-                </RelativeLayout>
+                    <TextView
+                        android:id="@+id/item_amount_value"
+                        style="@style/item_spin_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text=" 1230.45 р" />
+                </LinearLayout>
 
                 <!-- ################# end ########### -->
                 <Button
