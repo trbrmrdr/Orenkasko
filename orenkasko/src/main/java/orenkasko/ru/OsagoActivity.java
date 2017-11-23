@@ -2,8 +2,6 @@ package orenkasko.ru;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.telecom.Call;
-import android.text.Layout;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,18 +9,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
@@ -30,7 +21,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
-import butterknife.OnItemSelected;
 import orenkasko.ru.Utils.Helpers;
 import orenkasko.ru.ui.base.BaseActivity;
 
@@ -62,20 +52,6 @@ public class OsagoActivity extends BaseActivity {
 
     Item item_type;
     Item item_sub_type;
-
-    private class Types {
-        public ArrayAdapter<String> types;
-        public float[] value;
-
-        public Types(int array_type_id, int array_value_id) {
-            this.types = (ArrayAdapter<String>) createAdapter(array_type_id);
-            this.value = getFloatArray(array_value_id);
-        }
-
-        public Types(int array_value_id) {
-            this.value = getFloatArray(array_value_id);
-        }
-    }
 
     Types sub_type_def;
     Types sub_type_b;
@@ -160,8 +136,6 @@ public class OsagoActivity extends BaseActivity {
             region_selected = regions.get(id);
             if (region_selected.isEmpty()) {
                 item_city.setVisibility(false);
-
-                spin_city_title = region_selected.titles.get(0);
                 cost();
             } else {
                 item_city.setAdapter(region_selected.arrayAdapter);
@@ -170,53 +144,6 @@ public class OsagoActivity extends BaseActivity {
             //cost();
         }
     };
-
-    private class Region {
-        public ArrayAdapter<?> arrayAdapter;
-
-        public int region_id;
-
-        public Region(int id) {
-            region_id = id;
-        }
-
-
-        public ArrayList<float[]> titles = new ArrayList<>();
-        ArrayList<String> items = new ArrayList<>();
-
-        public void add_item(String line) {
-
-            String[] new_item = line.split(Pattern.quote("|"));
-
-            titles.add(getTitle(new_item[0]));
-            if (new_item.length > 1) {
-                items.add(new_item[1]);
-            }
-        }
-
-        private float[] getTitle(String str) {
-            String[] tmp = str.split("_");
-            float[] title = new float[tmp.length];
-            int i = 0;
-            for (String it : tmp) {
-                title[i] = Float.parseFloat(it);
-                i++;
-            }
-            return title;
-        }
-
-        public boolean isEmpty() {
-            return null == arrayAdapter;
-        }
-
-        public void end() {
-            if (items.size() == 0) return;
-            arrayAdapter = new ArrayAdapter<>(OsagoActivity.this,
-                    android.R.layout.simple_spinner_item,
-                    items);
-            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        }
-    }
 
     HashMap<Integer, Region> regions;
     Region region_selected;
@@ -229,7 +156,12 @@ public class OsagoActivity extends BaseActivity {
     CallbackSelected select_city = new CallbackSelected() {
         @Override
         public void selected(int index) {
-            spin_city_title = region_selected.titles.get(index);
+            if (-1 == index) {
+                spin_city_title = region_selected.titles.get(0);
+            } else {
+                spin_city_title = region_selected.titles.get(index);
+            }
+
             cost();
         }
     };
@@ -306,7 +238,6 @@ public class OsagoActivity extends BaseActivity {
     public void switch_first_changed(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
             item_discount.setVisibility(false);
-            Kbm = 1.f;
         } else {
             item_discount.setVisibility(true);
         }
@@ -319,7 +250,11 @@ public class OsagoActivity extends BaseActivity {
     CallbackSelected select_discount = new CallbackSelected() {
         @Override
         public void selected(int index) {
-            Kbm = item_discount_title[index];
+            if (index < 0 && !item_discount.isVisibility()) {
+                Kbm = 1.f;
+            } else {
+                Kbm = item_discount_title[index];
+            }
             cost();
         }
     };
@@ -417,6 +352,70 @@ public class OsagoActivity extends BaseActivity {
     }
 
     //##############################################################################################
+
+    private class Region {
+        public ArrayAdapter<?> arrayAdapter;
+
+        public int region_id;
+
+        public Region(int id) {
+            region_id = id;
+        }
+
+
+        public ArrayList<float[]> titles = new ArrayList<>();
+        ArrayList<String> items = new ArrayList<>();
+
+        public void add_item(String line) {
+
+            String[] new_item = line.split(Pattern.quote("|"));
+
+            titles.add(getTitle(new_item[0]));
+            if (new_item.length > 1) {
+                items.add(new_item[1]);
+            }
+        }
+
+        private float[] getTitle(String str) {
+            String[] tmp = str.split("_");
+            float[] title = new float[tmp.length];
+            int i = 0;
+            for (String it : tmp) {
+                title[i] = Float.parseFloat(it);
+                i++;
+            }
+            return title;
+        }
+
+        public boolean isEmpty() {
+            return null == arrayAdapter;
+        }
+
+        public void end() {
+            if (items.size() == 0) return;
+            arrayAdapter = new ArrayAdapter<>(OsagoActivity.this,
+                    android.R.layout.simple_spinner_item,
+                    items);
+            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        }
+    }
+
+    private class Types {
+        public ArrayAdapter<String> types;
+        public float[] value;
+
+        public Types(int array_type_id, int array_value_id) {
+            this.types = (ArrayAdapter<String>) createAdapter(array_type_id);
+            this.value = getFloatArray(array_value_id);
+        }
+
+        public Types(int array_value_id) {
+            this.value = getFloatArray(array_value_id);
+        }
+    }
+
+    //##############################################################################################
+
     void init() {
         item_possessor = new Item(R.id.item_spin_possessor, R.id.spin_possessor, select_possessor);
         //#
@@ -543,7 +542,7 @@ public class OsagoActivity extends BaseActivity {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            mSpin.performClick();
+            //mSpin.performClick();
             return false;
         }
 
@@ -555,18 +554,30 @@ public class OsagoActivity extends BaseActivity {
         public void setVisibility(boolean visible) {
             if (visible) {
                 mItem.setVisibility(View.VISIBLE);
+                //mSpin.setSelection(las_pos);
+                mCallback.selected(mSpin.getSelectedItemPosition());
             } else {
                 mItem.setVisibility(View.GONE);
+                //las_pos = mSpin.getSelectedItemPosition();
+                //mSpin.setSelection(-1);
+                mCallback.selected(-1);
             }
-            mSpin.setSelection(-1);
+        }
+
+        public boolean isVisibility() {
+            return mItem.getVisibility() == View.VISIBLE;
         }
 
 
         //
+        int las_pos = -1;
+
         public void setEnabled(boolean enabled) {
             mSpin.setEnabled(enabled);
             //refresh process in callback
-            mSpin.setSelection(-1);
+            las_pos = mSpin.getSelectedItemPosition();
+            //mSpin.setSelection(-1);
+            mCallback.selected(-1);
 
             //if (enabled) {
             //    mSpin.setSelection(mSpin.getSelectedItemPosition());
@@ -584,5 +595,6 @@ public class OsagoActivity extends BaseActivity {
         public int getLastItem() {
             return mSpin.getCount() - 1;
         }
+
     }
 }
