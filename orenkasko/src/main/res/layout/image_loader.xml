@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="150dp"
+    android:layout_height="150dp">
+
+    <ImageView
+        android:id="@+id/il_back_image_0"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/image_loader_margin"
+
+        android:background="@color/color_image_loader" />
+
+    <ImageView
+        android:id="@+id/il_back_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/title_padding"
+
+        android:background="@null" />
+
+    <ImageButton
+        android:id="@+id/il_close_image"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignEnd="@+id/il_back_image"
+        android:layout_alignRight="@+id/il_back_image"
+        android:layout_alignTop="@+id/il_back_image"
+        android:layout_margin="@dimen/image_loader_margin"
+        android:background="@null"
+        app:srcCompat="@drawable/image_loader_close" />
+
+    <ImageButton
+        android:id="@+id/il_camera_image"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_centerInParent="true"
+
+        android:background="@null"
+        app:srcCompat="@drawable/image_loder_camera" />
+
+    <TextView
+        android:id="@+id/il_text"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@+id/il_camera_image"
+        android:layout_centerHorizontal="true"
+        android:text="Первая страница"
+        android:textSize="@dimen/image_loader_text" />
+
+</RelativeLayout>

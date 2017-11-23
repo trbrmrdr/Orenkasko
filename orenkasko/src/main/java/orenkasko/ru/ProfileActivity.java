@@ -7,6 +7,10 @@ import android.view.MenuItem;
 import butterknife.ButterKnife;
 import orenkasko.ru.ui.base.BaseActivity;
 
+
+//dealogs
+//https://github.com/afollestad/material-dialogs
+
 public class ProfileActivity extends BaseActivity {
 
     @Override

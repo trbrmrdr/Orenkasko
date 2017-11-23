@@ -37,7 +37,7 @@ public class OsagoActivity extends BaseActivity {
         public void selected(int index) {
             possessor = index + 1;
             if (1 == possessor) {
-                if (!without_limitation && true) {
+                if (!without_limitation) {
                     item_driverAgeStage.setEnabled(true);
                 }
             } else if (2 == possessor) {
@@ -65,6 +65,7 @@ public class OsagoActivity extends BaseActivity {
     CallbackSelected select_type = new CallbackSelected() {
         @Override
         public void selected(int index) {
+            type_traktor = index == 6;
             if (0 == index) {
                 item_power.setEnabled(true);
                 sub_type_selected = sub_type_b;
@@ -75,8 +76,7 @@ public class OsagoActivity extends BaseActivity {
                 } else if (2 == index) {
                     sub_type_selected = sub_type_d;
                 } else {
-                    Tb = sub_type_def.value[index];
-                    swRegion();
+                    sub_type_selected = null;
                 }
             }
 
@@ -84,16 +84,19 @@ public class OsagoActivity extends BaseActivity {
                 item_sub_type.setAdapter(sub_type_selected.types);
             } else {
                 item_sub_type.setVisibility(false);
+
+                Tb = sub_type_def.value[index];
+                cost();
             }
 
-            type_traktor = index == 6;
-            cost();
+            //cost();
         }
     };
 
     CallbackSelected select_sub_type = new CallbackSelected() {
         @Override
         public void selected(int index) {
+            if (-1 == index) return;
             Tb = sub_type_selected.value[index];
             cost();
         }
@@ -181,7 +184,7 @@ public class OsagoActivity extends BaseActivity {
     @Bind(R.id.item_navigation_remove)
     ImageButton navigator_remove;
 
-    int navigators = 0;
+    int navigators = 1;
     boolean without_limitation = false;
 
     @OnClick(R.id.item_navigation_add)
@@ -266,25 +269,44 @@ public class OsagoActivity extends BaseActivity {
     @Bind(R.id.item_amount_value)
     TextView item_amount_value;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_osago);
         ButterKnife.bind(this);
 
-        init();
-        //____________________
+        item_possessor = new Item(R.id.item_spin_possessor, R.id.spin_possessor, select_possessor);
+        //#
         sub_type_b = new Types(R.array.array_spin_type_b, R.array.array_spin_type_b_title);
         sub_type_c = new Types(R.array.array_spin_type_c, R.array.array_spin_type_c_title);
         sub_type_d = new Types(R.array.array_spin_type_d, R.array.array_spin_type_d_title);
         sub_type_def = new Types(R.array.array_spin_type_def);
 
-        //___________
-        navigator_add(null);
-        //____________
+        item_type = new Item(R.id.item_spin_type, R.id.spin_type, select_type);
+        item_sub_type = new Item(R.id.item_spin_sub_type, R.id.spin_sub_type, select_sub_type);
+        //#
+        item_power_title = getFloatArray(R.array.array_spin_power_title);
+        item_power = new Item(R.id.item_spin_power, R.id.spin_power, select_power);
+        //#
+        item_period_ispolzovania_title = getFloatArray(R.array.array_spin_period_ispolzovania_title);
+        item_period_ispolzovania = new Item(R.id.item_spin_period_ispolzovania, R.id.spin_period_ispolzovania, select_period_ispolzovania);
+        //#
+        item_region_title = getResources().getIntArray(R.array.array_spin_region_value);
+        read_regions();
+        item_region = new Item(R.id.item_spin_region, R.id.spin_region, select_region);
+        //_
+        item_city = new Item(R.id.item_spin_city, R.id.spin_city, select_city);
+        //#
+        item_driverAgeStage_title = getFloatArray(R.array.array_spin_driverAgeStage_title);
+        item_driverAgeStage = new Item(R.id.item_spin_driverAgeStage, R.id.spin_driverAgeStage, select_driverAgeStage);
+        change_navigators();
+        //#
+        item_discount_title = getFloatArray(R.array.array_spin_discount_val);
+        item_discount = new Item(R.id.item_spin_discount, R.id.spin_discount, select_discount);
+        //-
         spin_insurance.setEnabled(false);
-        //____________
-
+        switch_first_changed(null, switch_first.isChecked());
     }
 
     float Tb = 0; // Базовая ставка // тип ТС
@@ -296,12 +318,11 @@ public class OsagoActivity extends BaseActivity {
     float Kbm = 1; // коэф за безаварийную езду
 
     void stag() {
-        if (2 == possessor || 1 == possessor) {
+        if (2 == possessor || without_limitation) {
             Kvs_Ko = 1.8f;
-        /*
-        } else if ($("input[name='is_registered_abroad']").checked) {
-            Kvs_Ko = '1.5';
-        */
+        } else {
+            //in selected callback
+            //Kvs_Ko = $("select[name='driverAgeStage'] option:selected").attr('title');
         }
     }
 
@@ -318,7 +339,7 @@ public class OsagoActivity extends BaseActivity {
             Kvs_Ko = 1.7f;
         if (2 == possessor)
             Kc = 1;
-        if (sub_type_selected == sub_type_b)
+        if (sub_type_selected != sub_type_b)
             Km = 1;
 
         float sum = (Tb * Kt * Kvs_Ko * Km * Kc * Kp * Kbm * 100.f) / 100.f;
@@ -415,31 +436,6 @@ public class OsagoActivity extends BaseActivity {
     }
 
     //##############################################################################################
-
-    void init() {
-        item_possessor = new Item(R.id.item_spin_possessor, R.id.spin_possessor, select_possessor);
-        //#
-        item_type = new Item(R.id.item_spin_type, R.id.spin_type, select_type);
-        item_sub_type = new Item(R.id.item_spin_sub_type, R.id.spin_sub_type, select_sub_type);
-        //#
-        item_power_title = getFloatArray(R.array.array_spin_power_title);
-        item_power = new Item(R.id.item_spin_power, R.id.spin_power, select_power);
-        //#
-        item_period_ispolzovania_title = getFloatArray(R.array.array_spin_period_ispolzovania_title);
-        item_period_ispolzovania = new Item(R.id.item_spin_period_ispolzovania, R.id.spin_period_ispolzovania, select_period_ispolzovania);
-        //#
-        item_region_title = getResources().getIntArray(R.array.array_spin_region_value);
-        read_regions();
-        item_region = new Item(R.id.item_spin_region, R.id.spin_region, select_region);
-        //_
-        item_city = new Item(R.id.item_spin_city, R.id.spin_city, select_city);
-        //#
-        item_driverAgeStage_title = getFloatArray(R.array.array_spin_driverAgeStage_title);
-        item_driverAgeStage = new Item(R.id.item_spin_driverAgeStage, R.id.spin_driverAgeStage, select_driverAgeStage);
-        //#
-        item_discount_title = getFloatArray(R.array.array_spin_discount_val);
-        item_discount = new Item(R.id.item_spin_discount, R.id.spin_discount, select_discount);
-    }
 
     private void read_regions() {
         ArrayList<Region> temp = readFile();
@@ -554,12 +550,9 @@ public class OsagoActivity extends BaseActivity {
         public void setVisibility(boolean visible) {
             if (visible) {
                 mItem.setVisibility(View.VISIBLE);
-                //mSpin.setSelection(las_pos);
                 mCallback.selected(mSpin.getSelectedItemPosition());
             } else {
                 mItem.setVisibility(View.GONE);
-                //las_pos = mSpin.getSelectedItemPosition();
-                //mSpin.setSelection(-1);
                 mCallback.selected(-1);
             }
         }
@@ -569,14 +562,8 @@ public class OsagoActivity extends BaseActivity {
         }
 
 
-        //
-        int las_pos = -1;
-
         public void setEnabled(boolean enabled) {
             mSpin.setEnabled(enabled);
-            //refresh process in callback
-            las_pos = mSpin.getSelectedItemPosition();
-            //mSpin.setSelection(-1);
             mCallback.selected(-1);
 
             //if (enabled) {

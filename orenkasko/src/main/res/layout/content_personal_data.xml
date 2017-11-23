@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -20,7 +21,8 @@
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
             <LinearLayout
                 style="@style/Widget.CardContent"
@@ -68,54 +70,45 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                style="@style/Widget.CardContent"
+                style="@style/Widget.CardContentDocs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal">
 
-                <TextView
-                    style="@style/item_personel_data_text"
+                <orenkasko.ru.ui.base.ItemDocs
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/pasport_way" />
+                    custom:text_item="@string/pasport_insurent" />
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
 
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="124dp"
-                        android:layout_height="124dp"
-                        android:layout_margin="@dimen/title_padding"
-                        android:background="#a7ba8530" />
-
-                    <ImageView
-                        android:id="@+id/imageView3"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_alignEnd="@+id/imageView2"
-                        android:layout_alignRight="@+id/imageView2"
-                        android:layout_alignTop="@+id/imageView2"
-                        app:srcCompat="@drawable/ic_erace" />
-
-                    <ImageView
-                        android:id="@+id/imageView4"
-                        android:layout_width="65dp"
-                        android:layout_height="65dp"
-                        android:layout_centerInParent="true"
-                        app:srcCompat="@drawable/camera" />
-
-                    <TextView
+                    <android.support.v7.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="Страхователь это собственник" />
 
-                        android:layout_alignLeft="@+id/imageView4"
-                        android:layout_alignEnd="@+id/imageView4"
-                        android:layout_centerHorizontal="true"
-                        android:text="Первая страница" />
-
+                    <Switch
+                        android:id="@+id/change_owner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:checked="true" />
                 </RelativeLayout>
+
+                <include layout="@layout/separator_content_osago" />
+
+                <orenkasko.ru.ui.base.ItemDocs
+                    android:id="@+id/pasport_owner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    custom:text_item="@string/pasport_owner"
+                    custom:separator="true"/>
+
+
             </LinearLayout>
         </android.support.v7.widget.CardView>
     </LinearLayout>

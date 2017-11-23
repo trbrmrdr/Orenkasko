@@ -25,7 +25,7 @@
 
 
     <string name="phone_text_hint">номер телефона</string>
-    <string name="phone_text_hint_2">+7(9..)-..</string>
+    <string name="phone_text_hint_2">+7(9</string>
     <string name="phone_pass_text_hint">Код подтверждения из СМС</string>
     <string name="phone_pass_replay">Отправить повторно</string>
 
@@ -68,5 +68,10 @@
     <string name="email">Эл. почта</string>
     <string name="docs">Документы</string>
     <string name="comments">Комментарии</string>
-    <string name="pasport_way">Паспорт страхователя</string>
+
+    <string name="pasport_insurent">Паспорт страхователя</string>
+    <string name="pasport_owner">Паспорт собственника</string>
+    <string name="chooser_image_title">Select your image:</string>
+    <string name="first_list">Первая страница</string>
+    <string name="second_list">Вторая страница</string>
 </resources>

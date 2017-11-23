@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/item_docs_margin"
+    android:layout_marginTop="@dimen/item_docs_margin"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/item_docs_text"
+        style="@style/item_personel_data_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/pasport_owner" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1."
+        android:orientation="horizontal">
+
+        <orenkasko.ru.ui.base.ImageLoader
+            android:id="@+id/first_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            custom:text_image="@string/first_list" />
+
+        <orenkasko.ru.ui.base.ImageLoader
+            android:id="@+id/second_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            custom:text_image="@string/second_list" />
+    </LinearLayout>
+
+    <include layout="@layout/separator_content_osago" />
+</LinearLayout>
