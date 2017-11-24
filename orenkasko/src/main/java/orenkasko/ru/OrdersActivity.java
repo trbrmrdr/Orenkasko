@@ -29,7 +29,7 @@ public class OrdersActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
         ButterKnife.bind(this);
-        Data.preparedata(this);
+        Data.preparedata();
     }
 
     @Override
@@ -42,9 +42,9 @@ public class OrdersActivity extends BaseActivity {
     // Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new OrderContentFragment(), "Ченовики");
-        adapter.addFragment(new OrderContentFragment(), "Оформление");
-        adapter.addFragment(new OrderContentFragment(), "Выполненные");
+        adapter.addFragment(new OrderContentFragment(0), "Ченовики");
+        adapter.addFragment(new OrderContentFragment(1), "Оформление");
+        adapter.addFragment(new OrderContentFragment(2), "Выполненные");
         viewPager.setAdapter(adapter);
     }
 

@@ -25,7 +25,7 @@
 
 
     <string name="phone_text_hint">номер телефона</string>
-    <string name="phone_text_hint_2">+7(9</string>
+    <string name="phone_text_hint_2">+7(xxx)-xxx-xx-xx</string>
     <string name="phone_pass_text_hint">Код подтверждения из СМС</string>
     <string name="phone_pass_replay">Отправить повторно</string>
 
@@ -67,6 +67,7 @@
     <string name="fio">Ф.И.О.</string>
     <string name="email">Эл. почта</string>
     <string name="docs">Документы</string>
+    <string name="docs_dops">Дополнительные данные</string>
     <string name="comments">Комментарии</string>
 
     <string name="pasport_insurent">Паспорт страхователя</string>
@@ -74,4 +75,11 @@
     <string name="chooser_image_title">Select your image:</string>
     <string name="first_list">Первая страница</string>
     <string name="second_list">Вторая страница</string>
+    <string name="docs_data_text_start">Дата начала</string>
+    <string name="docs_data_text_end">Дата окончания</string>
+    <string name="drivings_permits">Водительские удостовирения</string>
+    <string name="pasport_transport">ПТС или СТС</string>
+    <string name="diagnostic_card">Диагностическая Карта</string>
+    <string name="name_card">Номер карты</string>
+
 </resources>

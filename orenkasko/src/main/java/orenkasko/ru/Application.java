@@ -19,6 +19,7 @@ public class Application extends android.app.Application {
         super.onCreate();
         mApplication = this;
         appResources = new AppResource(mApplication);
+        Data.setContext(this);
 
     }
 

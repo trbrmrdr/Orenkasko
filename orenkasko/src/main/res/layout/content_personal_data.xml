@@ -12,6 +12,7 @@
         android:orientation="vertical"
         android:padding="@dimen/activity_balance_vertical_margin">
 
+        <!-- ############################################################ -->
         <TextView
             style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="wrap_content"
@@ -49,7 +50,13 @@
                     style="@style/item_personel_data_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/phone_text_hint_2" />
+
+                    android:digits="0123456789"
+
+                    android:hint="@string/phone_text_hint_2"
+                    android:inputType="phone"
+                    android:maxLength="17"
+                    android:maxLines="1" />
 
                 <EditText
                     android:id="@+id/text_comments"
@@ -60,6 +67,57 @@
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
+        <!-- ############################################################ -->
+        <TextView
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/title_padding"
+            android:text="@string/docs_dops" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                style="@style/Widget.CardContentDocs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/title_text_data"
+                    style="@style/text_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/docs_data_text_start" />
+
+                <RelativeLayout
+                    android:id="@+id/layout_change_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="show_calendar">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/text_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/change_data"
+                        android:text="25.11.2017"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:id="@+id/change_data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:background="@android:drawable/arrow_down_float" />
+                </RelativeLayout>
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
         <!-- ############################################################ -->
 
         <TextView
@@ -84,7 +142,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     custom:text_item="@string/pasport_insurent" />
-               <RelativeLayout
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical">
@@ -109,12 +168,91 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    custom:text_item="@string/pasport_owner"
-                    custom:separator="true"/>
+                    custom:separator="true"
+                    custom:text_item="@string/pasport_owner" />
 
+                <orenkasko.ru.ui.base.ItemDocs
+                    android:id="@+id/pasport_transport"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    custom:separator="true"
+                    custom:text_item="@string/pasport_transport" />
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
+
+        <!-- ############################################### -->
+        <TextView
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/title_padding"
+            android:text="@string/diagnostic_card" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible">
+
+            <LinearLayout
+                style="@style/Widget.CardContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+                <EditText
+                    android:id="@+id/text_name_card"
+                    style="@style/item_personel_data_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/name_card" />
+
+                <LinearLayout
+                    style="@style/Widget.CardContentDocs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/title_text_card_time"
+                        style="@style/text_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/docs_data_text_end" />
+
+                    <RelativeLayout
+                        android:id="@+id/layout_change_data_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="show_calendar">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/text_time_card"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@+id/change_data_card"
+                            android:text="25.11.2017"
+                            android:textStyle="bold" />
+
+                        <ImageButton
+                            android:id="@+id/change_data_card"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:background="@android:drawable/arrow_down_float" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+        <!-- ####################################################### -->
     </LinearLayout>
 
 

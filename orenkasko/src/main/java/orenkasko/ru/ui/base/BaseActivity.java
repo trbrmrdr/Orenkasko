@@ -173,7 +173,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.nav_logout:
-                Data.clear(this);
+                Data.clear();
 
                 Helpers.StartClean(this, LoginActivity.class);
                 finish();

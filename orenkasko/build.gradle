@@ -53,4 +53,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
 
     compile 'com.github.Mariovc:ImagePicker:1.2.0'
+
+    compile 'com.github.pepperonas:materialdialog:0.3.4'
 }

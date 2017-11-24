@@ -287,10 +287,10 @@ public class OsagoActivity extends BaseActivity {
         item_type = new Item(R.id.item_spin_type, R.id.spin_type, select_type);
         item_sub_type = new Item(R.id.item_spin_sub_type, R.id.spin_sub_type, select_sub_type);
         //#
-        item_power_title = getFloatArray(R.array.array_spin_power_title);
+        item_power_title = Helpers.getFloatArray(this, R.array.array_spin_power_title);
         item_power = new Item(R.id.item_spin_power, R.id.spin_power, select_power);
         //#
-        item_period_ispolzovania_title = getFloatArray(R.array.array_spin_period_ispolzovania_title);
+        item_period_ispolzovania_title = Helpers.getFloatArray(this, R.array.array_spin_period_ispolzovania_title);
         item_period_ispolzovania = new Item(R.id.item_spin_period_ispolzovania, R.id.spin_period_ispolzovania, select_period_ispolzovania);
         //#
         item_region_title = getResources().getIntArray(R.array.array_spin_region_value);
@@ -299,25 +299,41 @@ public class OsagoActivity extends BaseActivity {
         //_
         item_city = new Item(R.id.item_spin_city, R.id.spin_city, select_city);
         //#
-        item_driverAgeStage_title = getFloatArray(R.array.array_spin_driverAgeStage_title);
+        item_driverAgeStage_title = Helpers.getFloatArray(this, R.array.array_spin_driverAgeStage_title);
         item_driverAgeStage = new Item(R.id.item_spin_driverAgeStage, R.id.spin_driverAgeStage, select_driverAgeStage);
         change_navigators();
         //#
-        item_discount_title = getFloatArray(R.array.array_spin_discount_val);
+        item_discount_title = Helpers.getFloatArray(this, R.array.array_spin_discount_val);
         item_discount = new Item(R.id.item_spin_discount, R.id.spin_discount, select_discount);
         //-
         spin_insurance.setEnabled(false);
         switch_first_changed(null, switch_first.isChecked());
 
 
-        order_loaded_id = savedInstanceState.getInt(Data.key_oreder_id, -1);
+        order_loaded_id = getIntent().getIntExtra(Data.key_oreder_id, -1);
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+        readData();
+    }
 
-        String str = Data.getOsago(this, order_loaded_id);
+    boolean not_needed_save = false;
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (not_needed_save) return;
+        saveData();
+    }
+
+
+    private void readData() {
+        String str = Data.getOsagoDat(order_loaded_id);
+
+        if (str.length() <= 0) return;
+
         String[] str_i = str.split("\n");
 
         switch_first_changed(null, Boolean.parseBoolean(str_i[0]));
@@ -333,14 +349,6 @@ public class OsagoActivity extends BaseActivity {
         item_city.mCallback.selected(Integer.parseInt(str_i[8]));
         item_driverAgeStage.mCallback.selected(Integer.parseInt(str_i[9]));
         item_discount.mCallback.selected(Integer.parseInt(str_i[10]));
-
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        saveData();
     }
 
     private void saveData() {
@@ -348,7 +356,7 @@ public class OsagoActivity extends BaseActivity {
                 //switch_first_changed(null, switch_first.isChecked());
                 "" + navigators + "\n" +
                 //change_navigators();
-                item_possessor.getPos() + "\n" +
+                "" + item_possessor.getPos() + "\n" +
                 "" + item_type.getPos() + "\n" +
                 "" + item_sub_type.getPos() + "\n" +
                 "" + item_power.getPos() + "\n" +
@@ -358,7 +366,9 @@ public class OsagoActivity extends BaseActivity {
                 "" + item_driverAgeStage.getPos() + "\n" +
                 "" + item_discount.getPos();
 
-        order_loaded_id = Data.saveOsago(this, order_loaded_id, navigators, save_dat);
+
+        String type_avto = item_type.mSpin.getSelectedItem().toString() + " " + item_sub_type.mSpin.getSelectedItem().toString();
+        order_loaded_id = Data.saveOsagoDat(order_loaded_id, navigators, type_avto, save_dat);
     }
 
     float Tb = 0; // Базовая ставка // тип ТС
@@ -414,6 +424,7 @@ public class OsagoActivity extends BaseActivity {
 
     @OnClick(R.id.action_next)
     void action_next(View view) {
+        not_needed_save = true;
         saveData();
 
         Intent intent = new Intent(this, PersonalDataActivity.class);
@@ -483,11 +494,11 @@ public class OsagoActivity extends BaseActivity {
 
         public Types(int array_type_id, int array_value_id) {
             this.types = (ArrayAdapter<String>) createAdapter(array_type_id);
-            this.value = getFloatArray(array_value_id);
+            this.value = Helpers.getFloatArray(OsagoActivity.this, array_value_id);
         }
 
         public Types(int array_value_id) {
-            this.value = getFloatArray(array_value_id);
+            this.value = Helpers.getFloatArray(OsagoActivity.this, array_value_id);
         }
     }
 
@@ -534,20 +545,6 @@ public class OsagoActivity extends BaseActivity {
             region.add_item(line);
         }
         return ret;
-    }
-
-    private float[] getFloatArray(int array_strings_id) {
-        return getFloatArray(getResources().getStringArray(array_strings_id));
-    }
-
-    private float[] getFloatArray(String[] strings) {
-        float[] ret = new float[strings.length];
-        for (int i = 0; i < ret.length; i++) {
-            ret[i] = Float.parseFloat(strings[i]);
-        }
-        return ret;
-        //return Arrays.stream(strings).map(Float::valueOf).toArray(Float[]::new);
-        //return Arrays.stream(strings).mapToDouble(Float::parseFloat).toArray();
     }
 
     private ArrayAdapter<?> createAdapter(int array_res_id) {

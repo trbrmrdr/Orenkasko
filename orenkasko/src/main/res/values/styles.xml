@@ -89,5 +89,11 @@
         <item name="android:textStyle">italic</item>
     </style>
 
+    <style name="text_time">
+        <item name="android:textSize">8pt</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+
 
 </resources>

@@ -14,6 +14,8 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashSet;
+import java.util.Set;
 
 import orenkasko.ru.R;
 
@@ -60,6 +62,8 @@ public class Helpers {
         if (delay_start <= 0) {
             delay_start = delay;
             delay_one_sumbol = 0;
+        } else {
+            delay_one_sumbol = 50;
         }
         for (int i = 0; i < lenght; ++i) {
 
@@ -84,12 +88,12 @@ public class Helpers {
         }
     }
 
-    public static void StartClean(Activity activity, Class<?> clazz) {
-        Intent intent = new Intent(activity, clazz);
+    public static void StartClean(Context context, Class<?> clazz) {
+        Intent intent = new Intent(context, clazz);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK
                 | Intent.FLAG_ACTIVITY_NO_HISTORY);
-        activity.startActivity(intent);
+        context.startActivity(intent);
     }
 
 
@@ -284,57 +288,126 @@ public class Helpers {
     }
 
     //_________________________________
-    public static void Delete(Activity activity) {
-        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+    private static final String NAME_DB = "orenkasko_0.0";
+
+    public static void Delete(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.clear();
         editor.commit();
     }
 
-    public static void SaveString(Activity activity, String name, String str) {
-        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+    public static void SaveString(Context context, String name, String str) {
+        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(name, str);
         editor.commit();
     }
 
-    public static String GetString(Activity activity, String name) {
-        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+    public static String GetString(Context context, String name) {
+        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
         return sharedPref.getString(name, "");
     }
 
-    public static void DelString(Activity activity, String name) {
-        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+    public static void DelString(Context context, String name) {
+        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
         SharedPreferences.Editor editotr = sharedPref.edit();
         editotr.remove(name);
         editotr.commit();
     }
 
-    public static boolean isEmpty(Activity activity, String name) {
-        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+    public static boolean isEmpty(Context context, String name) {
+        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
         return !sharedPref.contains(name);
     }
 
-    public static void SaveInt(Activity activity, String name, int value) {
-        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+    public static void SaveInt(Context context, String name, int value) {
+        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putInt(name, value);
         editor.commit();
     }
 
-    public static void DelInt(Activity activity, String name) {
-        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+    public static void DelInt(Context context, String name) {
+        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.remove(name);
         editor.commit();
     }
 
-    public static int GetInt(Activity activity, String name) {
-        return GetInt(activity, name, -1);
+    public static int GetInt(Context context, String name) {
+        return GetInt(context, name, -1);
     }
 
-    public static int GetInt(Activity activity, String name, int defValue) {
-        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+    public static int GetInt(Context context, String name, int defValue) {
+        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
         return sharedPref.getInt(name, defValue);
     }
+
+
+    public static String[] GetStringArray(Context context, String name) {
+        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
+        Set<String> set = sharedPref.getStringSet(name, null);
+        if (null == set) {
+            return new String[0];
+        }
+        return set.toArray(new String[set.size()]);
+    }
+
+    public static void AddInArray(Context context, String name, int val) {
+        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
+        Set<String> set = sharedPref.getStringSet(name, null);
+        if (null == set) {
+            set = new HashSet<String>();
+        }
+        set.add(String.valueOf(val));
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putStringSet(name, set);
+        editor.commit();
+    }
+
+    public static boolean RmInArray(Context context, String name, int val) {
+        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
+        Set<String> set = sharedPref.getStringSet(name, null);
+        if (null == set) {
+            return false;
+        }
+        if (!set.remove(val))
+            return false;
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putStringSet(name, set);
+        return editor.commit();
+    }
+
+
+    //##############################################################################################
+
+    public static int[] getIntArray(Context context, int array_strings_id) {
+        return getIntArray(context.getResources().getStringArray(array_strings_id));
+    }
+
+    public static float[] getFloatArray(Context context, int array_strings_id) {
+        return getFloatArray(context.getResources().getStringArray(array_strings_id));
+    }
+
+    public static float[] getFloatArray(String[] strings) {
+        float[] ret = new float[strings.length];
+        for (int i = 0; i < ret.length; i++) {
+            ret[i] = Float.parseFloat(strings[i]);
+        }
+        return ret;
+        //return Arrays.stream(strings).map(Float::valueOf).toArray(Float[]::new);
+        //return Arrays.stream(strings).mapToDouble(Float::parseFloat).toArray();
+    }
+
+    public static int[] getIntArray(String[] strings) {
+        int[] ret = new int[strings.length];
+        for (int i = 0; i < ret.length; i++) {
+            ret[i] = Integer.parseInt(strings[i]);
+        }
+        return ret;
+    }
+
 }

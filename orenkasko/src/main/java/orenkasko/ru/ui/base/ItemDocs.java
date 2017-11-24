@@ -3,6 +3,7 @@ package orenkasko.ru.ui.base;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -50,6 +51,8 @@ public class ItemDocs extends LinearLayout {
         }
 
 
+        //LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //inflater.inflate(R.layout.item_docs, this);
         inflate(context, R.layout.item_docs, this);
     }
 
@@ -68,8 +71,20 @@ public class ItemDocs extends LinearLayout {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        //findViewById()d
-        ButterKnife.bind(this);
+        build();
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        build();
+    }
+
+
+    private void build() {
+        if (null == first_image) {
+            ButterKnife.bind(this);
+        }
 
         text.setText(mText);
         if (hasSeparator)
@@ -78,9 +93,9 @@ public class ItemDocs extends LinearLayout {
             separator.setVisibility(View.GONE);
     }
 
+
     public void setText(String str) {
         mText = str;
-        text.setText(mText);
     }
 
     public boolean hasLoaded() {

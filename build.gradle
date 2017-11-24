@@ -22,6 +22,7 @@ allprojects {
             name 'Google'
         }
         maven { url "https://jitpack.io" }
+
     }
 
     if (Os.isFamily(Os.FAMILY_WINDOWS))

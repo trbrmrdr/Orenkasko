@@ -20,25 +20,28 @@
         <activity
             android:name=".LoginActivity"
             android:noHistory="true"
-            android:theme="@style/AppTheme.NoTopBar"></activity>
-
-        <activity
-            android:noHistory="true"
-            android:name=".PersonalDataActivity"
-            android:label="@string/item_osago"
-            android:parentActivityName=".OsagoActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoTopBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name=".PersonalDataActivity"
+            android:label="@string/item_osago"
+            android:noHistory="true"
+            android:parentActivityName=".OsagoActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
 
         <activity
             android:name=".OsagoActivity"
             android:label="@string/item_osago"
-            android:noHistory="true"
+
             android:parentActivityName=".OrdersActivity"
             android:theme="@style/AppTheme.NoActionBar">
 

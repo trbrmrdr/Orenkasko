@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //mCurrStage = -1;//начало
         //mCurrStage = Stage_Phone;//
-        String last_phone = Data.getPhone(this);
+        String last_phone = Data.getPhone();
         if (last_phone.length() > 0) {
             setVisible(mPhoneView);
 
@@ -229,7 +229,7 @@ public class LoginActivity extends AppCompatActivity {
                 break;
             case Stage_Code: {
                 if (success) {
-                    Data.savePhone(this, mPhoneText.getText().toString());
+                    Data.savePhone(mPhoneText.getText().toString());
 
                     Intent intent = new Intent(this, BalanceActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
