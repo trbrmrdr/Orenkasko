@@ -1,12 +1,13 @@
 package orenkasko.ru.Utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -14,7 +15,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import orenkasko.ru.LoginActivity;
 import orenkasko.ru.R;
 
 /**
@@ -82,6 +82,14 @@ public class Helpers {
                 }
             }, delay_start + delay_one_sumbol * i);
         }
+    }
+
+    public static void StartClean(Activity activity, Class<?> clazz) {
+        Intent intent = new Intent(activity, clazz);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        activity.startActivity(intent);
     }
 
 
@@ -273,5 +281,60 @@ public class Helpers {
             }
         }
         return returnString.toString();
+    }
+
+    //_________________________________
+    public static void Delete(Activity activity) {
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.clear();
+        editor.commit();
+    }
+
+    public static void SaveString(Activity activity, String name, String str) {
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(name, str);
+        editor.commit();
+    }
+
+    public static String GetString(Activity activity, String name) {
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        return sharedPref.getString(name, "");
+    }
+
+    public static void DelString(Activity activity, String name) {
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editotr = sharedPref.edit();
+        editotr.remove(name);
+        editotr.commit();
+    }
+
+    public static boolean isEmpty(Activity activity, String name) {
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        return !sharedPref.contains(name);
+    }
+
+    public static void SaveInt(Activity activity, String name, int value) {
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(name, value);
+        editor.commit();
+    }
+
+    public static void DelInt(Activity activity, String name) {
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.remove(name);
+        editor.commit();
+    }
+
+    public static int GetInt(Activity activity, String name) {
+        return GetInt(activity, name, -1);
+    }
+
+    public static int GetInt(Activity activity, String name, int defValue) {
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        return sharedPref.getInt(name, defValue);
     }
 }

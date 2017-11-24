@@ -8,15 +8,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
-import android.text.util.Linkify;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,7 +21,6 @@ import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import orenkasko.ru.Utils.Helpers;
 
@@ -113,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
         processCurrStage(mCurrStage);
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,7 +116,20 @@ public class LoginActivity extends AppCompatActivity {
 
         //mCurrStage = -1;//начало
         //mCurrStage = Stage_Phone;//
-        setCurrStage(true);
+        String last_phone = Data.getPhone(this);
+        if (last_phone.length() > 0) {
+            setVisible(mPhoneView);
+
+            Helpers.SetAutoInputText(this, mPhoneText, 2000L, last_phone,
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            Helpers.StartClean(LoginActivity.this, OrdersActivity.class);
+                        }
+                    });
+        } else {
+            setCurrStage(true);
+        }
 
         getWindow().getDecorView().clearFocus();
         mProgressView.setFocusable(true);
@@ -221,7 +229,10 @@ public class LoginActivity extends AppCompatActivity {
                 break;
             case Stage_Code: {
                 if (success) {
+                    Data.savePhone(this, mPhoneText.getText().toString());
+
                     Intent intent = new Intent(this, BalanceActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     this.startActivity(intent);
                 } else {
                     //ошибка ввода пароля из СМС

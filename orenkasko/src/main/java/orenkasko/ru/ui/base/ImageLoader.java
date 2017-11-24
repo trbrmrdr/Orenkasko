@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
 import android.view.View;
@@ -21,7 +19,6 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import orenkasko.ru.PersonalDataActivity;
 import orenkasko.ru.R;
 
 /**
@@ -128,5 +125,9 @@ public class ImageLoader extends RelativeLayout {
 
     public void setActivity(FragmentActivity activity) {
         mActivity = activity;
+    }
+
+    public boolean hasLoaded() {
+        return sLoaded;
     }
 }

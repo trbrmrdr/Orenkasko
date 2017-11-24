@@ -29,6 +29,7 @@ public class OrdersActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
         ButterKnife.bind(this);
+        Data.preparedata(this);
     }
 
     @Override

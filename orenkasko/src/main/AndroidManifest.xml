@@ -5,7 +5,8 @@
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -18,11 +19,14 @@
 
         <activity
             android:name=".LoginActivity"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoTopBar"></activity>
 
         <activity
+            android:noHistory="true"
             android:name=".PersonalDataActivity"
             android:label="@string/item_osago"
+            android:parentActivityName=".OsagoActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,22 +38,28 @@
         <activity
             android:name=".OsagoActivity"
             android:label="@string/item_osago"
+            android:noHistory="true"
+            android:parentActivityName=".OrdersActivity"
             android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
 
         <activity
             android:name=".BalanceActivity"
             android:label="@string/item_balance"
+            android:parentActivityName=".OrdersActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".ProfileActivity"
             android:label="@string/item_profile"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".OrdersActivity"
             android:label="@string/item_orders"
+            android:parentActivityName=".ProfileActivity"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

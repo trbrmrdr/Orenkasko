@@ -1,25 +1,16 @@
 package orenkasko.ru.ui.base;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.mvc.imagepicker.ImagePicker;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import orenkasko.ru.R;
 
 /**
@@ -40,8 +31,13 @@ public class ItemDocs extends LinearLayout {
         init(context, attrs);
     }
 
+    public ItemDocs(Context context) {
+        super(context);
+        inflate(context, R.layout.item_docs, this);
+    }
+
     String mText;
-    boolean hasSeparator;
+    boolean hasSeparator = false;
 
     public void init(Context context, AttributeSet attrs) {
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ItemDocs, 0, 0);
@@ -80,5 +76,14 @@ public class ItemDocs extends LinearLayout {
             separator.setVisibility(View.VISIBLE);
         else
             separator.setVisibility(View.GONE);
+    }
+
+    public void setText(String str) {
+        mText = str;
+        text.setText(mText);
+    }
+
+    public boolean hasLoaded() {
+        return first_image.hasLoaded() && second_image.hasLoaded();
     }
 }

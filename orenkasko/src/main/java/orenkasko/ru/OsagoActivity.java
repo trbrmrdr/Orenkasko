@@ -269,6 +269,7 @@ public class OsagoActivity extends BaseActivity {
     @Bind(R.id.item_amount_value)
     TextView item_amount_value;
 
+    int order_loaded_id = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -307,6 +308,57 @@ public class OsagoActivity extends BaseActivity {
         //-
         spin_insurance.setEnabled(false);
         switch_first_changed(null, switch_first.isChecked());
+
+
+        order_loaded_id = savedInstanceState.getInt(Data.key_oreder_id, -1);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+        String str = Data.getOsago(this, order_loaded_id);
+        String[] str_i = str.split("\n");
+
+        switch_first_changed(null, Boolean.parseBoolean(str_i[0]));
+        navigators = Integer.parseInt(str_i[1]);
+        change_navigators();
+
+        item_possessor.mCallback.selected(Integer.parseInt(str_i[2]));
+        item_type.mCallback.selected(Integer.parseInt(str_i[3]));
+        item_sub_type.mCallback.selected(Integer.parseInt(str_i[4]));
+        item_power.mCallback.selected(Integer.parseInt(str_i[5]));
+        item_period_ispolzovania.mCallback.selected(Integer.parseInt(str_i[6]));
+        item_region.mCallback.selected(Integer.parseInt(str_i[7]));
+        item_city.mCallback.selected(Integer.parseInt(str_i[8]));
+        item_driverAgeStage.mCallback.selected(Integer.parseInt(str_i[9]));
+        item_discount.mCallback.selected(Integer.parseInt(str_i[10]));
+
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        saveData();
+    }
+
+    private void saveData() {
+        String save_dat = "" + switch_first.isChecked() + "\n" +
+                //switch_first_changed(null, switch_first.isChecked());
+                "" + navigators + "\n" +
+                //change_navigators();
+                item_possessor.getPos() + "\n" +
+                "" + item_type.getPos() + "\n" +
+                "" + item_sub_type.getPos() + "\n" +
+                "" + item_power.getPos() + "\n" +
+                "" + item_period_ispolzovania.getPos() + "\n" +
+                "" + item_region.getPos() + "\n" +
+                "" + item_city.getPos() + "\n" +
+                "" + item_driverAgeStage.getPos() + "\n" +
+                "" + item_discount.getPos();
+
+        order_loaded_id = Data.saveOsago(this, order_loaded_id, navigators, save_dat);
     }
 
     float Tb = 0; // Базовая ставка // тип ТС
@@ -362,7 +414,11 @@ public class OsagoActivity extends BaseActivity {
 
     @OnClick(R.id.action_next)
     void action_next(View view) {
-        startActivity(new Intent(this, PersonalDataActivity.class));
+        saveData();
+
+        Intent intent = new Intent(this, PersonalDataActivity.class);
+        intent.putExtra(Data.key_oreder_id, order_loaded_id);
+        startActivity(intent);
     }
     //________________________________________
 
@@ -372,7 +428,7 @@ public class OsagoActivity extends BaseActivity {
         return R.id.nav_osago;
     }
 
-    //##############################################################################################
+//##############################################################################################
 
     private class Region {
         public ArrayAdapter<?> arrayAdapter;
@@ -583,5 +639,8 @@ public class OsagoActivity extends BaseActivity {
             return mSpin.getCount() - 1;
         }
 
+        public int getPos() {
+            return mSpin.getSelectedItemPosition();
+        }
     }
 }

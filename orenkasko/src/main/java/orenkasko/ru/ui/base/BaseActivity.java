@@ -16,11 +16,13 @@ import android.view.View;
 
 import butterknife.ButterKnife;
 import orenkasko.ru.BalanceActivity;
+import orenkasko.ru.Data;
 import orenkasko.ru.LoginActivity;
 import orenkasko.ru.OrdersActivity;
 import orenkasko.ru.OsagoActivity;
 import orenkasko.ru.ProfileActivity;
 import orenkasko.ru.R;
+import orenkasko.ru.Utils.Helpers;
 
 /**
  * The base class for all Activity classes.
@@ -168,9 +170,13 @@ public abstract class BaseActivity extends AppCompatActivity {
                 break;
             case R.id.nav_osago:
                 startActivity(new Intent(this, OsagoActivity.class));
+                finish();
                 break;
             case R.id.nav_logout:
-                startActivity(new Intent(this, LoginActivity.class));
+                Data.clear(this);
+
+                Helpers.StartClean(this, LoginActivity.class);
+                finish();
                 break;
         }
     }

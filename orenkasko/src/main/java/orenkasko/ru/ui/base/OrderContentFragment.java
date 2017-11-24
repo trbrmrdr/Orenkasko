@@ -26,14 +26,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import orenkasko.ru.Data;
 import orenkasko.ru.R;
 
 /**
@@ -72,8 +70,7 @@ public class OrderContentFragment extends Fragment {
 
         @OnClick(R.id.erace_button)
         public void erace_click(View v) {
-            Snackbar.make(v, "erace this content",
-                    Snackbar.LENGTH_LONG).show();
+            Snackbar.make(v, "erace this content", Snackbar.LENGTH_LONG).show();
         }
 
         public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
@@ -101,6 +98,8 @@ public class OrderContentFragment extends Fragment {
 
 
         public ContentAdapter(Context context) {
+
+            if(Data.da)
             Resources resources = context.getResources();
             m_ids = resources.getStringArray(R.array.ids);
             m_names = resources.getStringArray(R.array.names);
