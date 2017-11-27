@@ -99,21 +99,21 @@
                     android:layout_height="wrap_content"
                     android:onClick="show_calendar">
 
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/text_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@+id/change_data"
-                        android:text="25.11.2017"
-                        android:textStyle="bold" />
-
                     <ImageButton
                         android:id="@+id/change_data"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/text_time"
+                        android:background="@drawable/ic_today" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/text_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:background="@android:drawable/arrow_down_float" />
+                        android:layout_centerVertical="true"
+                        android:text="25.11.2017"
+                        android:textStyle="bold" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -228,21 +228,22 @@
                         android:layout_height="wrap_content"
                         android:onClick="show_calendar">
 
-                        <android.support.v7.widget.AppCompatTextView
-                            android:id="@+id/text_time_card"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_toLeftOf="@+id/change_data_card"
-                            android:text="25.11.2017"
-                            android:textStyle="bold" />
 
                         <ImageButton
                             android:id="@+id/change_data_card"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@+id/text_time_card"
+                            android:background="@drawable/ic_today" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/text_time_card"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:background="@android:drawable/arrow_down_float" />
+                            android:layout_centerVertical="true"
+                            android:text="25.11.2017"
+                            android:textStyle="bold" />
                     </RelativeLayout>
                 </LinearLayout>
 

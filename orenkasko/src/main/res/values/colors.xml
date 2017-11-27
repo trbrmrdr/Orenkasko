@@ -26,6 +26,7 @@
 
     <color name="color_image_loader">#a7ba8530</color>
 
+    <color name="text_err_red">#ec0707</color>
     <!-- temp -->
     <color name="green_temp">#23A96E</color>
     <color name="green_dark">#159204</color>

@@ -96,7 +96,7 @@
             android:maxLines="2"
             android:singleLine="false"
             android:gravity="right"
-            android:textSize="6pt"
+            android:textSize="13sp"
             android:textColor="@color/dark_grey"
             tools:text="Легковой автомобиль для личного использования" />
 

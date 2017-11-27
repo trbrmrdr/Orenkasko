@@ -1,6 +1,7 @@
 package orenkasko.ru.ui.base;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 import orenkasko.ru.BalanceActivity;
 import orenkasko.ru.Data;
 import orenkasko.ru.LoginActivity;
@@ -46,6 +48,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private Toolbar actionBarToolbar;
 
+    public CircleImageView circleImageView;
 
     public void setupToolbar() {
         final ActionBar ab = getActionBarToolbar();
@@ -76,19 +79,27 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
         setupNavDrawer();
         setupToolbar();
-        ButterKnife.bind(this);
+        //ButterKnife.bind(this);
 
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        View tmp = navigationView.getHeaderView(0);
-        if (null != tmp) {
-            tmp.setOnTouchListener(new View.OnTouchListener() {
+        View header_view = navigationView.getHeaderView(0);
+        if (null != header_view) {
+            header_view.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     startActivity(new Intent(BaseActivity.this, ProfileActivity.class));
                     return true;
                 }
             });
+            circleImageView = (CircleImageView) header_view.findViewById(R.id.main_profile_image);
+            setProfileImage(Data.getProfileImage());
+        }
+    }
+
+    public void setProfileImage(Bitmap bitmap) {
+        if (null != circleImageView) {
+            circleImageView.setImageBitmap(bitmap);
         }
     }
 
@@ -161,9 +172,17 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     private void goToNavDrawerItem(int item) {
         switch (item) {
+            /*
             case R.id.nav_balance:
                 startActivity(new Intent(this, BalanceActivity.class));
                 finish();
+                break;
+            */
+
+            case R.id.nav_profile:
+                startActivity(new Intent(BaseActivity.this, ProfileActivity.class));
+                finish();
+
                 break;
             case R.id.nav_orders:
                 startActivity(new Intent(this, OrdersActivity.class));

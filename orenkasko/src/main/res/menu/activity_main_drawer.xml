@@ -8,9 +8,9 @@
             android:icon="@drawable/osago"
             android:title="@string/item_osago" />
         <item
-            android:id="@+id/nav_balance"
-            android:icon="@drawable/ic_balance"
-            android:title="@string/item_balance" />
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_profile"
+            android:title="@string/item_profile" />
         <item
             android:id="@+id/nav_orders"
             android:icon="@drawable/orders"

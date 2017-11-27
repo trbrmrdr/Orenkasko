@@ -13,6 +13,7 @@ android {
         versionName "1.0"
 
         vectorDrawables.useSupportLibrary = true
+
         generatedDensities = []
     }
 
@@ -54,5 +55,13 @@ dependencies {
     compile 'com.github.Mariovc:ImagePicker:1.2.0'
 
     compile 'com.afollestad.material-dialogs:core:0.9.6.0'
+
+    compile 'de.hdodenhof:circleimageview:2.2.0'
     //compile 'com.github.pepperonas:materialdialog:0.3.4'
+
+    /*
+    compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
+        transitive = true;
+    }
+    */
 }

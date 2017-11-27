@@ -22,7 +22,8 @@ public class BalanceActivity extends BaseActivity {
 
     @Override
     protected int getSelfNavDrawerItem() {
-        return R.id.nav_balance;
+        return -1;
+        //return R.id.nav_balance;
     }
 
 }

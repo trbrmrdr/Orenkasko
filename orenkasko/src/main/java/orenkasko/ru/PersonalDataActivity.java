@@ -2,6 +2,7 @@ package orenkasko.ru;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -82,9 +83,12 @@ public class PersonalDataActivity extends BaseActivity {
     ArrayList<ItemDocs> items_docs = new ArrayList<>();
 
     int order_id = -1;
+    int count_docs = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ImageLoader.ClearImages();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_data);
         ButterKnife.bind(this);
@@ -112,7 +116,7 @@ public class PersonalDataActivity extends BaseActivity {
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
         //__________________
-        int count_docs = Data.getNavigators(order_id);
+        count_docs = Data.getNavigators(order_id);
         String driving_permits = getResources().getString(R.string.drivings_permits);
         for (int i = 0; i < count_docs; ++i) {
             ItemDocs docs = new ItemDocs(this);
@@ -127,14 +131,14 @@ public class PersonalDataActivity extends BaseActivity {
             docs.invalidate();
         }
         //#################################
+
+        readImage();
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        for (ImageLoader image : ImageLoader._images) {
-            image.setActivity(this);
-        }
+        ImageLoader.SetActivity(this);
     }
 
     @OnClick(R.id.tab)
@@ -205,9 +209,7 @@ public class PersonalDataActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        for (ImageLoader image : ImageLoader._images) {
-            image.onActivityResult(requestCode, resultCode, data);
-        }
+        ImageLoader.OnActivityResult(requestCode, resultCode, data);
     }
 
     private void readData() {
@@ -228,6 +230,10 @@ public class PersonalDataActivity extends BaseActivity {
         }
         //todo photo
         //....
+    }
+
+    private void readImage() {
+        ImageLoader.ReadImages(Data.getImage(order_id));
     }
 
     boolean save_not_needed = false;
@@ -252,6 +258,6 @@ public class PersonalDataActivity extends BaseActivity {
 
         String time_docs = text_time.getText().toString();
         Data.saveDocs(order_id, success, fio, time_docs, data);
-
+        Data.saveImages(order_id, ImageLoader._images);
     }
 }

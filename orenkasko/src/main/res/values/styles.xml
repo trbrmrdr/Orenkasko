@@ -90,10 +90,14 @@
     </style>
 
     <style name="text_time">
-        <item name="android:textSize">8pt</item>
+        <item name="android:textSize">@dimen/abc_text_size_title_material</item>
         <item name="android:textStyle">normal</item>
     </style>
 
+    <style name="text_profile">
+        <item name="android:textSize">@dimen/abc_text_size_title_material</item>
+        <item name="android:textStyle">normal</item>
+    </style>
 
 
 </resources>

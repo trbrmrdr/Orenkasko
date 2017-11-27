@@ -3,20 +3,34 @@ package orenkasko.ru.Utils;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Environment;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import orenkasko.ru.R;
+import orenkasko.ru.ui.base.ImageLoader;
 
 /**
  * Created by trbrm on 13.11.2017.
@@ -102,6 +116,18 @@ public class Helpers {
         context.startActivity(intent);
     }
 
+    public static Bitmap GetImage(ImageView imageView) {
+        BitmapDrawable bitmapDrawable = ((BitmapDrawable) imageView.getDrawable());
+        Bitmap bitmap;
+        if (bitmapDrawable == null) {
+            imageView.buildDrawingCache();
+            bitmap = imageView.getDrawingCache();
+            imageView.buildDrawingCache(false);
+        } else {
+            bitmap = bitmapDrawable.getBitmap();
+        }
+        return bitmap;
+    }
 
     public static class TextWatcher_Phone implements TextWatcher {
 
@@ -261,6 +287,7 @@ public class Helpers {
         public void afterTextChanged(Editable s) {
 
         }
+
     }
 
     public static String ReadFromfile(Context context, String fileName) {
@@ -388,6 +415,55 @@ public class Helpers {
     }
 
 
+    public static void SaveImages(Context context, String name, ArrayList<ImageLoader> images) {
+        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(name, images.size());
+        editor.commit();
+
+        String path = GetFileCache(context).getAbsolutePath() + "/" + name + "/";
+        File dirs = new File(path);
+        boolean test = false;
+        if (!dirs.exists())
+            test = dirs.mkdirs();
+        int i = -1;
+        for (ImageLoader image : images) {
+            ++i;
+            Bitmap bitmap = GetImage(image.getImageView());
+            if (null == bitmap) continue;
+            SaveImageFile(bitmap, dirs.getAbsolutePath() + "/image_" + i);
+        }
+    }
+
+    public static ArrayList<Bitmap> GetImages(Context context, String name) {
+        ArrayList<Bitmap> bitmaps = new ArrayList<>();
+        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
+        int count = sharedPref.getInt(name, -1);
+        if (-1 == count) return bitmaps;
+
+        String path = GetFileCache(context).getAbsolutePath() + "/" + name + "/";
+        for (int i = 0; i < count; ++i) {
+            Bitmap bitmap = BitmapFactory.decodeFile(path + "/image_" + i);
+            bitmaps.add(bitmap);
+        }
+        return bitmaps;
+    }
+
+    public static void RmImages(Context context, String name) {
+        File file = new File(GetFileCache(context).getAbsolutePath() + "/" + name);
+        file.delete();
+    }
+
+    public static void SaveImage(Context context, Bitmap bitmap, String name) {
+        String path = GetFileCache(context).getAbsolutePath() + "/" + name;
+        SaveImageFile(bitmap, path);
+    }
+
+    public static Bitmap GetImage(Context context, String name) {
+        String path = GetFileCache(context).getAbsolutePath() + "/" + name;
+        return BitmapFactory.decodeFile(path);
+    }
+
     //##############################################################################################
 
     public static Integer[] getIntArray(Context context, int array_strings_id) {
@@ -414,6 +490,41 @@ public class Helpers {
             ret[i] = Integer.parseInt(strings[i]);
         }
         return ret;
+    }
+
+    //##############################################################################################
+
+    public static boolean SaveImageFile(Bitmap bitmap, String file_name) {
+        try {
+            FileOutputStream out = new FileOutputStream(file_name);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+
+    private static File cacheDir;
+
+    public static File GetFileCache(Context context) {
+        if (null != cacheDir) return cacheDir;
+        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
+            cacheDir = new File(android.os.Environment.getExternalStorageDirectory(), "Android/data/" + context.getPackageName() + "/files/");
+        else
+            cacheDir = context.getCacheDir();
+        if (!cacheDir.exists())
+            cacheDir.mkdirs();
+        return cacheDir;
+    }
+
+    public static void deleteRecursive(File fileOrDirectory) {
+        if (fileOrDirectory.isDirectory())
+            for (File child : fileOrDirectory.listFiles())
+                deleteRecursive(child);
+
+        fileOrDirectory.delete();
     }
 
 }

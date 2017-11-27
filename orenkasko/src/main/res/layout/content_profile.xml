@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_balance_vertical_margin"
+        android:paddingLeft="@dimen/activity_blance_horizontal_margin"
+        android:paddingRight="@dimen/activity_blance_horizontal_margin"
+        android:paddingTop="@dimen/activity_balance_vertical_margin">
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/Widget.CardContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="vertical">
+
+
+                    <!-- ############################ photo -->
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/tmp_image_back"
+                            android:layout_width="240dp"
+                            android:layout_height="240dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            app:srcCompat="@drawable/circle" />
+
+
+                        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/back_photo"
+                            android:layout_width="240dp"
+                            android:layout_height="240dp"
+                            android:src="@null"
+                            app:civ_border_color="#00000000"
+                            app:civ_border_width="2dp" />
+
+
+                        <ImageButton
+                            android:id="@+id/erace_photo"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_alignEnd="@+id/tmp_image_back"
+                            android:layout_alignRight="@+id/tmp_image_back"
+                            android:layout_alignTop="@+id/tmp_image_back"
+                            android:layout_margin="48dp"
+                            android:background="@null"
+                            app:srcCompat="@drawable/image_loader_close" />
+
+                        <ImageButton
+                            android:id="@+id/change_photo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:background="@null"
+                            app:srcCompat="@drawable/image_loder_camera" />
+
+
+                        <TextView
+                            android:id="@+id/text_profile_photo"
+                            style="@style/Theme.AppCompat.Light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:paddingTop="90dp"
+                            android:text="@string/you_photo" />
+
+                    </RelativeLayout>
+                    <!-- ###################################-->
+
+                    <!-- ###################################-->
+                </LinearLayout>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:foreground="#889e9696"
+                    card_view:cardCornerRadius="10dp">
+
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+
+                            style="@style/Widget.CardContentDocs"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/item_balance"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                            <TextView
+                                android:id="@+id/balance_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="1000 р."
+                                android:textAppearance="@style/TextAppearance.AppCompat" />
+
+                        </RelativeLayout>
+
+                        <include layout="@layout/separator_content_osago" />
+
+                        <RelativeLayout
+                            style="@style/Widget.CardContentDocs"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Телефон"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                            <TextView
+                                android:id="@+id/phone_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="1000 р."
+                                android:textAppearance="@style/TextAppearance.AppCompat" />
+
+                        </RelativeLayout>
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+
+        <!-- ############################ -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_balance_vertical_margin">
+
+            <!-- ############################################################ -->
+            <TextView
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/title_padding"
+                android:text="@string/personal_data_2" />
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/layout_change_name"
+                        style="@style/Widget.CardContentDocs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/icon_name"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/ic_profile" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/text_title_ename"
+                            style="@style/text_profile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_toRightOf="@id/icon_name"
+                            android:text=" Имя" />
+
+
+                        <LinearLayout
+                            android:id="@+id/change_name_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            >
+
+                            <TextView
+                                android:id="@+id/text_name"
+                                style="@style/text_profile"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toLeftOf="@+id/change_name"
+
+
+                                android:gravity="right"
+                                android:minWidth="150dp"
+                                android:text="Алекс" />
+
+                            <ImageButton
+                                android:id="@+id/change_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@null"
+                                app:srcCompat="@drawable/ic_change_next" />
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <include layout="@layout/separator_content_osago" />
+
+                    <RelativeLayout
+                        android:id="@+id/layout_change_data"
+                        style="@style/Widget.CardContentDocs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/icon_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/ic_email" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/text_title_email"
+
+                            style="@style/text_profile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_toRightOf="@id/icon_email"
+                            android:text="@string/email" />
+                        <!--################################################################-->
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:onClick="change_email">
+
+                            <TextView
+                                android:id="@+id/text_email"
+                                style="@style/text_profile"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+                                android:layout_toLeftOf="@+id/change_email"
+                                android:gravity="right"
+                                android:minWidth="150dp"
+                                android:text="trbrmrdr@mail.com"
+                                android:textSize="18sp" />
+
+                            <ImageButton
+                                android:id="@+id/change_email"
+
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:background="@null"
+                                app:srcCompat="@drawable/ic_change_next" />
+                        </LinearLayout>
+                    </RelativeLayout>
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+        <!-- ############################ -->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

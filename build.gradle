@@ -8,6 +8,8 @@ buildscript {
             url 'https://maven.google.com/'
             name 'Google'
         }
+
+        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.0'
@@ -45,6 +47,10 @@ subprojects {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    
+     task releasePublic(dependsOn: ["assembleRelease", "crashlyticsUploadSymbolsRelease"]) {
+
+        }
 }
 
 

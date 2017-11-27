@@ -2,6 +2,7 @@ package orenkasko.ru;
 
 import android.support.v7.app.AppCompatDelegate;
 
+
 import orenkasko.ru.Utils.AppResource;
 
 public class Application extends android.app.Application {
@@ -17,6 +18,8 @@ public class Application extends android.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        //Fabric.with(this, new Crashlytics());
+
         mApplication = this;
         appResources = new AppResource(mApplication);
         Data.setContext(this);

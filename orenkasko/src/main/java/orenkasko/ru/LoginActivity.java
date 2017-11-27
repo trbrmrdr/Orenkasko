@@ -209,6 +209,7 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             case Stage_Name:
                 if (success) {
+                    Data.saveName(mNameText.getText().toString());
                     //показываем окно ввода пароля СМС
                     mCurrStage = Stage_Code;
                     setVisible(mPhoneCodeView);
@@ -231,9 +232,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (success) {
                     Data.savePhone(mPhoneText.getText().toString());
 
-                    Intent intent = new Intent(this, BalanceActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    this.startActivity(intent);
+                    Helpers.StartClean(this, OrdersActivity.class);
                 } else {
                     //ошибка ввода пароля из СМС
                     setVisible(mPhoneCodeView);

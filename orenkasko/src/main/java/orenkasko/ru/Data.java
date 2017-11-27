@@ -1,15 +1,18 @@
 package orenkasko.ru;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
 import orenkasko.ru.Utils.Helpers;
+import orenkasko.ru.ui.base.ImageLoader;
 
 /**
  * Created by admin on 24.11.2017.
@@ -39,7 +42,7 @@ public class Data {
     static String TMP_ORDERS_TID = "tmp_osago_tid";
     static String TMP_TYPE = "tmp_osago";
     static String TMP_NAVIGATORS = "temp_osago_navigators";
-
+    static String TMP_IMAGE = "tmp_image";
 
     static String ORDERS = "orders";//int array from ids order
     static String OSAGO_DAT_ = "osago_dat_";
@@ -48,6 +51,8 @@ public class Data {
     static String ORDER_TID_ = "osago_tid_";//
     static String TYPE_ = "osago_type";
     static String NAVIGATORS_ = "osago_navigators_";
+
+    static String IMAGE_ = "image_";
 
     static String TIME_DOCS_ = "osago_date_docs";
     static String NAME_DOCS_ = "osago_name_docs";
@@ -117,6 +122,7 @@ public class Data {
             Helpers.SaveInt(mContext, ORDER_TID_ + order_id, Helpers.GetInt(mContext, TMP_ORDERS_TID));
             Helpers.SaveString(mContext, TYPE_ + order_id, Helpers.GetString(mContext, TMP_TYPE));
 
+
             Helpers.DelInt(mContext, ORDER_CURR_ID);
             Helpers.DelString(mContext, TMP_OSAGO_DAT);
             Helpers.DelInt(mContext, TMP_NAVIGATORS);
@@ -142,6 +148,9 @@ public class Data {
     //##############################################################################################
 
     static String login_phone = "login_phone";
+    static String login_name = "login_name";
+    static String login_email = "login_email";
+    static String login_image = "login_image";
 
     public static void savePhone(String phone) {
         Helpers.SaveString(mContext, login_phone, phone);
@@ -151,8 +160,33 @@ public class Data {
         return Helpers.GetString(mContext, login_phone);
     }
 
+    public static void saveName(String name) {
+        Helpers.SaveString(mContext, login_name, name);
+    }
+
+    public static String getName() {
+        return Helpers.GetString(mContext, login_name);
+    }
+
+    public static void saveEmail(String email) {
+        Helpers.SaveString(mContext, login_email, email);
+    }
+
+    public static String getEmail() {
+        return Helpers.GetString(mContext, login_email);
+    }
+
+    public static void SaveImage(Bitmap bitmap) {
+        Helpers.SaveImage(mContext, bitmap, login_image);
+    }
+
+    public static Bitmap getProfileImage() {
+        return Helpers.GetImage(mContext, login_image);
+    }
+
     public static void clear() {
         Helpers.Delete(mContext);
+        Helpers.RmImages(mContext, login_image);
     }
 
     //##############################################################################################
@@ -175,6 +209,15 @@ public class Data {
     public static void rmOrder(int order_id) {
         if (order_id == -1) return;
         Helpers.RmInArray(mContext, ORDERS, order_id);
+        Helpers.RmImages(mContext, IMAGE_ + order_id);
+    }
+
+    public static void saveImages(int order_id, ArrayList<ImageLoader> images) {
+        Helpers.SaveImages(mContext, IMAGE_ + order_id, images);
+    }
+
+    public static ArrayList<Bitmap> getImage(int order_id) {
+        return Helpers.GetImages(mContext, IMAGE_ + order_id);
     }
 
     //##############################################################################################
@@ -232,10 +275,10 @@ public class Data {
     public void preparedata() {
         String[] orders_id = Helpers.GetStringArray(mContext, ORDERS);
         int count = orders_id.length;
-        if (count <= 0) return;
 
         mOrder.init(count);
         mOrder_Success.init(count);
+        if (count <= 0) return;
 
 
         for (String str_id : orders_id) {
