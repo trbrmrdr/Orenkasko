@@ -19,9 +19,7 @@ package orenkasko.ru.ui.base;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,7 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.pepperonas.materialdialog.MaterialDialog;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,9 +36,6 @@ import butterknife.OnClick;
 import orenkasko.ru.Data;
 import orenkasko.ru.PersonalDataActivity;
 import orenkasko.ru.R;
-import orenkasko.ru.Utils.Helpers;
-
-import static orenkasko.ru.Data.Order.data_order_count;
 
 /**
  * Provides UI for the view with Cards.
@@ -52,20 +47,50 @@ public class OrderContentFragment extends Fragment {
     //1 в процессе
     //2 выполненные
     int mType = -1;
-    Context mContext;
     ContentAdapter mAdapter;
+    private Data.Order mOrder;
+
+    private void buildData() {
+        Data data = Data.getInstance();
+        if (mType == 0 && data.mOrder.data_order_count > 0) {
+            mOrder = data.mOrder;
+            return;
+        }
+        if (mType == 1 && data.mOrder_Success.data_order_count > 0) {
+            mOrder = data.mOrder_Success;
+            return;
+        }
+
+        //if (mType == 2)
+        if (true) {
+            if (null == mOrder)
+                mOrder = new Data.Order();
+            else
+                mOrder.clear();
+            return;
+        }
+
+            /*
+            Resources resources = context.getResources();
+            m_ids = Helpers.getIntArray(context, R.array.tids);
+            LENGTH = m_ids.length;
+            m_tids = resources.getStringArray(R.array.tids);
+            m_names = resources.getStringArray(R.array.names);
+            m_avto_types = resources.getStringArray(R.array.avto_types);
+            m_dates = resources.getStringArray(R.array.dates);
+            */
+    }
 
     @SuppressLint("ValidFragment")
     public OrderContentFragment(int type) {
         super();
         mType = type;
-        mContext = getContext();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.recycler_view, container, false);
-        mAdapter = new ContentAdapter(recyclerView.getContext());
+        mAdapter = new ContentAdapter();
         recyclerView.setAdapter(mAdapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -76,6 +101,7 @@ public class OrderContentFragment extends Fragment {
 
 
         public int order_id = -1;
+        public int position = -1;
 
         @Bind(R.id.card_title)
         public TextView title;
@@ -97,23 +123,23 @@ public class OrderContentFragment extends Fragment {
         @OnClick(R.id.erace_button)
         public void erace_click(View v) {
             //Snackbar.make(v, "erace this content " + order_id, Snackbar.LENGTH_LONG).show();
-            new MaterialDialog.Builder(mContext)
-                    //.title("MaterialDialog")
-                    .message("Удалить запись")
-                    .positiveText("OK")
-                    .negativeText("CANCEL")
-                    .buttonCallback(new MaterialDialog.ButtonCallback() {
+
+            new MaterialDialog.Builder(this.itemView.getContext())
+                    //.title(R.string.title)
+                    .content("Удалить запись")
+                    .positiveText("Да")
+                    .negativeText("нет")
+                    .callback(new MaterialDialog.ButtonCallback() {
                         @Override
                         public void onPositive(MaterialDialog dialog) {
                             Data.rmOrder(order_id);
-                            mAdapter.notifyDataSetChanged();
+                            Data.getInstance().preparedata();
+                            buildData();
+                            mAdapter.notifyItemRemoved(position);
                         }
+                    })
+                    .show();
 
-                        @Override
-                        public void onNegative(MaterialDialog dialog) {
-                        }
-
-                    }).show();
         }
 
         @OnClick(R.id.card_view)
@@ -121,24 +147,19 @@ public class OrderContentFragment extends Fragment {
             //Snackbar.make(v, "edit this content " + order_id, Snackbar.LENGTH_LONG).show();
 
 
-            new MaterialDialog.Builder(mContext)
-                    .
+            final Context context = this.itemView.getContext();
+            new MaterialDialog.Builder(context)
                     //.title("MaterialDialog")
-                    .message("Редактировать запись")
+                    .content("Редактировать запись")
                     .positiveText("OK")
                     .negativeText("CANCEL")
-                    .buttonCallback(new MaterialDialog.ButtonCallback() {
+                    .callback(new MaterialDialog.ButtonCallback() {
                         @Override
                         public void onPositive(MaterialDialog dialog) {
-                            Intent intent = new Intent(mContext, PersonalDataActivity.class);
+                            Intent intent = new Intent(context, PersonalDataActivity.class);
                             intent.putExtra(Data.key_oreder_id, order_id);
                             startActivity(intent);
                         }
-
-                        @Override
-                        public void onNegative(MaterialDialog dialog) {
-                        }
-
                     }).show();
         }
 
@@ -158,46 +179,16 @@ public class OrderContentFragment extends Fragment {
      * Adapter to display recycler view.
      */
     public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
-        // Set numbers of Card in RecyclerView.
-        private final int LENGTH;
-
-        private final int[] m_ids;
-        private final String[] m_tids;
-        private final String[] m_names;
-        private final String[] m_avto_types;
-        private final String[] m_dates;
 
 
-        public ContentAdapter(Context context) {
+        public ContentAdapter() {
+            buildData();
+        }
 
-            if (mType != 1) {
-                LENGTH = 0;
-                m_ids = null;
-                m_tids = null;
-                m_names = null;
-                m_avto_types = null;
-                m_dates = null;
-                return;
-            }
-
-            if (Data.Order.data_order_count > 0) {
-                LENGTH = Data.Order.data_order_count;
-
-                m_ids = Data.Order.ids;
-                m_tids = Data.Order.tids;
-                m_names = Data.Order.names;
-                m_avto_types = Data.Order.avto_types;
-                m_dates = Data.Order.avto_time;
-                return;
-            }
-
-            Resources resources = context.getResources();
-            m_ids = Helpers.getIntArray(context, R.array.tids);
-            LENGTH = m_ids.length;
-            m_tids = resources.getStringArray(R.array.tids);
-            m_names = resources.getStringArray(R.array.names);
-            m_avto_types = resources.getStringArray(R.array.avto_types);
-            m_dates = resources.getStringArray(R.array.dates);
+        @Override
+        public void onViewRecycled(ViewHolder holder) {
+            super.onViewRecycled(holder);
+            //buildData();
         }
 
         @Override
@@ -207,18 +198,17 @@ public class OrderContentFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            int this_pos = position % m_ids.length;
-
-            holder.order_id = m_ids[this_pos];
-            holder.title.setText("ОСАГО # " + m_tids[this_pos]);
-            holder.name_val.setText(m_names[this_pos]);
-            holder.avto_type_val.setText(m_avto_types[this_pos]);
-            holder.data_val.setText(m_dates[this_pos]);
+            holder.position = position;
+            holder.order_id = mOrder.ids[position];
+            holder.title.setText("ОСАГО # " + mOrder.tids[position]);
+            holder.name_val.setText(mOrder.names[position]);
+            holder.avto_type_val.setText(mOrder.avto_types[position]);
+            holder.data_val.setText(mOrder.avto_time[position]);
         }
 
         @Override
         public int getItemCount() {
-            return LENGTH;
+            return mOrder.data_order_count;
         }
     }
 }

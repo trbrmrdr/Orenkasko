@@ -1,6 +1,5 @@
 package orenkasko.ru.Utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -90,6 +89,13 @@ public class Helpers {
 
     public static void StartClean(Context context, Class<?> clazz) {
         Intent intent = new Intent(context, clazz);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        context.startActivity(intent);
+    }
+
+    public static void StartClean(Context context, Intent intent, Class<?> clazz) {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK
                 | Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -367,24 +373,24 @@ public class Helpers {
         editor.commit();
     }
 
-    public static boolean RmInArray(Context context, String name, int val) {
+    public static void RmInArray(Context context, String name, int val) {
         SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
         Set<String> set = sharedPref.getStringSet(name, null);
         if (null == set) {
-            return false;
+            return;
         }
-        if (!set.remove(val))
-            return false;
+        set.remove(String.valueOf(val));
 
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putStringSet(name, set);
-        return editor.commit();
+        boolean ret = editor.commit();
+        return;
     }
 
 
     //##############################################################################################
 
-    public static int[] getIntArray(Context context, int array_strings_id) {
+    public static Integer[] getIntArray(Context context, int array_strings_id) {
         return getIntArray(context.getResources().getStringArray(array_strings_id));
     }
 
@@ -402,8 +408,8 @@ public class Helpers {
         //return Arrays.stream(strings).mapToDouble(Float::parseFloat).toArray();
     }
 
-    public static int[] getIntArray(String[] strings) {
-        int[] ret = new int[strings.length];
+    public static Integer[] getIntArray(String[] strings) {
+        Integer[] ret = new Integer[strings.length];
         for (int i = 0; i < ret.length; i++) {
             ret[i] = Integer.parseInt(strings[i]);
         }

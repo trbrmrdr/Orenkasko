@@ -1,12 +1,10 @@
 package orenkasko.ru;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -15,10 +13,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -153,13 +147,19 @@ public class PersonalDataActivity extends BaseActivity {
         action_finish(view);
     }
 
-    boolean save_not_needed = false;
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (save_not_needed) return;
-        saveData();
+        saveData(false);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, OsagoActivity.class);
+        intent.putExtra(Data.key_oreder_id, order_id);
+        Helpers.StartClean(this, intent, OsagoActivity.class);
+        super.onBackPressed();
     }
 
     private void action_finish(View view) {
@@ -193,8 +193,7 @@ public class PersonalDataActivity extends BaseActivity {
             Snackbar.make(view, msg, Snackbar.LENGTH_LONG).setAction("Error", null).show();
             return;
         }
-        save_not_needed = true;
-        saveData();
+        saveData(true);
         Helpers.StartClean(this, OrdersActivity.class);
     }
 
@@ -231,7 +230,11 @@ public class PersonalDataActivity extends BaseActivity {
         //....
     }
 
-    private void saveData() {
+    boolean save_not_needed = false;
+
+    private void saveData(boolean success) {
+        if (save_not_needed) return;
+        save_not_needed = true;
         String fio = text_fio.getText().toString();
         String email = text_email.getText().toString();
         String phone = text_phone.getText().toString();
@@ -248,7 +251,7 @@ public class PersonalDataActivity extends BaseActivity {
                 time_card;
 
         String time_docs = text_time.getText().toString();
-        Data.saveDocs(order_id, fio, time_docs, data);
+        Data.saveDocs(order_id, success, fio, time_docs, data);
 
     }
 }

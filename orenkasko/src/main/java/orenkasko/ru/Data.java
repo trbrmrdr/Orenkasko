@@ -1,19 +1,15 @@
 package orenkasko.ru;
 
-import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
-import android.support.v7.widget.ThemedSpinnerAdapter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
 import orenkasko.ru.Utils.Helpers;
-
-import static orenkasko.ru.Data.Order.data_order_count;
 
 /**
  * Created by admin on 24.11.2017.
@@ -24,12 +20,20 @@ public class Data {
     private static Context mContext;
 
     public static void setContext(Context context) {
+        if (null == _this_data)
+            _this_data = new Data();
         mContext = context;
+    }
+
+    private static Data _this_data;
+
+    public static Data getInstance() {
+        return _this_data;
     }
 
     public static final String key_oreder_id = "order_id";
 
-    static String ORDER_TMP_ID = "order_tmp_id";
+    static String ORDER_CURR_ID = "order_tmp_id";
 
     static String TMP_OSAGO_DAT = "osago_dat_";
     static String TMP_ORDERS_TID = "tmp_osago_tid";
@@ -48,6 +52,8 @@ public class Data {
     static String TIME_DOCS_ = "osago_date_docs";
     static String NAME_DOCS_ = "osago_name_docs";
 
+    static String SUCCESS_ = "success_";
+
 
     private Data() {
     }
@@ -62,7 +68,7 @@ public class Data {
         int new_order = oreder_id;
         if (-1 == new_order) {
             new_order = getNewOrderId();
-            Helpers.SaveInt(mContext, ORDER_TMP_ID, new_order);
+            Helpers.SaveInt(mContext, ORDER_CURR_ID, new_order);
 
             int rand_id = 10000 + (new Random()).nextInt(99999);
 
@@ -99,10 +105,10 @@ public class Data {
         return Helpers.GetString(mContext, OSAGO_DOCS_ + order_id);
     }
 
-    public static void saveDocs(int order_id, String name, String time_docs, String data) {
+    public static void saveDocs(int order_id, boolean success, String name, String time_docs, String data) {
         if (order_id == -1) return;
 
-        if (order_id == Helpers.GetInt(mContext, ORDER_TMP_ID, -1)) {
+        if (order_id == Helpers.GetInt(mContext, ORDER_CURR_ID, -1)) {
 
             addOrderId(order_id);
 
@@ -111,11 +117,15 @@ public class Data {
             Helpers.SaveInt(mContext, ORDER_TID_ + order_id, Helpers.GetInt(mContext, TMP_ORDERS_TID));
             Helpers.SaveString(mContext, TYPE_ + order_id, Helpers.GetString(mContext, TMP_TYPE));
 
-            Helpers.DelInt(mContext, ORDER_TMP_ID);
+            Helpers.DelInt(mContext, ORDER_CURR_ID);
             Helpers.DelString(mContext, TMP_OSAGO_DAT);
             Helpers.DelInt(mContext, TMP_NAVIGATORS);
             Helpers.DelString(mContext, TMP_TYPE);
         }
+
+        if (Helpers.GetInt(mContext, SUCCESS_ + order_id) == -1)
+            Helpers.SaveInt(mContext, SUCCESS_ + order_id, success ? 1 : -1);
+
         Helpers.SaveString(mContext, NAME_DOCS_ + order_id, name);
         Helpers.SaveString(mContext, TIME_DOCS_ + order_id, time_docs);
         Helpers.SaveString(mContext, OSAGO_DOCS_ + order_id, data);
@@ -170,44 +180,93 @@ public class Data {
     //##############################################################################################
 
     public static class Order {
-        public static int data_order_count = -1;
-        public static int[] ids;
-        public static String[] tids;
-        public static String[] names;
-        public static String[] avto_types;
-        public static String[] avto_time;
+        public int data_order_count;
+        public Integer[] ids;
+        public String[] tids;
+        public String[] names;
+        public String[] avto_types;
+        public String[] avto_time;
+        public int i;
+
+        public Order() {
+            data_order_count = 0;
+        }
+
+        public Order(final Order mOrder) {
+            data_order_count = mOrder.data_order_count;
+            ids = mOrder.ids.clone();
+
+            tids = mOrder.tids.clone();
+            names = mOrder.names.clone();
+            avto_types = mOrder.avto_types.clone();
+            avto_time = mOrder.avto_time.clone();
+        }
+
+        void init(int count) {
+            data_order_count = 0;
+            i = -1;
+            ids = new Integer[count];
+            tids = new String[count];
+            names = new String[count];
+            avto_types = new String[count];
+            avto_time = new String[count];
+        }
+
+        public void trim() {
+            if (data_order_count == ids.length) return;
+            ids = Arrays.copyOfRange(ids, 0, data_order_count);
+            tids = Arrays.copyOfRange(tids, 0, data_order_count);
+            names = Arrays.copyOfRange(names, 0, data_order_count);
+            avto_time = Arrays.copyOfRange(avto_time, 0, data_order_count);
+            avto_types = Arrays.copyOfRange(avto_types, 0, data_order_count);
+        }
+
+        public void clear() {
+            data_order_count = 0;
+        }
     }
 
-    public static void preparedata() {
+    public final Order mOrder = new Order();
+    public final Order mOrder_Success = new Order();
+
+    public void preparedata() {
         String[] orders_id = Helpers.GetStringArray(mContext, ORDERS);
-        data_order_count = orders_id.length;
-        if (data_order_count <= 0) return;
+        int count = orders_id.length;
+        if (count <= 0) return;
 
-        Order.ids = new int[data_order_count];
-        Order.tids = new String[data_order_count];
-        Order.names = new String[data_order_count];
-        Order.avto_types = new String[data_order_count];
-        Order.avto_time = new String[data_order_count];
+        mOrder.init(count);
+        mOrder_Success.init(count);
 
 
-        int i = -1;
         for (String str_id : orders_id) {
-            i++;
+
             int id = Integer.parseInt(str_id);
-
-            Order.ids[i] = id;
-            Order.tids[i] = String.valueOf(Helpers.GetInt(mContext, ORDER_TID_ + id));
-
-            Order.names[i] = Helpers.GetString(mContext, NAME_DOCS_ + id);
-            Order.avto_types[i] = Helpers.GetString(mContext, TYPE_ + id);
-            Order.avto_time[i] = Helpers.GetString(mContext, TIME_DOCS_ + id);
+            if (Helpers.GetInt(mContext, SUCCESS_ + id) == -1) {
+                int i = ++mOrder.i;
+                mOrder.ids[i] = id;
+                mOrder.data_order_count++;
+                mOrder.tids[i] = String.valueOf(Helpers.GetInt(mContext, ORDER_TID_ + id));
+                mOrder.names[i] = Helpers.GetString(mContext, NAME_DOCS_ + id);
+                mOrder.avto_types[i] = Helpers.GetString(mContext, TYPE_ + id);
+                mOrder.avto_time[i] = Helpers.GetString(mContext, TIME_DOCS_ + id);
+            } else {
+                int i = ++mOrder_Success.i;
+                mOrder_Success.ids[i] = id;
+                mOrder_Success.data_order_count++;
+                mOrder_Success.tids[i] = String.valueOf(Helpers.GetInt(mContext, ORDER_TID_ + id));
+                mOrder_Success.names[i] = Helpers.GetString(mContext, NAME_DOCS_ + id);
+                mOrder_Success.avto_types[i] = Helpers.GetString(mContext, TYPE_ + id);
+                mOrder_Success.avto_time[i] = Helpers.GetString(mContext, TIME_DOCS_ + id);
+            }
         }
+        mOrder.trim();
+        mOrder_Success.trim();
     }
 
     //##############################################################################################
 
     public static String formatTimeDocs(Date time) {
-        DateFormat df = new SimpleDateFormat("d:MM:YYYY");
+        DateFormat df = new SimpleDateFormat("d:MM:yy");
         return df.format(time);
     }
 

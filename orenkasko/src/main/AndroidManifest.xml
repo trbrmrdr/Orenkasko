@@ -43,6 +43,7 @@
             android:label="@string/item_osago"
 
             android:parentActivityName=".OrdersActivity"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
