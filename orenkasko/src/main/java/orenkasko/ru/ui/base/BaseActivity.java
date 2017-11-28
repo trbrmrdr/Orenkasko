@@ -188,7 +188,9 @@ public abstract class BaseActivity extends AppCompatActivity {
                 startActivity(new Intent(this, OrdersActivity.class));
                 break;
             case R.id.nav_osago:
-                startActivity(new Intent(this, OsagoActivity.class));
+                Intent intent = new Intent(this, OsagoActivity.class);
+                intent.putExtra(Data.key_oreder_id, -1);
+                startActivity(intent);
                 finish();
                 break;
             case R.id.nav_logout:

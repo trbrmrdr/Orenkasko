@@ -21,7 +21,11 @@
             android:name=".LoginActivity"
             android:noHistory="true"
             android:theme="@style/AppTheme.NoTopBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity
@@ -56,11 +60,6 @@
             android:label="@string/item_profile"
             android:theme="@style/AppTheme.NoActionBar">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
@@ -69,11 +68,11 @@
             android:parentActivityName=".ProfileActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <!--
+        <!-- -->
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="3754421b24ee028296d3a6ebf781cf5ffaca2fbc" />
-            -->
+
 
 
     </application>

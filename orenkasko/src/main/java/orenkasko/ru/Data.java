@@ -38,11 +38,11 @@ public class Data {
 
     static String ORDER_CURR_ID = "order_tmp_id";
 
-    static String TMP_OSAGO_DAT = "osago_dat_";
+    static String TMP_OSAGO_DAT = "tmp_osago_dat_";
     static String TMP_ORDERS_TID = "tmp_osago_tid";
     static String TMP_TYPE = "tmp_osago";
     static String TMP_NAVIGATORS = "temp_osago_navigators";
-    static String TMP_IMAGE = "tmp_image";
+
 
     static String ORDERS = "orders";//int array from ids order
     static String OSAGO_DAT_ = "osago_dat_";
@@ -82,6 +82,17 @@ public class Data {
             Helpers.SaveInt(mContext, TMP_NAVIGATORS, navigators);
             Helpers.SaveString(mContext, TMP_TYPE, type);
 
+
+            Helpers.DelInt(mContext, SUCCESS_ + new_order);
+
+            Helpers.DelString(mContext, NAME_DOCS_ + new_order);
+            Helpers.DelString(mContext, TIME_DOCS_ + new_order);
+            Helpers.DelString(mContext, OSAGO_DOCS_ + new_order);
+            Helpers.DelString(mContext, OSAGO_DAT_ + new_order);
+            Helpers.DelInt(mContext, NAVIGATORS_ + new_order);
+            Helpers.DelInt(mContext, ORDER_TID_ + new_order);
+            Helpers.DelString(mContext, TYPE_ + new_order);
+
             return new_order;
         }
 
@@ -92,15 +103,17 @@ public class Data {
     }
 
     public static String getOsagoDat(int order_id) {
-        if (order_id == -1) {
+        if (-1 == order_id)
+            return "";
+        if (order_id == Helpers.GetInt(mContext, ORDER_CURR_ID, -1))
             return Helpers.GetString(mContext, TMP_OSAGO_DAT);
-        }
-
         return Helpers.GetString(mContext, OSAGO_DAT_ + order_id);
     }
 
     public static int getNavigators(int order_id) {
         if (-1 == order_id)
+            return -1;
+        if (order_id == Helpers.GetInt(mContext, ORDER_CURR_ID, -1))
             return Helpers.GetInt(mContext, TMP_NAVIGATORS, 0);
         return Helpers.GetInt(mContext, NAVIGATORS_ + order_id, 0);
     }
@@ -176,7 +189,7 @@ public class Data {
         return Helpers.GetString(mContext, login_email);
     }
 
-    public static void SaveImage(Bitmap bitmap) {
+    public static void SaveProfileImage(Bitmap bitmap) {
         Helpers.SaveImage(mContext, bitmap, login_image);
     }
 

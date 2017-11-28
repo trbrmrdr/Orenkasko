@@ -18,6 +18,8 @@ import orenkasko.ru.ui.base.OrderContentFragment;
 
 public class OrdersActivity extends BaseActivity {
 
+    public static String FIRST_OPEN = "first_open";
+    public static String OPEN_SUCCESS = "open_success";
     @Bind(R.id.viewpager)
     ViewPager viewPager;
 
@@ -37,6 +39,12 @@ public class OrdersActivity extends BaseActivity {
         super.setupToolbar();
         setupViewPager(viewPager);
         tabs.setupWithViewPager(viewPager);
+
+        if (getIntent().hasExtra(OPEN_SUCCESS))
+            viewPager.setCurrentItem(1);
+
+        if (getIntent().hasExtra(FIRST_OPEN))
+            openDrawer();
     }
 
     // Add Fragments to Tabs

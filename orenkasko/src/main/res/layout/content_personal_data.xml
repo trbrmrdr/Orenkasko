@@ -96,15 +96,15 @@
                 <RelativeLayout
                     android:id="@+id/layout_change_data"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="show_calendar">
+                    android:layout_height="wrap_content">
 
                     <ImageButton
                         android:id="@+id/change_data"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toLeftOf="@+id/text_time"
-                        android:background="@drawable/ic_today" />
+                        android:background="@null"
+                        app:srcCompat="@drawable/ic_today" />
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/text_time"
@@ -151,10 +151,12 @@
                     <android.support.v7.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="13sp"
                         android:text="Страхователь это собственник" />
 
                     <Switch
                         android:id="@+id/change_owner"
+                        style="@style/SCBSwitch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -225,8 +227,7 @@
                     <RelativeLayout
                         android:id="@+id/layout_change_data_card"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:onClick="show_calendar">
+                        android:layout_height="wrap_content">
 
 
                         <ImageButton
@@ -234,7 +235,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toLeftOf="@+id/text_time_card"
-                            android:background="@drawable/ic_today" />
+                            android:background="@null"
+                            app:srcCompat="@drawable/ic_today" />
 
                         <android.support.v7.widget.AppCompatTextView
                             android:id="@+id/text_time_card"

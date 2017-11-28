@@ -58,7 +58,7 @@ public class ProfileActivity extends BaseActivity {
         new MaterialDialog.Builder(this)
                 .title("Введите имя")
                 .inputRangeRes(2, 20, R.color.text_err_red)
-                .input(null, null, new MaterialDialog.InputCallback() {
+                .input(null, Data.getName(), new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(MaterialDialog dialog, CharSequence input) {
                         Data.saveName(input.toString());
@@ -67,13 +67,13 @@ public class ProfileActivity extends BaseActivity {
                 }).show();
     }
 
-
+    @OnClick(R.id.change_emai_layout)
     void change_email(View view) {
         new MaterialDialog.Builder(this)
                 .title("Введите email")
                 .inputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS)
-                //.inputRangeRes(2, 20, R.color.text_err_red)
-                .input(null, null, new MaterialDialog.InputCallback() {
+                .inputRangeRes(4, 30, R.color.text_err_red)
+                .input(null, Data.getEmail(), new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(MaterialDialog dialog, CharSequence input) {
                         Data.saveEmail(input.toString());
@@ -92,13 +92,17 @@ public class ProfileActivity extends BaseActivity {
         setLoaded(null);
     }
 
+    static final String empty_str = "__empty__";
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Data.saveName(text_name.getText().toString());
-        Data.saveEmail(text_email.getText().toString());
 
-        Data.SaveImage(Helpers.GetImage(back_photo));
+        String tmp = text_name.getText().toString();
+        Data.saveName(0 == tmp.compareTo(empty_str) ? "" : tmp);
+
+        tmp = text_email.getText().toString();
+        Data.saveEmail(0 == tmp.compareTo(empty_str) ? "" : tmp);
     }
 
 
@@ -111,8 +115,10 @@ public class ProfileActivity extends BaseActivity {
         phone_text.setText(Data.getPhone());
         balance_text.setText("1000 р.");
 
-        text_name.setText(Data.getName());
-        text_email.setText(Data.getEmail());
+        String tmp = Data.getName();
+        text_name.setText(tmp.length() <= 0 ? empty_str : tmp);
+        tmp = Data.getEmail();
+        text_email.setText(tmp.length() <= 0 ? empty_str : tmp);
 
         setLoaded(Data.getProfileImage());
     }
@@ -135,6 +141,7 @@ public class ProfileActivity extends BaseActivity {
 
         back_photo.setImageBitmap(bitmap);
         setProfileImage(bitmap);
+        Data.SaveProfileImage(bitmap);
     }
 
 

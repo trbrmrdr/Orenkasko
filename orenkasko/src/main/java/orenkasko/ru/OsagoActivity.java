@@ -96,7 +96,7 @@ public class OsagoActivity extends BaseActivity {
     CallbackSelected select_sub_type = new CallbackSelected() {
         @Override
         public void selected(int index) {
-            if (-1 == index) return;
+            if (-1 == index || null == sub_type_selected) return;
             Tb = sub_type_selected.value[index];
             cost();
         }
@@ -336,19 +336,21 @@ public class OsagoActivity extends BaseActivity {
 
         String[] str_i = str.split("\n");
 
-        switch_first_changed(null, Boolean.parseBoolean(str_i[0]));
+        switch_first.setChecked(Boolean.parseBoolean(str_i[0]));
+        //switch_first_changed(null, Boolean.parseBoolean(str_i[0]));
+
         navigators = Integer.parseInt(str_i[1]);
         change_navigators();
 
-        item_possessor.mCallback.selected(Integer.parseInt(str_i[2]));
-        item_type.mCallback.selected(Integer.parseInt(str_i[3]));
-        item_sub_type.mCallback.selected(Integer.parseInt(str_i[4]));
-        item_power.mCallback.selected(Integer.parseInt(str_i[5]));
-        item_period_ispolzovania.mCallback.selected(Integer.parseInt(str_i[6]));
-        item_region.mCallback.selected(Integer.parseInt(str_i[7]));
-        item_city.mCallback.selected(Integer.parseInt(str_i[8]));
-        item_driverAgeStage.mCallback.selected(Integer.parseInt(str_i[9]));
-        item_discount.mCallback.selected(Integer.parseInt(str_i[10]));
+        item_possessor.selected(Integer.parseInt(str_i[2]));
+        item_type.selected(Integer.parseInt(str_i[3]));
+        item_sub_type.selected(Integer.parseInt(str_i[4]));
+        item_power.selected(Integer.parseInt(str_i[5]));
+        item_period_ispolzovania.selected(Integer.parseInt(str_i[6]));
+        item_region.selected(Integer.parseInt(str_i[7]));
+        item_city.selected(Integer.parseInt(str_i[8]));
+        item_driverAgeStage.selected(Integer.parseInt(str_i[9]));
+        item_discount.selected(Integer.parseInt(str_i[10]));
     }
 
     private void saveData() {
@@ -638,6 +640,10 @@ public class OsagoActivity extends BaseActivity {
 
         public int getPos() {
             return mSpin.getSelectedItemPosition();
+        }
+
+        public void selected(int index) {
+            mSpin.setSelection(index);
         }
     }
 }

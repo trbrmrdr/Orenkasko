@@ -25,6 +25,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="#ffffff"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -189,7 +190,8 @@
                         android:id="@+id/layout_change_name"
                         style="@style/Widget.CardContentDocs"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:background="#ffffff">
 
                         <ImageView
                             android:id="@+id/icon_name"
@@ -212,8 +214,8 @@
                             android:id="@+id/change_name_layout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            >
+                            android:minHeight="22dp"
+                            android:layout_alignParentRight="true">
 
                             <TextView
                                 android:id="@+id/text_name"
@@ -242,7 +244,8 @@
                         android:id="@+id/layout_change_data"
                         style="@style/Widget.CardContentDocs"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:background="#ffffff">
 
                         <ImageView
                             android:id="@+id/icon_email"
@@ -262,10 +265,11 @@
                         <!--################################################################-->
 
                         <LinearLayout
+                            android:id="@+id/change_emai_layout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:onClick="change_email">
+                            android:minHeight="22dp"
+                            android:layout_alignParentRight="true">
 
                             <TextView
                                 android:id="@+id/text_email"

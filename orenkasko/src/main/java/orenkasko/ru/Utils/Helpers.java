@@ -109,7 +109,7 @@ public class Helpers {
         context.startActivity(intent);
     }
 
-    public static void StartClean(Context context, Intent intent, Class<?> clazz) {
+    public static void StartClean(Context context, Intent intent) {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK
                 | Intent.FLAG_ACTIVITY_NO_HISTORY);

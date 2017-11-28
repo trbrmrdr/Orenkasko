@@ -149,8 +149,11 @@ public class ImageLoader extends RelativeLayout {
         int i = -1;
         for (Bitmap bitmap : bitmaps) {
             i++;
-            if (bitmap == null) continue;
-            if (_images.size() < i) break;
+            if (_images.size() <= i) break;
+            if (bitmap == null) {
+                _images.get(i).setLoaded(false, null);
+                continue;
+            }
             _images.get(i).setLoaded(true, bitmap);
         }
     }

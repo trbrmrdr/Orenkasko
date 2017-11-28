@@ -3,6 +3,9 @@ package orenkasko.ru;
 import android.support.v7.app.AppCompatDelegate;
 
 
+import com.crashlytics.android.Crashlytics;
+
+import io.fabric.sdk.android.Fabric;
 import orenkasko.ru.Utils.AppResource;
 
 public class Application extends android.app.Application {
@@ -18,7 +21,7 @@ public class Application extends android.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        //Fabric.with(this, new Crashlytics());
+        Fabric.with(this, new Crashlytics());
 
         mApplication = this;
         appResources = new AppResource(mApplication);

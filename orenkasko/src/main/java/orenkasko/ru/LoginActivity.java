@@ -232,7 +232,9 @@ public class LoginActivity extends AppCompatActivity {
                 if (success) {
                     Data.savePhone(mPhoneText.getText().toString());
 
-                    Helpers.StartClean(this, OrdersActivity.class);
+                    Intent intent = new Intent(this, OrdersActivity.class);
+                    intent.putExtra(OrdersActivity.FIRST_OPEN, true);
+                    Helpers.StartClean(this, intent);
                 } else {
                     //ошибка ввода пароля из СМС
                     setVisible(mPhoneCodeView);

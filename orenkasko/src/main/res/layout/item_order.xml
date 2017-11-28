@@ -10,9 +10,11 @@
     android:layout_marginLeft="@dimen/bd_margin"
     android:layout_marginRight="@dimen/bd_margin"
     android:foreground="?attr/selectableItemBackground"
+    android:background="#ffffff"
     app:cardCornerRadius="10dp">
 
     <RelativeLayout
+        android:background="#ffffff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

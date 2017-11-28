@@ -59,6 +59,16 @@ public class PersonalDataActivity extends BaseActivity {
     @Bind(R.id.layout_change_data_card)
     ViewGroup layout_change_data_card;
 
+    @OnClick(R.id.layout_change_data)
+    void layout_change_data_click(View view) {
+        show_calendar(layout_change_data);
+    }
+
+    @OnClick(R.id.layout_change_data_card)
+    void layout_change_data_cardclick(View view) {
+        show_calendar(layout_change_data_card);
+    }
+
     ViewGroup layout_select;
 
     void show_calendar(View view) {
@@ -162,7 +172,7 @@ public class PersonalDataActivity extends BaseActivity {
     public void onBackPressed() {
         Intent intent = new Intent(this, OsagoActivity.class);
         intent.putExtra(Data.key_oreder_id, order_id);
-        Helpers.StartClean(this, intent, OsagoActivity.class);
+        Helpers.StartClean(this, intent);
         super.onBackPressed();
     }
 
@@ -198,7 +208,10 @@ public class PersonalDataActivity extends BaseActivity {
             return;
         }
         saveData(true);
-        Helpers.StartClean(this, OrdersActivity.class);
+
+        Intent intent = new Intent(this, OrdersActivity.class);
+        intent.putExtra(OrdersActivity.OPEN_SUCCESS, true);
+        Helpers.StartClean(this, intent);
     }
 
 
