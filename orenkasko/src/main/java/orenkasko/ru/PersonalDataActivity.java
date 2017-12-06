@@ -1,18 +1,26 @@
 package orenkasko.ru;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -103,7 +111,7 @@ public class PersonalDataActivity extends BaseActivity {
         setContentView(R.layout.activity_personal_data);
         ButterKnife.bind(this);
 
-        order_id = getIntent().getIntExtra(Data.key_oreder_id, -1);
+        order_id = getIntent().getIntExtra(Data.key_oreder_id, Application.getData().getTMPorderId());
 
         readData();
 
@@ -126,7 +134,7 @@ public class PersonalDataActivity extends BaseActivity {
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
         //__________________
-        count_docs = Data.getNavigators(order_id);
+        count_docs = Application.getData().getNavigators(order_id);
         String driving_permits = getResources().getString(R.string.drivings_permits);
         for (int i = 0; i < count_docs; ++i) {
             ItemDocs docs = new ItemDocs(this);
@@ -141,8 +149,12 @@ public class PersonalDataActivity extends BaseActivity {
             docs.invalidate();
         }
         //#################################
-
         readImage();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        ImageLoader.OnRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
@@ -184,15 +196,16 @@ public class PersonalDataActivity extends BaseActivity {
         //String comments = text_comments.getText().toString();
         String name_card = text_name_card.getText().toString();
 
-
-        String msg = fio.length() <= 0 ? "Введите имя" :
-                !email.contains("@") ? "Некорректный адрес @" :
-                        phone.length() != 17 ? "Неверный телефон" :
-                                //!pasport_owner.hasLoaded() ? "Незагржены документы" :
-                                name_card.length() <= 0 ? "Номер карты невведёт" : "";
-
-        //if (msg.length() <= 0)
+        String msg = "";
         if (false) {
+            msg = fio.length() <= 0 ? "Введите имя" :
+                    !email.contains("@") ? "Некорректный адрес @" :
+                            phone.length() != 17 ? "Неверный телефон" :
+                                    //!pasport_owner.hasLoaded() ? "Незагржены документы" :
+                                    name_card.length() <= 0 ? "Номер карты невведёт" : "";
+
+            //if (msg.length() <= 0)
+
             int i = 0;
             for (ItemDocs docs : items_docs) {
                 i++;
@@ -208,10 +221,6 @@ public class PersonalDataActivity extends BaseActivity {
             return;
         }
         saveData(true);
-
-        Intent intent = new Intent(this, OrdersActivity.class);
-        intent.putExtra(OrdersActivity.OPEN_SUCCESS, true);
-        Helpers.StartClean(this, intent);
     }
 
 
@@ -227,9 +236,9 @@ public class PersonalDataActivity extends BaseActivity {
 
     private void readData() {
 
-        String[] strs = Data.getDocs(order_id).split("\n");
+        String[] strs = Application.getData().getDocs(order_id).split("\n");
 
-        text_time.setText(Data.getTimeDocs(order_id));
+        text_time.setText(Application.getData().getTimeDocs(order_id));
         if (strs.length > 1) {
             text_fio.setText(strs[0]);
             text_email.setText(strs[1]);
@@ -246,15 +255,15 @@ public class PersonalDataActivity extends BaseActivity {
     }
 
     private void readImage() {
-        ImageLoader.ReadImages(Data.getImage(order_id));
+        ImageLoader.ReadImages(Application.getData().getImage(order_id));
     }
 
     boolean save_not_needed = false;
 
-    private void saveData(boolean success) {
+    private void saveData(final boolean success) {
         if (save_not_needed) return;
         save_not_needed = true;
-        String fio = text_fio.getText().toString();
+        final String fio = text_fio.getText().toString();
         String email = text_email.getText().toString();
         String phone = text_phone.getText().toString();
         String comments = text_comments.getText().toString();
@@ -262,15 +271,79 @@ public class PersonalDataActivity extends BaseActivity {
         String name_card = text_name_card.getText().toString();
         String time_card = text_time_card.getText().toString();
 
-        String data = fio + "\n" +
+        final String data = fio + "\n" +
                 email + "\n" +
                 phone + "\n" +
                 comments + "\n" +
                 name_card + "\n" +
                 time_card;
 
-        String time_docs = text_time.getText().toString();
-        Data.saveDocs(order_id, success, fio, time_docs, data);
-        Data.saveImages(order_id, ImageLoader._images);
+        final String time_docs = text_time.getText().toString();
+        final boolean change_owner = pasport_owner.getVisibility() == View.GONE;
+
+        Application.getData().setChangedProcessLoad(new Data.changed_process_load() {
+            @Override
+            public void save_docs_start() {
+                setVisibleProgress(true);
+            }
+
+            @Override
+            public void save_docs_end() {
+                setVisibleProgress(false);
+
+                if (true) return;
+                Intent intent = new Intent(PersonalDataActivity.this, OrdersActivity.class);
+                intent.putExtra(OrdersActivity.OPEN_SUCCESS, true);
+                Helpers.StartClean(PersonalDataActivity.this, intent);
+            }
+
+            @Override
+            public void save_img_start() {
+                setVisibleProgress(true);
+            }
+
+            @Override
+            public void save_img_end(String[] urls) {
+                setVisibleProgress(false);
+                Application.getData().saveDocs(order_id,
+                        urls,
+                        success, fio, time_docs, change_owner,
+                        data);
+            }
+        });
+
+        Application.getData().saveImages(this,order_id, success, ImageLoader._images);
+    }
+
+    int count_progress = 0;
+    MaterialDialog progress_dialog;
+
+    private void setVisibleProgress(boolean visible) {
+        count_progress += visible ? 1 : -1;
+
+        if (count_progress > 0) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+            if (null == progress_dialog) {
+                progress_dialog = new MaterialDialog.Builder(PersonalDataActivity.this)
+                        .title("Загружаются данные")
+                        .content("Пожалуйста подождите...")
+                        .progress(true, 0)
+                        .cancelable(false)
+                        //.autoDismiss(true)
+                        .show();
+
+            }
+        }
+
+        if (count_progress <= 0) {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+            if (null != progress_dialog) {
+                progress_dialog.hide();
+                progress_dialog.dismiss();
+                progress_dialog = null;
+            }
+        }
     }
 }

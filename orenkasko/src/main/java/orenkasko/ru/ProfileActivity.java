@@ -23,6 +23,7 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import orenkasko.ru.Utils.Helpers;
 import orenkasko.ru.ui.base.BaseActivity;
+import orenkasko.ru.ui.base.ImageLoader;
 
 
 //dealogs
@@ -58,10 +59,10 @@ public class ProfileActivity extends BaseActivity {
         new MaterialDialog.Builder(this)
                 .title("Введите имя")
                 .inputRangeRes(2, 20, R.color.text_err_red)
-                .input(null, Data.getName(), new MaterialDialog.InputCallback() {
+                .input(null, Application.getData().getName(), new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(MaterialDialog dialog, CharSequence input) {
-                        Data.saveName(input.toString());
+                        Application.getData().saveName(input.toString());
                         text_name.setText(input);
                     }
                 }).show();
@@ -73,10 +74,10 @@ public class ProfileActivity extends BaseActivity {
                 .title("Введите email")
                 .inputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS)
                 .inputRangeRes(4, 30, R.color.text_err_red)
-                .input(null, Data.getEmail(), new MaterialDialog.InputCallback() {
+                .input(null, Application.getData().getEmail(), new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(MaterialDialog dialog, CharSequence input) {
-                        Data.saveEmail(input.toString());
+                        Application.getData().saveEmail(input.toString());
                         text_email.setText(input);
                     }
                 }).show();
@@ -99,10 +100,10 @@ public class ProfileActivity extends BaseActivity {
         super.onDestroy();
 
         String tmp = text_name.getText().toString();
-        Data.saveName(0 == tmp.compareTo(empty_str) ? "" : tmp);
+        Application.getData().saveName(0 == tmp.compareTo(empty_str) ? "" : tmp);
 
         tmp = text_email.getText().toString();
-        Data.saveEmail(0 == tmp.compareTo(empty_str) ? "" : tmp);
+        Application.getData().saveEmail(0 == tmp.compareTo(empty_str) ? "" : tmp);
     }
 
 
@@ -112,15 +113,26 @@ public class ProfileActivity extends BaseActivity {
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
 
-        phone_text.setText(Data.getPhone());
+        phone_text.setText(Application.getData().getPhone());
         balance_text.setText("1000 р.");
 
-        String tmp = Data.getName();
+        String tmp = Application.getData().getName();
         text_name.setText(tmp.length() <= 0 ? empty_str : tmp);
-        tmp = Data.getEmail();
+        tmp = Application.getData().getEmail();
         text_email.setText(tmp.length() <= 0 ? empty_str : tmp);
 
-        setLoaded(Data.getProfileImage());
+        setLoaded(Application.getData().getProfileImage());
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        ImageLoader.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        ImageLoader.SetActivity(this);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -141,7 +153,7 @@ public class ProfileActivity extends BaseActivity {
 
         back_photo.setImageBitmap(bitmap);
         setProfileImage(bitmap);
-        Data.SaveProfileImage(bitmap);
+        Application.getData().SaveProfileImage(bitmap);
     }
 
 

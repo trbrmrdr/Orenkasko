@@ -2,8 +2,19 @@ package orenkasko.ru.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.widget.ImageView;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
+import orenkasko.ru.ui.base.ImageLoader;
 
 public class AppResource {
 
@@ -17,12 +28,7 @@ public class AppResource {
     private static final String RESOURCES_BOOLEAN = "bool";
     private static final String RESOURCES_ARRAY = "array";
 
-    private static final String VERSION_TYPE = "_.VERSION_TYPE";
     // ###########################################################################
-
-    public AppResource(final Context context) {
-        mContext = context;
-    }
 
     public int getStringId(final String key) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException {
         return getResourceId(RESOURCE_STRING, key);
@@ -67,7 +73,6 @@ public class AppResource {
         Field f = Class.forName(rc).getField(key);
         return f.getInt(null);
     }
-
     //#################################################################
 
     public boolean getBoolean(final String key) {
@@ -108,44 +113,192 @@ public class AppResource {
         return ret;
     }
 
-    //#################################################################
+    // ###########################################################################
 
-    public String getSetting(final String key, String defValue) {
-        return mContext.getSharedPreferences(VERSION_TYPE, mContext.MODE_PRIVATE).getString(key, defValue);
+    private final String NAME_DB = "orenkasko_0.0";
+    private SharedPreferences sharedPref;
+
+    public AppResource(final Context context) {
+        mContext = context;
+        sharedPref = mContext.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
     }
 
-    public int getSetting(final String key, int defValue) {
-        return mContext.getSharedPreferences(VERSION_TYPE, mContext.MODE_PRIVATE).getInt(key, defValue);
+    private SharedPreferences getSharedPreferences() {
+        //return mContext.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
+        return sharedPref;
     }
 
-    public boolean getSetting(final String key, boolean defValue) {
-        return mContext.getSharedPreferences(VERSION_TYPE, mContext.MODE_PRIVATE).getBoolean(key, defValue);
+    public void Delete() {
+        SharedPreferences sharedPref = getSharedPreferences();
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.clear();
+        editor.commit();
     }
 
-    public void setSetting(final String key, final String value) {
-        SharedPreferences prefs = mContext.getSharedPreferences(VERSION_TYPE, mContext.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        if (value != null && !value.isEmpty())
-            editor.putString(key, value);
+    public void SaveString(String name, String str) {
+        SharedPreferences sharedPref = getSharedPreferences();
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(name, str);
+        editor.commit();
+    }
+
+    public String GetString(String name) {
+        SharedPreferences sharedPref = getSharedPreferences();
+        return sharedPref.getString(name, "");
+    }
+
+    public void DelString(String name) {
+        SharedPreferences sharedPref = getSharedPreferences();
+        SharedPreferences.Editor editotr = sharedPref.edit();
+        editotr.remove(name);
+        editotr.commit();
+    }
+
+    public boolean isEmpty(String name) {
+        SharedPreferences sharedPref = getSharedPreferences();
+        return !sharedPref.contains(name);
+    }
+
+    public void SaveInt(String name, int value) {
+        SharedPreferences sharedPref = getSharedPreferences();
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(name, value);
+        editor.commit();
+    }
+
+    public void DelInt(String name) {
+        SharedPreferences sharedPref = getSharedPreferences();
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.remove(name);
+        editor.commit();
+    }
+
+    public int GetInt(String name) {
+        return GetInt(name, -1);
+    }
+
+    public int GetInt(String name, int defValue) {
+        SharedPreferences sharedPref = getSharedPreferences();
+        return sharedPref.getInt(name, defValue);
+    }
+
+
+    public String[] GetStringArray(String name) {
+        SharedPreferences sharedPref = getSharedPreferences();
+        Set<String> set = sharedPref.getStringSet(name, null);
+        if (null == set) {
+            return new String[0];
+        }
+        return set.toArray(new String[set.size()]);
+    }
+
+    public void AddInArray(String name, int val) {
+        SharedPreferences sharedPref = getSharedPreferences();
+        Set<String> set = sharedPref.getStringSet(name, null);
+        if (null == set) {
+            set = new HashSet<String>();
+        }
+        set.add(String.valueOf(val));
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putStringSet(name, set);
+        editor.commit();
+    }
+
+    public void RmInArray(String name, int val) {
+        SharedPreferences sharedPref = getSharedPreferences();
+        Set<String> set = sharedPref.getStringSet(name, null);
+        if (null == set) {
+            return;
+        }
+        set.remove(String.valueOf(val));
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putStringSet(name, set);
+        boolean ret = editor.commit();
+        return;
+    }
+
+
+    public void SaveImages(String name, ArrayList<ImageLoader> images) {
+        SharedPreferences sharedPref = getSharedPreferences();
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(name, images.size());
+        editor.commit();
+
+        String path = GetFileCache(mContext).getAbsolutePath() + "/" + name + "/";
+        File dirs = new File(path);
+        boolean test = false;
+        if (!dirs.exists())
+            test = dirs.mkdirs();
+        int i = -1;
+        for (ImageLoader image : images) {
+            ++i;
+            Bitmap bitmap = Helpers.GetImage(image.getImageView());
+            if (null == bitmap) continue;
+            SaveImageFile(bitmap, dirs.getAbsolutePath() + "/image_" + i);
+        }
+    }
+
+    public ArrayList<Bitmap> GetImages(String name) {
+        ArrayList<Bitmap> bitmaps = new ArrayList<>();
+        SharedPreferences sharedPref = getSharedPreferences();
+        int count = sharedPref.getInt(name, -1);
+        if (-1 == count) return bitmaps;
+
+        String path = GetFileCache(mContext).getAbsolutePath() + "/" + name + "/";
+        for (int i = 0; i < count; ++i) {
+            Bitmap bitmap = BitmapFactory.decodeFile(path + "/image_" + i);
+            bitmaps.add(bitmap);
+        }
+        return bitmaps;
+    }
+
+    public void RmImages(String name) {
+        File file = new File(GetFileCache(mContext).getAbsolutePath() + "/" + name);
+        file.delete();
+    }
+
+    public void SaveImage(Bitmap bitmap, String name) {
+        String path = GetFileCache(mContext).getAbsolutePath() + "/" + name;
+        SaveImageFile(bitmap, path);
+    }
+
+    public Bitmap GetImage(String name) {
+        String path = GetFileCache(mContext).getAbsolutePath() + "/" + name;
+        return BitmapFactory.decodeFile(path);
+    }
+
+    public boolean SaveImageFile(Bitmap bitmap, String file_name) {
+        try {
+            FileOutputStream out = new FileOutputStream(file_name);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+
+    private File cacheDir;
+
+    public File GetFileCache(Context context) {
+        if (null != cacheDir) return cacheDir;
+        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
+            cacheDir = new File(android.os.Environment.getExternalStorageDirectory(), "Android/data/" + context.getPackageName() + "/files/");
         else
-            editor.remove(key);
-        editor.commit();
+            cacheDir = context.getCacheDir();
+        if (!cacheDir.exists())
+            cacheDir.mkdirs();
+        return cacheDir;
     }
 
-    public void setSetting(final String key, final int value) {
-        SharedPreferences prefs = mContext.getSharedPreferences(VERSION_TYPE, mContext.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(key, value);
+    public void deleteRecursive(File fileOrDirectory) {
+        if (fileOrDirectory.isDirectory())
+            for (File child : fileOrDirectory.listFiles())
+                deleteRecursive(child);
 
-        editor.commit();
+        fileOrDirectory.delete();
     }
-
-    public void setSetting(final String key, final boolean value) {
-        SharedPreferences prefs = mContext.getSharedPreferences(VERSION_TYPE, mContext.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean(key, value);
-        editor.commit();
-    }
-
-
 }

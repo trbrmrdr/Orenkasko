@@ -17,6 +17,7 @@ import android.view.View;
 
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+import orenkasko.ru.Application;
 import orenkasko.ru.BalanceActivity;
 import orenkasko.ru.Data;
 import orenkasko.ru.LoginActivity;
@@ -93,7 +94,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 }
             });
             circleImageView = (CircleImageView) header_view.findViewById(R.id.main_profile_image);
-            setProfileImage(Data.getProfileImage());
+            setProfileImage(Application.getData().getProfileImage());
         }
     }
 
@@ -194,7 +195,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.nav_logout:
-                Data.clear();
+                Application.getData().clear();
 
                 Helpers.StartClean(this, LoginActivity.class);
                 finish();

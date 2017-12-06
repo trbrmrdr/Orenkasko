@@ -2,11 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="orenkasko.ru">
 
-
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -20,13 +19,7 @@
         <activity
             android:name=".LoginActivity"
             android:noHistory="true"
-            android:theme="@style/AppTheme.NoTopBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme.NoTopBar"></activity>
 
         <activity
             android:name=".PersonalDataActivity"
@@ -35,6 +28,11 @@
             android:parentActivityName=".OsagoActivity"
             android:theme="@style/AppTheme.NoActionBar">
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity
@@ -66,13 +64,12 @@
             android:name=".OrdersActivity"
             android:label="@string/item_orders"
             android:parentActivityName=".ProfileActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <!-- -->
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="3754421b24ee028296d3a6ebf781cf5ffaca2fbc" />
-
 
 
     </application>

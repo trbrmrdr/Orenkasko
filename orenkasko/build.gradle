@@ -15,6 +15,13 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         generatedDensities = []
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath false
+            }
+        }
+
     }
 
     aaptOptions {
@@ -26,6 +33,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    useLibrary 'org.apache.http.legacy'
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
     }
 
 
@@ -46,7 +61,21 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    /**/
+    if (false) {
+        compile fileTree(dir: 'libs', include: ['*.jar'])
+    } else {
+        compile('org.apache.httpcomponents:httpmime:4.3') {
+            exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+        }
+        compile('org.apache.httpcomponents:httpcore:4.4.1') {
+            exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+        }
+        compile 'commons-io:commons-io:1.3.2'
+    }
+    /**/
+
+
     testCompile 'junit:junit:4.12'
 
     compile 'com.android.support:appcompat-v7:' + versions
@@ -54,7 +83,9 @@ dependencies {
     compile 'com.android.support:cardview-v7:' + versions
 
     compile 'com.github.bumptech.glide:glide:3.6.1'
+
     compile 'com.jakewharton:butterknife:7.0.1'
+    //annotationProcessor 'com.jakewharton:butterknife:7.0.1'
 
     compile 'com.github.Mariovc:ImagePicker:1.2.0'
 
@@ -67,5 +98,11 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
         transitive = true;
     }
+
+    //compile 'net.gotev:uploadservice:3.4.1'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    //Конвертер JSON, можно, если предпочитаете, использовать Jackson
+    compile 'com.android.support:recyclerview-v7:' + versions //RecyclerView
 
 }

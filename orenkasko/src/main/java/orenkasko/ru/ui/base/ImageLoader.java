@@ -1,18 +1,24 @@
 package orenkasko.ru.ui.base;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.mvc.imagepicker.ImagePicker;
 
 import java.io.ByteArrayOutputStream;
@@ -21,6 +27,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import orenkasko.ru.Application;
 import orenkasko.ru.PersonalDataActivity;
 import orenkasko.ru.R;
 
@@ -31,7 +38,9 @@ import orenkasko.ru.R;
 public class ImageLoader extends RelativeLayout {
 
     public static ArrayList<ImageLoader> _images;
+    private static ImageLoader _image_curr;
     private static Activity _activity;
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
 
     public static void ClearImages() {
         if (null != _images)
@@ -66,6 +75,7 @@ public class ImageLoader extends RelativeLayout {
             _images = new ArrayList<>();
         }
         _images.add(this);
+
     }
 
 
@@ -77,6 +87,8 @@ public class ImageLoader extends RelativeLayout {
     ImageView back_image;
     @Bind(R.id.il_text)
     TextView text;
+
+    public String path_image;
 
     @Override
     protected void onFinishInflate() {
@@ -101,7 +113,6 @@ public class ImageLoader extends RelativeLayout {
             text.setVisibility(View.VISIBLE);
             close_image.setVisibility(View.GONE);
         }
-
         back_image.setImageBitmap(bitmap);
     }
 
@@ -118,9 +129,36 @@ public class ImageLoader extends RelativeLayout {
     void click_camera(View view) {
         if (sLoaded) return;
         this_need_image = true;
-        ImagePicker.pickImage(_activity, getResources().getString(R.string.chooser_image_title));
+
+        int permissionCheck = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (PackageManager.PERMISSION_GRANTED != permissionCheck) {
+            _image_curr = this;
+            new MaterialDialog.Builder(getContext())
+                    .content("Вы не подтвердили разрешение на чтение файлов, возможно фотографии не загрузятся. Дать разрешение на чтение?")
+                    .positiveText("Да")
+                    .negativeText("нет")
+                    .callback(new MaterialDialog.ButtonCallback() {
+                        @Override
+                        public void onPositive(MaterialDialog dialog) {
+
+                            //if (ActivityCompat.shouldShowRequestPermissionRationale(_activity, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                            //} else {
+                            ActivityCompat.requestPermissions(_activity,
+                                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                    MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                            //}
+
+                        }
+                    })
+                    .show();
+        } else {
+            pick_image();
+        }
     }
 
+    public void pick_image() {
+        ImagePicker.pickImage(_activity, getResources().getString(R.string.chooser_image_title));
+    }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (!this_need_image) return;
@@ -128,6 +166,7 @@ public class ImageLoader extends RelativeLayout {
 
         Bitmap bitmap = ImagePicker.getImageFromResult(this.getContext(), requestCode, resultCode, data);
 
+        path_image = ImagePicker.getImagePathFromResult(getContext(), requestCode, resultCode, data);
         setLoaded(null != bitmap, bitmap);
     }
 
@@ -160,5 +199,21 @@ public class ImageLoader extends RelativeLayout {
 
     public ImageView getImageView() {
         return back_image;
+    }
+
+    public static void OnRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    _image_curr.pick_image();
+                } else {
+
+                }
+                return;
+            }
+        }
     }
 }

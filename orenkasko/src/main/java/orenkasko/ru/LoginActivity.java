@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //mCurrStage = -1;//начало
         //mCurrStage = Stage_Phone;//
-        String last_phone = Data.getPhone();
+        String last_phone = Application.getData().getPhone();
         if (last_phone.length() > 0) {
             setVisible(mPhoneView);
 
@@ -209,7 +209,8 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             case Stage_Name:
                 if (success) {
-                    Data.saveName(mNameText.getText().toString());
+                    Application.getData().savePhone(mPhoneText.getText().toString());
+                    Application.getData().saveName(mNameText.getText().toString());
                     //показываем окно ввода пароля СМС
                     mCurrStage = Stage_Code;
                     setVisible(mPhoneCodeView);
@@ -230,7 +231,7 @@ public class LoginActivity extends AppCompatActivity {
                 break;
             case Stage_Code: {
                 if (success) {
-                    Data.savePhone(mPhoneText.getText().toString());
+                    Application.getData().savePhone(mPhoneText.getText().toString());
 
                     Intent intent = new Intent(this, OrdersActivity.class);
                     intent.putExtra(OrdersActivity.FIRST_OPEN, true);

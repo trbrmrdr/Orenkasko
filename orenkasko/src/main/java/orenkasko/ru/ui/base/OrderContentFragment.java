@@ -33,6 +33,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import orenkasko.ru.Application;
 import orenkasko.ru.Data;
 import orenkasko.ru.PersonalDataActivity;
 import orenkasko.ru.R;
@@ -51,7 +52,7 @@ public class OrderContentFragment extends Fragment {
     private Data.Order mOrder;
 
     private void buildData() {
-        Data data = Data.getInstance();
+        Data data = Application.getData();
         if (mType == 0 && data.mOrder.data_order_count > 0) {
             mOrder = data.mOrder;
             return;
@@ -132,8 +133,8 @@ public class OrderContentFragment extends Fragment {
                     .callback(new MaterialDialog.ButtonCallback() {
                         @Override
                         public void onPositive(MaterialDialog dialog) {
-                            Data.rmOrder(order_id);
-                            Data.getInstance().preparedata();
+                            Application.getData().rmOrder(order_id);
+                            Application.getData().preparedata();
                             buildData();
                             mAdapter.notifyItemRemoved(position);
                         }

@@ -16,7 +16,7 @@ public class Application extends android.app.Application {
 
     private static final String TAG = "Game";
     private static Application mApplication;
-    private static AppResource appResources;
+    private static Data appResources;
 
     @Override
     public void onCreate() {
@@ -24,12 +24,15 @@ public class Application extends android.app.Application {
         Fabric.with(this, new Crashlytics());
 
         mApplication = this;
-        appResources = new AppResource(mApplication);
-        Data.setContext(this);
+        appResources = new Data(mApplication);
 
     }
 
     public synchronized static AppResource getAppResources() {
+        return appResources;
+    }
+
+    public synchronized static Data getData() {
         return appResources;
     }
 

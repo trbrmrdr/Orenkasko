@@ -2,6 +2,7 @@ package orenkasko.ru;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -11,6 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
+import orenkasko.ru.Utils.AppResource;
 import orenkasko.ru.Utils.Helpers;
 import orenkasko.ru.ui.base.ImageLoader;
 
@@ -18,20 +20,16 @@ import orenkasko.ru.ui.base.ImageLoader;
  * Created by admin on 24.11.2017.
  */
 
-public class Data {
+public class Data extends AppResource {
 
-    private static Context mContext;
+    private final static String TAG = "Data";
 
-    public static void setContext(Context context) {
-        if (null == _this_data)
-            _this_data = new Data();
-        mContext = context;
+    private final static void Log(final String str) {
+        Log.e(TAG, str);
     }
 
-    private static Data _this_data;
-
-    public static Data getInstance() {
-        return _this_data;
+    public Data(Context context) {
+        super(context);
     }
 
     public static final String key_oreder_id = "order_id";
@@ -59,12 +57,7 @@ public class Data {
 
     static String SUCCESS_ = "success_";
 
-
-    private Data() {
-    }
-
-
-    public static int saveOsagoDat(
+    public int saveOsagoDat(
             int oreder_id,
             int navigators,
             String type,
@@ -73,85 +66,143 @@ public class Data {
         int new_order = oreder_id;
         if (-1 == new_order) {
             new_order = getNewOrderId();
-            Helpers.SaveInt(mContext, ORDER_CURR_ID, new_order);
+            SaveInt(ORDER_CURR_ID, new_order);
 
             int rand_id = 10000 + (new Random()).nextInt(99999);
 
-            Helpers.SaveInt(mContext, TMP_ORDERS_TID, rand_id);
-            Helpers.SaveString(mContext, TMP_OSAGO_DAT, save_dat);
-            Helpers.SaveInt(mContext, TMP_NAVIGATORS, navigators);
-            Helpers.SaveString(mContext, TMP_TYPE, type);
+            SaveInt(TMP_ORDERS_TID, rand_id);
+            SaveString(TMP_OSAGO_DAT, save_dat);
+            SaveInt(TMP_NAVIGATORS, navigators);
+            SaveString(TMP_TYPE, type);
 
 
-            Helpers.DelInt(mContext, SUCCESS_ + new_order);
+            DelInt(SUCCESS_ + new_order);
 
-            Helpers.DelString(mContext, NAME_DOCS_ + new_order);
-            Helpers.DelString(mContext, TIME_DOCS_ + new_order);
-            Helpers.DelString(mContext, OSAGO_DOCS_ + new_order);
-            Helpers.DelString(mContext, OSAGO_DAT_ + new_order);
-            Helpers.DelInt(mContext, NAVIGATORS_ + new_order);
-            Helpers.DelInt(mContext, ORDER_TID_ + new_order);
-            Helpers.DelString(mContext, TYPE_ + new_order);
+            DelString(NAME_DOCS_ + new_order);
+            DelString(TIME_DOCS_ + new_order);
+            DelString(OSAGO_DOCS_ + new_order);
+            DelString(OSAGO_DAT_ + new_order);
+            DelInt(NAVIGATORS_ + new_order);
+            DelInt(ORDER_TID_ + new_order);
+            DelString(TYPE_ + new_order);
 
             return new_order;
         }
 
-        Helpers.SaveString(mContext, OSAGO_DAT_ + new_order, save_dat);
-        Helpers.SaveInt(mContext, NAVIGATORS_ + new_order, navigators);
-        Helpers.SaveString(mContext, TYPE_ + new_order, type);
+        SaveString(OSAGO_DAT_ + new_order, save_dat);
+        SaveInt(NAVIGATORS_ + new_order, navigators);
+        SaveString(TYPE_ + new_order, type);
         return new_order;
     }
 
-    public static String getOsagoDat(int order_id) {
+
+    public int getTMPorderId() {
+        return GetInt(ORDER_CURR_ID, -1);
+    }
+
+    public String getOsagoDat(int order_id) {
         if (-1 == order_id)
             return "";
-        if (order_id == Helpers.GetInt(mContext, ORDER_CURR_ID, -1))
-            return Helpers.GetString(mContext, TMP_OSAGO_DAT);
-        return Helpers.GetString(mContext, OSAGO_DAT_ + order_id);
+        if (order_id == GetInt(ORDER_CURR_ID, -1))
+            return GetString(TMP_OSAGO_DAT);
+        return GetString(OSAGO_DAT_ + order_id);
     }
 
-    public static int getNavigators(int order_id) {
+    public int getNavigators(int order_id) {
         if (-1 == order_id)
             return -1;
-        if (order_id == Helpers.GetInt(mContext, ORDER_CURR_ID, -1))
-            return Helpers.GetInt(mContext, TMP_NAVIGATORS, 0);
-        return Helpers.GetInt(mContext, NAVIGATORS_ + order_id, 0);
+        if (order_id == GetInt(ORDER_CURR_ID, -1))
+            return GetInt(TMP_NAVIGATORS, 0);
+        return GetInt(NAVIGATORS_ + order_id, 0);
     }
 
-    public static String getDocs(int order_id) {
+    public String getDocs(int order_id) {
         if (order_id == -1) return "";
-        return Helpers.GetString(mContext, OSAGO_DOCS_ + order_id);
+        return GetString(OSAGO_DOCS_ + order_id);
     }
 
-    public static void saveDocs(int order_id, boolean success, String name, String time_docs, String data) {
+    public void saveDocs(int order_id, String[] img_urls, boolean success, String name, String time_docs,
+                         boolean change_owner, String data) {
         if (order_id == -1) return;
 
-        if (order_id == Helpers.GetInt(mContext, ORDER_CURR_ID, -1)) {
+        if (null != mCPL) mCPL.save_docs_start();
+
+        if (order_id == GetInt(ORDER_CURR_ID, -1)) {
 
             addOrderId(order_id);
 
-            Helpers.SaveString(mContext, OSAGO_DAT_ + order_id, Helpers.GetString(mContext, TMP_OSAGO_DAT));
-            Helpers.SaveInt(mContext, NAVIGATORS_ + order_id, Helpers.GetInt(mContext, TMP_NAVIGATORS));
-            Helpers.SaveInt(mContext, ORDER_TID_ + order_id, Helpers.GetInt(mContext, TMP_ORDERS_TID));
-            Helpers.SaveString(mContext, TYPE_ + order_id, Helpers.GetString(mContext, TMP_TYPE));
+            SaveString(OSAGO_DAT_ + order_id, GetString(TMP_OSAGO_DAT));
+            SaveInt(NAVIGATORS_ + order_id, GetInt(TMP_NAVIGATORS));
+            SaveInt(ORDER_TID_ + order_id, GetInt(TMP_ORDERS_TID));
+            SaveString(TYPE_ + order_id, GetString(TMP_TYPE));
 
 
-            Helpers.DelInt(mContext, ORDER_CURR_ID);
-            Helpers.DelString(mContext, TMP_OSAGO_DAT);
-            Helpers.DelInt(mContext, TMP_NAVIGATORS);
-            Helpers.DelString(mContext, TMP_TYPE);
+            DelInt(ORDER_CURR_ID);
+            DelString(TMP_OSAGO_DAT);
+            DelInt(TMP_NAVIGATORS);
+            DelString(TMP_TYPE);
         }
 
-        if (Helpers.GetInt(mContext, SUCCESS_ + order_id) == -1)
-            Helpers.SaveInt(mContext, SUCCESS_ + order_id, success ? 1 : -1);
+        if (GetInt(SUCCESS_ + order_id) == -1)
+            SaveInt(SUCCESS_ + order_id, success ? 1 : -1);
 
-        Helpers.SaveString(mContext, NAME_DOCS_ + order_id, name);
-        Helpers.SaveString(mContext, TIME_DOCS_ + order_id, time_docs);
-        Helpers.SaveString(mContext, OSAGO_DOCS_ + order_id, data);
+        SaveString(NAME_DOCS_ + order_id, name);
+        SaveString(TIME_DOCS_ + order_id, time_docs);
+        SaveString(OSAGO_DOCS_ + order_id, data);
+
+        if (success) {
+
+            String[] str_dat = getOsagoDat(order_id).split("\n");
+            String[] str_docs = data.split("\n");//getDocs(order_id).split("\n");
+
+            String imgs = "";
+            for (String str : img_urls) {
+                if (imgs.length() <= 0) {
+                    imgs = "[";
+                } else {
+                    imgs += ",";
+                }
+                imgs += str;
+            }
+
+            String[] params = {
+                    "switch_first", str_dat[0],
+                    "navigators", str_dat[1],
+                    "item_possessor", str_dat[2],
+                    "item_type", str_dat[3],
+                    "item_sub_type", str_dat[4],
+                    "item_power", str_dat[5],
+                    "item_period_ispolzovania", str_dat[6],
+                    "item_region", str_dat[7],
+                    "item_city", str_dat[8],
+                    "item_driverAgeStage", str_dat[9],
+                    "item_discount", str_dat[10],
+                    //____________________
+                    "fio", str_docs[0],
+                    "email", str_docs[1],
+                    "phone", str_docs[2],
+                    "comments", str_docs[3],
+                    "name_card", str_docs[4],//карта диагностическая
+                    "time_card", str_docs[5],
+                    "time_docs", time_docs,//дата начала подачи или начала работы страховки
+                    "change_owner", Boolean.toString(change_owner),//страхователь это собственник +- (2 картинки паспорта)
+                    //_____________________
+                    "imgs", imgs
+            };
+
+            Helpers.SendPost(new Helpers.RequestCallback() {
+                @Override
+                public void callback(String[] result) {
+                    Log("after saveDocs " + result[0]);
+
+                    if (null != mCPL) mCPL.save_docs_end();
+                }
+            }, params);
+        }
     }
 
-    public static String getTimeDocs(int order_id) {
-        String ret = Helpers.GetString(mContext, TIME_DOCS_ + order_id);
+    public String getTimeDocs(int order_id) {
+        String ret = GetString(TIME_DOCS_ + order_id);
         if (ret.length() <= 0) {
             ret = formatTimeDocs(Calendar.getInstance().getTime());
         }
@@ -160,52 +211,65 @@ public class Data {
 
     //##############################################################################################
 
-    static String login_phone = "login_phone";
-    static String login_name = "login_name";
+    static String login_phone = "phone";
+    static String login_name = "name";
     static String login_email = "login_email";
     static String login_image = "login_image";
 
-    public static void savePhone(String phone) {
-        Helpers.SaveString(mContext, login_phone, phone);
+    public void savePhone(String phone) {
+        SaveString(login_phone, phone);
     }
 
-    public static String getPhone() {
-        return Helpers.GetString(mContext, login_phone);
+    public String getPhone() {
+        return GetString(login_phone);
     }
 
-    public static void saveName(String name) {
-        Helpers.SaveString(mContext, login_name, name);
+    public void saveName(String name) {
+        SaveString(login_name, name);
+
+
+        String[] params = {
+                login_phone, getPhone(),
+                login_name, getName()
+        };
+
+        Helpers.SendPost(new Helpers.RequestCallback() {
+            @Override
+            public void callback(String[] result) {
+                Log("after saveName " + result[0]);
+            }
+        }, params);
     }
 
-    public static String getName() {
-        return Helpers.GetString(mContext, login_name);
+    public String getName() {
+        return GetString(login_name);
     }
 
-    public static void saveEmail(String email) {
-        Helpers.SaveString(mContext, login_email, email);
+    public void saveEmail(String email) {
+        SaveString(login_email, email);
     }
 
-    public static String getEmail() {
-        return Helpers.GetString(mContext, login_email);
+    public String getEmail() {
+        return GetString(login_email);
     }
 
-    public static void SaveProfileImage(Bitmap bitmap) {
-        Helpers.SaveImage(mContext, bitmap, login_image);
+    public void SaveProfileImage(Bitmap bitmap) {
+        SaveImage(bitmap, login_image);
     }
 
-    public static Bitmap getProfileImage() {
-        return Helpers.GetImage(mContext, login_image);
+    public Bitmap getProfileImage() {
+        return GetImage(login_image);
     }
 
-    public static void clear() {
-        Helpers.Delete(mContext);
-        Helpers.RmImages(mContext, login_image);
+    public void clear() {
+        Delete();
+        RmImages(login_image);
     }
 
     //##############################################################################################
-    private static int getNewOrderId() {
+    private int getNewOrderId() {
         //todo tests
-        String[] array_orders = Helpers.GetStringArray(mContext, ORDERS);
+        String[] array_orders = GetStringArray(ORDERS);
         int new_id = 0;
         for (String str : array_orders) {
             if (Integer.parseInt(str) == new_id) {
@@ -215,22 +279,52 @@ public class Data {
         return new_id;
     }
 
-    private static void addOrderId(int order_id) {
-        Helpers.AddInArray(mContext, ORDERS, order_id);
+    private void addOrderId(int order_id) {
+        AddInArray(ORDERS, order_id);
     }
 
-    public static void rmOrder(int order_id) {
+    public void rmOrder(int order_id) {
         if (order_id == -1) return;
-        Helpers.RmInArray(mContext, ORDERS, order_id);
-        Helpers.RmImages(mContext, IMAGE_ + order_id);
+        RmInArray(ORDERS, order_id);
+        RmImages(IMAGE_ + order_id);
     }
 
-    public static void saveImages(int order_id, ArrayList<ImageLoader> images) {
-        Helpers.SaveImages(mContext, IMAGE_ + order_id, images);
+    public void saveImages(Context context,int order_id, boolean success, ArrayList<ImageLoader> images) {
+        if (null != mCPL) mCPL.save_img_start();
+
+        SaveImages(IMAGE_ + order_id, images);
+
+        if (!success) {
+            if (null != mCPL) mCPL.save_img_end(null);
+        } else {
+            Helpers.SendImage(context,new Helpers.RequestCallback() {
+                @Override
+                public void callback(String[] result) {
+                    Log("saveImages = " + result.toString());
+                    if (null != mCPL) mCPL.save_img_end(result);
+                }
+            }, images);
+        }
     }
 
-    public static ArrayList<Bitmap> getImage(int order_id) {
-        return Helpers.GetImages(mContext, IMAGE_ + order_id);
+    public ArrayList<Bitmap> getImage(int order_id) {
+        return GetImages(IMAGE_ + order_id);
+    }
+
+    public interface changed_process_load {
+        void save_docs_start();
+
+        void save_docs_end();
+
+        void save_img_start();
+
+        void save_img_end(String[] urls);
+    }
+
+    private changed_process_load mCPL;
+
+    public void setChangedProcessLoad(changed_process_load cpl) {
+        mCPL = cpl;
     }
 
     //##############################################################################################
@@ -286,7 +380,7 @@ public class Data {
     public final Order mOrder_Success = new Order();
 
     public void preparedata() {
-        String[] orders_id = Helpers.GetStringArray(mContext, ORDERS);
+        String[] orders_id = GetStringArray(ORDERS);
         int count = orders_id.length;
 
         mOrder.init(count);
@@ -297,22 +391,22 @@ public class Data {
         for (String str_id : orders_id) {
 
             int id = Integer.parseInt(str_id);
-            if (Helpers.GetInt(mContext, SUCCESS_ + id) == -1) {
+            if (GetInt(SUCCESS_ + id) == -1) {
                 int i = ++mOrder.i;
                 mOrder.ids[i] = id;
                 mOrder.data_order_count++;
-                mOrder.tids[i] = String.valueOf(Helpers.GetInt(mContext, ORDER_TID_ + id));
-                mOrder.names[i] = Helpers.GetString(mContext, NAME_DOCS_ + id);
-                mOrder.avto_types[i] = Helpers.GetString(mContext, TYPE_ + id);
-                mOrder.avto_time[i] = Helpers.GetString(mContext, TIME_DOCS_ + id);
+                mOrder.tids[i] = String.valueOf(GetInt(ORDER_TID_ + id));
+                mOrder.names[i] = GetString(NAME_DOCS_ + id);
+                mOrder.avto_types[i] = GetString(TYPE_ + id);
+                mOrder.avto_time[i] = GetString(TIME_DOCS_ + id);
             } else {
                 int i = ++mOrder_Success.i;
                 mOrder_Success.ids[i] = id;
                 mOrder_Success.data_order_count++;
-                mOrder_Success.tids[i] = String.valueOf(Helpers.GetInt(mContext, ORDER_TID_ + id));
-                mOrder_Success.names[i] = Helpers.GetString(mContext, NAME_DOCS_ + id);
-                mOrder_Success.avto_types[i] = Helpers.GetString(mContext, TYPE_ + id);
-                mOrder_Success.avto_time[i] = Helpers.GetString(mContext, TIME_DOCS_ + id);
+                mOrder_Success.tids[i] = String.valueOf(GetInt(ORDER_TID_ + id));
+                mOrder_Success.names[i] = GetString(NAME_DOCS_ + id);
+                mOrder_Success.avto_types[i] = GetString(TYPE_ + id);
+                mOrder_Success.avto_time[i] = GetString(TIME_DOCS_ + id);
             }
         }
         mOrder.trim();

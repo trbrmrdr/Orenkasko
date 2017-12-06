@@ -6,31 +6,65 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Environment;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Base64;
 import android.util.Log;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.BufferedInputStream;
+import com.android.internal.http.multipart.MultipartEntity;
+
+
+import org.apache.http.Consts;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MIME;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.ByteArrayBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import orenkasko.ru.Application;
 import orenkasko.ru.R;
 import orenkasko.ru.ui.base.ImageLoader;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 /**
  * Created by trbrm on 13.11.2017.
@@ -114,19 +148,6 @@ public class Helpers {
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK
                 | Intent.FLAG_ACTIVITY_NO_HISTORY);
         context.startActivity(intent);
-    }
-
-    public static Bitmap GetImage(ImageView imageView) {
-        BitmapDrawable bitmapDrawable = ((BitmapDrawable) imageView.getDrawable());
-        Bitmap bitmap;
-        if (bitmapDrawable == null) {
-            imageView.buildDrawingCache();
-            bitmap = imageView.getDrawingCache();
-            imageView.buildDrawingCache(false);
-        } else {
-            bitmap = bitmapDrawable.getBitmap();
-        }
-        return bitmap;
     }
 
     public static class TextWatcher_Phone implements TextWatcher {
@@ -320,150 +341,6 @@ public class Helpers {
         return returnString.toString();
     }
 
-    //_________________________________
-    private static final String NAME_DB = "orenkasko_0.0";
-
-    public static void Delete(Context context) {
-        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.clear();
-        editor.commit();
-    }
-
-    public static void SaveString(Context context, String name, String str) {
-        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(name, str);
-        editor.commit();
-    }
-
-    public static String GetString(Context context, String name) {
-        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
-        return sharedPref.getString(name, "");
-    }
-
-    public static void DelString(Context context, String name) {
-        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editotr = sharedPref.edit();
-        editotr.remove(name);
-        editotr.commit();
-    }
-
-    public static boolean isEmpty(Context context, String name) {
-        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
-        return !sharedPref.contains(name);
-    }
-
-    public static void SaveInt(Context context, String name, int value) {
-        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt(name, value);
-        editor.commit();
-    }
-
-    public static void DelInt(Context context, String name) {
-        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.remove(name);
-        editor.commit();
-    }
-
-    public static int GetInt(Context context, String name) {
-        return GetInt(context, name, -1);
-    }
-
-    public static int GetInt(Context context, String name, int defValue) {
-        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
-        return sharedPref.getInt(name, defValue);
-    }
-
-
-    public static String[] GetStringArray(Context context, String name) {
-        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
-        Set<String> set = sharedPref.getStringSet(name, null);
-        if (null == set) {
-            return new String[0];
-        }
-        return set.toArray(new String[set.size()]);
-    }
-
-    public static void AddInArray(Context context, String name, int val) {
-        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
-        Set<String> set = sharedPref.getStringSet(name, null);
-        if (null == set) {
-            set = new HashSet<String>();
-        }
-        set.add(String.valueOf(val));
-
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putStringSet(name, set);
-        editor.commit();
-    }
-
-    public static void RmInArray(Context context, String name, int val) {
-        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
-        Set<String> set = sharedPref.getStringSet(name, null);
-        if (null == set) {
-            return;
-        }
-        set.remove(String.valueOf(val));
-
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putStringSet(name, set);
-        boolean ret = editor.commit();
-        return;
-    }
-
-
-    public static void SaveImages(Context context, String name, ArrayList<ImageLoader> images) {
-        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt(name, images.size());
-        editor.commit();
-
-        String path = GetFileCache(context).getAbsolutePath() + "/" + name + "/";
-        File dirs = new File(path);
-        boolean test = false;
-        if (!dirs.exists())
-            test = dirs.mkdirs();
-        int i = -1;
-        for (ImageLoader image : images) {
-            ++i;
-            Bitmap bitmap = GetImage(image.getImageView());
-            if (null == bitmap) continue;
-            SaveImageFile(bitmap, dirs.getAbsolutePath() + "/image_" + i);
-        }
-    }
-
-    public static ArrayList<Bitmap> GetImages(Context context, String name) {
-        ArrayList<Bitmap> bitmaps = new ArrayList<>();
-        SharedPreferences sharedPref = context.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
-        int count = sharedPref.getInt(name, -1);
-        if (-1 == count) return bitmaps;
-
-        String path = GetFileCache(context).getAbsolutePath() + "/" + name + "/";
-        for (int i = 0; i < count; ++i) {
-            Bitmap bitmap = BitmapFactory.decodeFile(path + "/image_" + i);
-            bitmaps.add(bitmap);
-        }
-        return bitmaps;
-    }
-
-    public static void RmImages(Context context, String name) {
-        File file = new File(GetFileCache(context).getAbsolutePath() + "/" + name);
-        file.delete();
-    }
-
-    public static void SaveImage(Context context, Bitmap bitmap, String name) {
-        String path = GetFileCache(context).getAbsolutePath() + "/" + name;
-        SaveImageFile(bitmap, path);
-    }
-
-    public static Bitmap GetImage(Context context, String name) {
-        String path = GetFileCache(context).getAbsolutePath() + "/" + name;
-        return BitmapFactory.decodeFile(path);
-    }
-
     //##############################################################################################
 
     public static Integer[] getIntArray(Context context, int array_strings_id) {
@@ -492,39 +369,396 @@ public class Helpers {
         return ret;
     }
 
-    //##############################################################################################
-
-    public static boolean SaveImageFile(Bitmap bitmap, String file_name) {
-        try {
-            FileOutputStream out = new FileOutputStream(file_name);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+    public static Bitmap GetImage(ImageView imageView) {
+        BitmapDrawable bitmapDrawable = ((BitmapDrawable) imageView.getDrawable());
+        Bitmap bitmap;
+        if (bitmapDrawable == null) {
+            imageView.buildDrawingCache();
+            bitmap = imageView.getDrawingCache();
+            imageView.buildDrawingCache(false);
+        } else {
+            bitmap = bitmapDrawable.getBitmap();
         }
-        return true;
+        return bitmap;
+    }
+
+    //#################################################################################################
+
+    private static final String _URL_DOCS = "https://orenkasko.herokuapp.com/applications";
+    private static final String _URL_IMG = "https://orenkasko.herokuapp.com/";
+    //private static final String _URL_IMG = "0.0.0.0:80";
+
+
+    public interface RequestCallback {
+        void callback(String[] result);
+    }
+
+    static class PostRequest extends AsyncTask<String[], Object, String> {
+        RequestCallback mCallback;
+
+        PostRequest(RequestCallback callback) {
+            mCallback = callback;
+        }
+
+        @Override
+        protected String doInBackground(String[]... params) {
+            try {
+                URLConnection connection = new URL(_URL_DOCS).openConnection();
+                connection.setDoOutput(true);
+                connection.setDoInput(true);
+
+                String content = "{\"data\":{ ";//++ "}}";
+
+                String[] vals = params[0];
+                int lenght = vals.length;
+                for (int i = 0; i < lenght; ) {
+                    if (i > 1) {
+                        content += ",";
+                    }
+                    String val = vals[i + 1];
+                    if (val.charAt(0) == '[')
+                        content += "\"" + vals[i] + "\":" + val + "";
+                    else
+                        content += "\"" + vals[i] + "\":\"" + val + "\"";
+                    i += 2;
+                }
+                content += "}}";
+
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setRequestProperty("Content-Length", String.valueOf(content.getBytes().length));
+
+                OutputStream output = connection.getOutputStream();
+                output.write(content.getBytes());
+                output.close();
+
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String inputLine;
+                String ret = "";
+                while ((inputLine = in.readLine()) != null) {
+                    if (ret.length() > 0)
+                        ret += "\n";
+                    ret += inputLine;
+                }
+                in.close();
+                return ret;
+
+            } catch (Exception e) {
+            }
+
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            mCallback.callback(new String[]{result});
+        }
+    }
+
+    public static void SendPost(RequestCallback callback, String[] params) {
+        new PostRequest(callback).execute(params);
+    }
+
+    interface Service {
+        @Multipart
+        @POST("upload_image")
+        Call<ResponseBody> postImage(@Part MultipartBody.Part image);
+    }
+
+    static class ImgRequest extends AsyncTask<Bitmap, Object, String[]> {
+        RequestCallback mCallback;
+        int mId;
+        Context mContext;
+
+        ImgRequest(Context context, RequestCallback callback, int id) {
+            mCallback = callback;
+            mContext = context;
+            mId = id;
+        }
+
+        @Override
+        protected String[] doInBackground(Bitmap... bitmaps) {
+            try {
+                Bitmap bm = bitmaps[0];
+                if (null == bm) return null;
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                bm.compress(Bitmap.CompressFormat.JPEG, 75, bos);
+                byte[] data = bos.toByteArray();
+                String fileName = "image" + System.currentTimeMillis();
+
+                if (false) {
+
+                    //#####################################################
+                    //URLConnection connection = new URL(_URL_IMG).openConnection();
+                    URL url = new URL(_URL_IMG);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setUseCaches(false);
+                    connection.setDoOutput(true);
+                    connection.setDoInput(true);
+                    connection.setRequestMethod("POST");
+
+
+                    String lineEnd = "\r\n";
+                    String twoHyphens = "--";
+                    String boundary = "*****";
+                    boundary = "===" + System.currentTimeMillis() + "===";
+
+
+                    //_____________________________________________
+                    connection.setRequestProperty("Connection", "Keep-Alive");
+                    //connection.setRequestProperty("ENCTYPE", "multipart/form-data");
+
+                    //connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+                    //connection.setRequestProperty("Content-Type", "multipart/form-data; name=\"filename\"; filename=" + fileName + "\"" + lineEnd);
+                    connection.setRequestProperty("Content-Type", "multipart/form-data");
+
+
+                    DataOutputStream dos = new DataOutputStream(connection.getOutputStream());
+                    dos.writeBytes(twoHyphens + boundary + lineEnd);
+                    dos.writeBytes("Content-Disposition: form-data; name=\"filename\"; filename=\"" + fileName + "\"" + lineEnd);
+                    //dos.writeBytes("Content-Type: multipart/form-data; boundary=" + boundary);
+                    dos.writeBytes("Content-Type: image/jpeg" + lineEnd);
+                    dos.writeBytes("Content-Transfer-Encoding: binary" + lineEnd);
+
+
+                    //connection.setRequestProperty("Content-Length", String.valueOf(content.getBytes().length));
+                    //dos.writeBytes("Content-Transfer-Encoding: binary" + lineEnd);
+
+                    //--
+                    dos.write(data);
+                    dos.writeBytes(lineEnd);
+                    dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+                    //__
+                    //___________________________________
+                    String ret = connection.getResponseMessage();
+                    int tmp2 = connection.getResponseCode();
+
+                    dos.flush();
+                    dos.close();
+
+                    return new String[]{String.valueOf(mId), ret};
+                } else {
+                    /*
+                    String path = Application.getData().GetFileCache(mContext).getAbsolutePath() + "/image_0/image_0";
+
+                    String uploadId =
+                            new MultipartUploadRequest(mContext, _URL_IMG)
+                                    .addFileToUpload(path, "your-param-name")
+                                    .setNotificationConfig(new UploadNotificationConfig())
+                                    .setMaxRetries(2)
+                                    .startUpload();
+                    /**/
+                    ///*
+
+                    //dos.writeBytes("Content-Type: multipart/form-data; boundary=" + boundary);
+                    //dos.writeBytes("Content-Disposition: form-data; name=\"filename\"; filename=\"" + fileName + "\"" + lineEnd);
+                    //dos.writeBytes("Content-Type: image/jpeg" + lineEnd);
+
+
+
+                    /*
+                    HttpPost postRequest = new HttpPost(_URL_IMG);
+                    postRequest.addHeader("Content-Type", "multipart/form-data");
+
+                    //ByteArrayEntity req_entity = new ByteArrayEntity(data);
+                    //req_entity.setContentType("image/jpeg");
+
+
+                    MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+                    builder.setCharset(MIME.UTF8_CHARSET);
+                    //builder.addBinaryBody("filename", data, ContentType.create("image/jpeg"), fileName);
+                    builder.addBinaryBody("filename", data, ContentType.MULTIPART_FORM_DATA, fileName);
+
+                    postRequest.setEntity(builder.build());
+                    HttpResponse response = new DefaultHttpClient().execute(postRequest);
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
+                    String sResponse;
+                    StringBuilder s = new StringBuilder();
+                    while ((sResponse = reader.readLine()) != null) {
+                        s = s.append(sResponse);
+                    }
+                    System.out.println("Response: " + s);
+                    return new String[]{String.valueOf(mId), s.toString()};
+                    /**/
+
+
+                    OkHttpClient client = new OkHttpClient.Builder().build();
+
+                    Service service = new Retrofit.Builder().baseUrl(_URL_IMG).client(client).build().create(Service.class);
+
+                    RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), data);
+                    MultipartBody.Part body = MultipartBody.Part.createFormData("filename", fileName, reqFile);
+                    //RequestBody name = RequestBody.create(MediaType.parse("text/plain"), "upload_test");
+                    //retrofit2.Call<okhttp3.ResponseBody> req = service.postImage(body, name);
+                    retrofit2.Call<okhttp3.ResponseBody> req = service.postImage(body);
+                    req.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            Log(response.message());
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String[] result) {
+            mCallback.callback(result);
+        }
+    }
+
+    static class ImagesRequest extends AsyncTask<Object, Object, String[]> {
+        RequestCallback mCallback;
+        int img_size;
+
+        ImagesRequest(Context context, RequestCallback callback, ArrayList<ImageLoader> images) {
+            mCallback = callback;
+
+            img_size = images.size();
+            int i = 0;
+            for (ImageLoader image : images) {
+                Bitmap bmp = Helpers.GetImage(image.getImageView());
+                new ImgRequest(context, img_callback, ++i).execute(bmp);
+            }
+        }
+
+        HashMap<Integer, String> uploaded_img = new HashMap<>();
+
+        RequestCallback img_callback = new RequestCallback() {
+            @Override
+            public void callback(String[] result) {
+                if (null == result) return;
+                synchronized (uploaded_img) {
+                    uploaded_img.put(Integer.parseInt(result[0]), result[1]);
+                }
+            }
+        };
+
+        @Override
+        protected String[] doInBackground(Object... params) {
+
+            do {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                }
+                synchronized (uploaded_img) {
+                    if (uploaded_img.size() == img_size)
+                        break;
+                }
+            } while (true);
+
+            String[] ret = new String[img_size];
+            for (int i = 0; i < img_size; ++i) {
+                ret[i] = uploaded_img.get(i);
+            }
+            return ret;
+        }
+
+        @Override
+        protected void onPostExecute(String[] result) {
+            mCallback.callback(result);
+        }
+
+    }
+
+    public static void SendImage(Context context, RequestCallback callback, ArrayList<ImageLoader> images) {
+        new ImagesRequest(context, callback, images).execute();
     }
 
 
-    private static File cacheDir;
+    int serverResponseCode = 0;
 
-    public static File GetFileCache(Context context) {
-        if (null != cacheDir) return cacheDir;
-        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
-            cacheDir = new File(android.os.Environment.getExternalStorageDirectory(), "Android/data/" + context.getPackageName() + "/files/");
-        else
-            cacheDir = context.getCacheDir();
-        if (!cacheDir.exists())
-            cacheDir.mkdirs();
-        return cacheDir;
+    public int uploadFile(Context context, String sourceFileUri) {
+
+        String fileName = sourceFileUri;
+
+        HttpURLConnection conn = null;
+        DataOutputStream dos = null;
+        String lineEnd = "\r\n";
+        String twoHyphens = "--";
+        String boundary = "*****";
+        int bytesRead, bytesAvailable, bufferSize;
+        byte[] buffer;
+        int maxBufferSize = 1 * 1024 * 1024;
+        File sourceFile = new File(sourceFileUri);
+
+        if (!sourceFile.isFile()) {
+            return 0;
+        } else {
+            try {
+                FileInputStream fileInputStream = new FileInputStream(sourceFile);
+                URL url = new URL("url");
+
+                // Open a HTTP  connection to  the URL
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setDoInput(true); // Allow Inputs
+                conn.setDoOutput(true); // Allow Outputs
+                conn.setUseCaches(false); // Don't use a Cached Copy
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Connection", "Keep-Alive");
+                conn.setRequestProperty("ENCTYPE", "multipart/form-data");
+                if (false) {
+                    conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+                    conn.setRequestProperty("uploaded_file", fileName);
+
+                    dos = new DataOutputStream(conn.getOutputStream());
+                    dos.writeBytes(twoHyphens + boundary + lineEnd);
+                    dos.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\""
+                            + fileName + "\"" + lineEnd);
+                    dos.writeBytes(lineEnd);
+                }
+                // create a buffer of  maximum size
+                bytesAvailable = fileInputStream.available();
+
+                bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                buffer = new byte[bufferSize];
+
+                // read file and write it into form...
+                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+                while (bytesRead > 0) {
+
+                    dos.write(buffer, 0, bufferSize);
+                    bytesAvailable = fileInputStream.available();
+                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+                }
+
+                // Responses from the server (code and message)
+                serverResponseCode = conn.getResponseCode();
+                String serverResponseMessage = conn.getResponseMessage();
+
+                Log.i("uploadFile", "HTTP Response is : " + serverResponseMessage + ": " + serverResponseCode);
+
+                if (serverResponseCode == 200) {
+                    //complete
+                }
+
+                //close the streams //
+                fileInputStream.close();
+                dos.flush();
+                dos.close();
+
+            } catch (MalformedURLException ex) {
+                ex.printStackTrace();
+                Log("Upload file to server error: " + ex.getMessage());
+            } catch (Exception e) {
+                Log("Upload file to server Exception Exception : " + e.getMessage());
+            }
+            return serverResponseCode;
+
+        } // End else block
     }
-
-    public static void deleteRecursive(File fileOrDirectory) {
-        if (fileOrDirectory.isDirectory())
-            for (File child : fileOrDirectory.listFiles())
-                deleteRecursive(child);
-
-        fileOrDirectory.delete();
-    }
-
 }

@@ -329,8 +329,11 @@ public class OsagoActivity extends BaseActivity {
     }
 
 
+
+
+    //warning save data
     private void readData() {
-        String str = Data.getOsagoDat(order_loaded_id);
+        String str = Application.getData().getOsagoDat(order_loaded_id);
 
         if (str.length() <= 0) return;
 
@@ -370,7 +373,7 @@ public class OsagoActivity extends BaseActivity {
 
 
         String type_avto = item_type.mSpin.getSelectedItem().toString() + " " + item_sub_type.mSpin.getSelectedItem().toString();
-        order_loaded_id = Data.saveOsagoDat(order_loaded_id, navigators, type_avto, save_dat);
+        order_loaded_id = Application.getData().saveOsagoDat(order_loaded_id, navigators, type_avto, save_dat);
     }
 
     float Tb = 0; // Базовая ставка // тип ТС
