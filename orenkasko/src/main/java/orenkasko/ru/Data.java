@@ -162,8 +162,10 @@ public class Data extends AppResource {
                 } else {
                     imgs += ",";
                 }
-                imgs += str;
+                imgs += "\"" + str + "\"";
             }
+            imgs += ",\"количество завтра обясню(пока пустые, чтоб все негрузить)\"" +
+                    "]";
 
             String[] params = {
                     "switch_first", str_dat[0],
@@ -195,7 +197,7 @@ public class Data extends AppResource {
                 public void callback(String[] result) {
                     Log("after saveDocs " + result[0]);
 
-                    if (null != mCPL) mCPL.save_docs_end();
+                    if (null != mCPL) mCPL.save_docs_end(result);
                 }
             }, params);
         }
@@ -289,7 +291,7 @@ public class Data extends AppResource {
         RmImages(IMAGE_ + order_id);
     }
 
-    public void saveImages(Context context,int order_id, boolean success, ArrayList<ImageLoader> images) {
+    public void saveImages(Context context, int order_id, boolean success, ArrayList<ImageLoader> images) {
         if (null != mCPL) mCPL.save_img_start();
 
         SaveImages(IMAGE_ + order_id, images);
@@ -297,10 +299,10 @@ public class Data extends AppResource {
         if (!success) {
             if (null != mCPL) mCPL.save_img_end(null);
         } else {
-            Helpers.SendImage(context,new Helpers.RequestCallback() {
+            Helpers.SendImage(context, new Helpers.RequestCallback() {
                 @Override
                 public void callback(String[] result) {
-                    Log("saveImages = " + result.toString());
+                    Log("saveImages = " + result.length);
                     if (null != mCPL) mCPL.save_img_end(result);
                 }
             }, images);
@@ -314,7 +316,7 @@ public class Data extends AppResource {
     public interface changed_process_load {
         void save_docs_start();
 
-        void save_docs_end();
+        void save_docs_end(String[] request);
 
         void save_img_start();
 

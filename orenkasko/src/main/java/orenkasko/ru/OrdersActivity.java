@@ -40,10 +40,17 @@ public class OrdersActivity extends BaseActivity {
         setupViewPager(viewPager);
         tabs.setupWithViewPager(viewPager);
 
-        if (getIntent().hasExtra(OPEN_SUCCESS))
+        Data data = Application.getData();
+
+        if (getIntent().hasExtra(OPEN_SUCCESS) ||
+                data.mOrder_Success.data_order_count > 0)
             viewPager.setCurrentItem(1);
 
-        if (getIntent().hasExtra(FIRST_OPEN))
+
+        if (getIntent().hasExtra(FIRST_OPEN) ||
+                (data.mOrder.data_order_count <= 0 &&
+                        data.mOrder_Success.data_order_count <= 0)
+                )
             openDrawer();
     }
 

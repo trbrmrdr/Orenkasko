@@ -4,13 +4,11 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
@@ -21,14 +19,11 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mvc.imagepicker.ImagePicker;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import orenkasko.ru.Application;
-import orenkasko.ru.PersonalDataActivity;
 import orenkasko.ru.R;
 
 /**
@@ -184,17 +179,26 @@ public class ImageLoader extends RelativeLayout {
         _activity = activity;
     }
 
-    public static void ReadImages(ArrayList<Bitmap> bitmaps) {
-        int i = -1;
-        for (Bitmap bitmap : bitmaps) {
-            i++;
-            if (_images.size() <= i) break;
-            if (bitmap == null) {
-                _images.get(i).setLoaded(false, null);
-                continue;
+    static class ReaderImages extends AsyncTask<ArrayList<Bitmap>, Object, Object> {
+
+        @Override
+        protected Object doInBackground(ArrayList<Bitmap>... bitmaps) {
+            int i = -1;
+            for (Bitmap bitmap : bitmaps[0]) {
+                i++;
+                if (_images.size() <= i) break;
+                if (bitmap == null) {
+                    _images.get(i).setLoaded(false, null);
+                    continue;
+                }
+                _images.get(i).setLoaded(true, bitmap);
             }
-            _images.get(i).setLoaded(true, bitmap);
+            return null;
         }
+    }
+
+    public static void ReadImages(ArrayList<Bitmap> bitmaps) {
+        new ReaderImages().execute(bitmaps);
     }
 
     public ImageView getImageView() {

@@ -2,9 +2,7 @@ package orenkasko.ru.Utils;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -15,29 +13,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.android.internal.http.multipart.MultipartEntity;
-
-
-import org.apache.http.Consts;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-
-import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MIME;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.ByteArrayBody;
-import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.DefaultHttpClient;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -47,15 +28,12 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import orenkasko.ru.Application;
 import orenkasko.ru.R;
 import orenkasko.ru.ui.base.ImageLoader;
 import retrofit2.Call;
@@ -388,12 +366,19 @@ public class Helpers {
     private static final String _URL_IMG = "https://orenkasko.herokuapp.com/";
     //private static final String _URL_IMG = "0.0.0.0:80";
 
+    interface Service {
+        @Multipart
+        @POST("upload_image")
+        Call<ResponseBody> postImage(@Part MultipartBody.Part image);
+    }
 
     public interface RequestCallback {
         void callback(String[] result);
+
     }
 
     static class PostRequest extends AsyncTask<String[], Object, String> {
+
         RequestCallback mCallback;
 
         PostRequest(RequestCallback callback) {
@@ -416,7 +401,7 @@ public class Helpers {
                         content += ",";
                     }
                     String val = vals[i + 1];
-                    if (val.charAt(0) == '[')
+                    if (val.length() > 1 && val.charAt(0) == '[')
                         content += "\"" + vals[i] + "\":" + val + "";
                     else
                         content += "\"" + vals[i] + "\":\"" + val + "\"";
@@ -444,6 +429,7 @@ public class Helpers {
                 return ret;
 
             } catch (Exception e) {
+                e.printStackTrace();
             }
 
             return "";
@@ -453,16 +439,11 @@ public class Helpers {
         protected void onPostExecute(String result) {
             mCallback.callback(new String[]{result});
         }
+
     }
 
     public static void SendPost(RequestCallback callback, String[] params) {
         new PostRequest(callback).execute(params);
-    }
-
-    interface Service {
-        @Multipart
-        @POST("upload_image")
-        Call<ResponseBody> postImage(@Part MultipartBody.Part image);
     }
 
     static class ImgRequest extends AsyncTask<Bitmap, Object, String[]> {
@@ -478,9 +459,13 @@ public class Helpers {
 
         @Override
         protected String[] doInBackground(Bitmap... bitmaps) {
+            Bitmap bm = bitmaps[0];
+            final String[] ret = new String[2];
+            ret[0] = String.valueOf(mId);
+            ret[1] = "";
+            if (null == bm) return ret;
+
             try {
-                Bitmap bm = bitmaps[0];
-                if (null == bm) return null;
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 bm.compress(Bitmap.CompressFormat.JPEG, 75, bos);
                 byte[] data = bos.toByteArray();
@@ -490,7 +475,7 @@ public class Helpers {
 
                     //#####################################################
                     //URLConnection connection = new URL(_URL_IMG).openConnection();
-                    URL url = new URL(_URL_IMG);
+                    URL url = new URL(_URL_IMG + "upload_image");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setUseCaches(false);
                     connection.setDoOutput(true);
@@ -508,80 +493,36 @@ public class Helpers {
                     connection.setRequestProperty("Connection", "Keep-Alive");
                     //connection.setRequestProperty("ENCTYPE", "multipart/form-data");
 
-                    //connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+                    connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
                     //connection.setRequestProperty("Content-Type", "multipart/form-data; name=\"filename\"; filename=" + fileName + "\"" + lineEnd);
-                    connection.setRequestProperty("Content-Type", "multipart/form-data");
+                    //connection.setRequestProperty("Content-Type", "multipart/form-data");
 
-
+                    Log(data.length + "");
                     DataOutputStream dos = new DataOutputStream(connection.getOutputStream());
-                    dos.writeBytes(twoHyphens + boundary + lineEnd);
-                    dos.writeBytes("Content-Disposition: form-data; name=\"filename\"; filename=\"" + fileName + "\"" + lineEnd);
+                    //dos.writeBytes(twoHyphens + boundary + lineEnd);
+                    //dos.writeBytes("Content-Disposition: form-data; name=\"filename\"; filename=\"" + fileName + "\"" + lineEnd);
                     //dos.writeBytes("Content-Type: multipart/form-data; boundary=" + boundary);
-                    dos.writeBytes("Content-Type: image/jpeg" + lineEnd);
-                    dos.writeBytes("Content-Transfer-Encoding: binary" + lineEnd);
-
-
+                    dos.writeBytes("Content-Type: image/*" + lineEnd);
+                    //dos.writeBytes("Content-Transfer-Encoding: binary" + lineEnd);
                     //connection.setRequestProperty("Content-Length", String.valueOf(content.getBytes().length));
+
+
                     //dos.writeBytes("Content-Transfer-Encoding: binary" + lineEnd);
 
                     //--
                     dos.write(data);
-                    dos.writeBytes(lineEnd);
-                    dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
-
-                    //__
-                    //___________________________________
-                    String ret = connection.getResponseMessage();
-                    int tmp2 = connection.getResponseCode();
+                    //dos.writeBytes(lineEnd);
+                    //dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
 
                     dos.flush();
                     dos.close();
+                    //__
+                    //___________________________________
+                    String test_str = connection.getResponseMessage();
+                    int tmp2 = connection.getResponseCode();
 
-                    return new String[]{String.valueOf(mId), ret};
+                    ret[1] = "0";
                 } else {
-                    /*
-                    String path = Application.getData().GetFileCache(mContext).getAbsolutePath() + "/image_0/image_0";
-
-                    String uploadId =
-                            new MultipartUploadRequest(mContext, _URL_IMG)
-                                    .addFileToUpload(path, "your-param-name")
-                                    .setNotificationConfig(new UploadNotificationConfig())
-                                    .setMaxRetries(2)
-                                    .startUpload();
-                    /**/
-                    ///*
-
-                    //dos.writeBytes("Content-Type: multipart/form-data; boundary=" + boundary);
-                    //dos.writeBytes("Content-Disposition: form-data; name=\"filename\"; filename=\"" + fileName + "\"" + lineEnd);
-                    //dos.writeBytes("Content-Type: image/jpeg" + lineEnd);
-
-
-
-                    /*
-                    HttpPost postRequest = new HttpPost(_URL_IMG);
-                    postRequest.addHeader("Content-Type", "multipart/form-data");
-
-                    //ByteArrayEntity req_entity = new ByteArrayEntity(data);
-                    //req_entity.setContentType("image/jpeg");
-
-
-                    MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-                    builder.setCharset(MIME.UTF8_CHARSET);
-                    //builder.addBinaryBody("filename", data, ContentType.create("image/jpeg"), fileName);
-                    builder.addBinaryBody("filename", data, ContentType.MULTIPART_FORM_DATA, fileName);
-
-                    postRequest.setEntity(builder.build());
-                    HttpResponse response = new DefaultHttpClient().execute(postRequest);
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
-                    String sResponse;
-                    StringBuilder s = new StringBuilder();
-                    while ((sResponse = reader.readLine()) != null) {
-                        s = s.append(sResponse);
-                    }
-                    System.out.println("Response: " + s);
-                    return new String[]{String.valueOf(mId), s.toString()};
-                    /**/
-
 
                     OkHttpClient client = new OkHttpClient.Builder().build();
 
@@ -592,23 +533,52 @@ public class Helpers {
                     //RequestBody name = RequestBody.create(MediaType.parse("text/plain"), "upload_test");
                     //retrofit2.Call<okhttp3.ResponseBody> req = service.postImage(body, name);
                     retrofit2.Call<okhttp3.ResponseBody> req = service.postImage(body);
+
                     req.enqueue(new Callback<ResponseBody>() {
                         @Override
                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            Log(response.message());
+                            String ret_path = "0";
+                            try {
+                                String ret = response.body().string();
+                                ret = ret.substring(14, ret.lastIndexOf('"'));
+                                //{"temp_path":"/tmp/RackMultipart20171206-4-1g7nq6b"}
+
+                                ret_path = ret;
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            synchronized (ret) {
+                                ret[1] = ret_path;
+                            }
                         }
 
                         @Override
                         public void onFailure(Call<ResponseBody> call, Throwable t) {
                             t.printStackTrace();
+                            synchronized (ret) {
+                                ret[1] = "0";
+                            }
                         }
                     });
+
+
+                    do {
+                        try {
+                            Thread.sleep(500);
+                        } catch (Exception e) {
+                        }
+                        synchronized (ret) {
+                            if (0 < ret[1].length())
+                                break;
+                        }
+                    } while (true);
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return null;
+            return ret;
         }
 
         @Override
@@ -628,7 +598,7 @@ public class Helpers {
             int i = 0;
             for (ImageLoader image : images) {
                 Bitmap bmp = Helpers.GetImage(image.getImageView());
-                new ImgRequest(context, img_callback, ++i).execute(bmp);
+                new ImgRequest(context, img_callback, i++).execute(bmp);
             }
         }
 
@@ -639,6 +609,7 @@ public class Helpers {
             public void callback(String[] result) {
                 if (null == result) return;
                 synchronized (uploaded_img) {
+                    Log("img " + result[0] + " = " + result[1]);
                     uploaded_img.put(Integer.parseInt(result[0]), result[1]);
                 }
             }

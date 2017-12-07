@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.widget.ImageView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -117,10 +115,12 @@ public class AppResource {
 
     private final String NAME_DB = "orenkasko_0.0";
     private SharedPreferences sharedPref;
+    private SharedPreferences.Editor sharedPref_editor;
 
     public AppResource(final Context context) {
         mContext = context;
         sharedPref = mContext.getSharedPreferences(NAME_DB, Context.MODE_PRIVATE);
+        sharedPref_editor = sharedPref.edit();
     }
 
     private SharedPreferences getSharedPreferences() {
@@ -128,16 +128,19 @@ public class AppResource {
         return sharedPref;
     }
 
+    private SharedPreferences.Editor getEditor() {
+        //return getSharedPreferences().edit();
+        return sharedPref_editor;
+    }
+
     public void Delete() {
-        SharedPreferences sharedPref = getSharedPreferences();
-        SharedPreferences.Editor editor = sharedPref.edit();
+        SharedPreferences.Editor editor = getEditor();
         editor.clear();
         editor.commit();
     }
 
     public void SaveString(String name, String str) {
-        SharedPreferences sharedPref = getSharedPreferences();
-        SharedPreferences.Editor editor = sharedPref.edit();
+        SharedPreferences.Editor editor = getEditor();
         editor.putString(name, str);
         editor.commit();
     }
@@ -148,8 +151,7 @@ public class AppResource {
     }
 
     public void DelString(String name) {
-        SharedPreferences sharedPref = getSharedPreferences();
-        SharedPreferences.Editor editotr = sharedPref.edit();
+        SharedPreferences.Editor editotr = getEditor();
         editotr.remove(name);
         editotr.commit();
     }
@@ -160,15 +162,13 @@ public class AppResource {
     }
 
     public void SaveInt(String name, int value) {
-        SharedPreferences sharedPref = getSharedPreferences();
-        SharedPreferences.Editor editor = sharedPref.edit();
+        SharedPreferences.Editor editor = getEditor();
         editor.putInt(name, value);
         editor.commit();
     }
 
     public void DelInt(String name) {
-        SharedPreferences sharedPref = getSharedPreferences();
-        SharedPreferences.Editor editor = sharedPref.edit();
+        SharedPreferences.Editor editor = getEditor();
         editor.remove(name);
         editor.commit();
     }
@@ -200,7 +200,7 @@ public class AppResource {
         }
         set.add(String.valueOf(val));
 
-        SharedPreferences.Editor editor = sharedPref.edit();
+        SharedPreferences.Editor editor = getEditor();
         editor.putStringSet(name, set);
         editor.commit();
     }
@@ -213,7 +213,7 @@ public class AppResource {
         }
         set.remove(String.valueOf(val));
 
-        SharedPreferences.Editor editor = sharedPref.edit();
+        SharedPreferences.Editor editor = getEditor();
         editor.putStringSet(name, set);
         boolean ret = editor.commit();
         return;
@@ -221,8 +221,7 @@ public class AppResource {
 
 
     public void SaveImages(String name, ArrayList<ImageLoader> images) {
-        SharedPreferences sharedPref = getSharedPreferences();
-        SharedPreferences.Editor editor = sharedPref.edit();
+        SharedPreferences.Editor editor = getEditor();
         editor.putInt(name, images.size());
         editor.commit();
 
@@ -231,12 +230,16 @@ public class AppResource {
         boolean test = false;
         if (!dirs.exists())
             test = dirs.mkdirs();
+        String path_s = dirs.getAbsolutePath() + "/image_";
         int i = -1;
         for (ImageLoader image : images) {
             ++i;
             Bitmap bitmap = Helpers.GetImage(image.getImageView());
-            if (null == bitmap) continue;
-            SaveImageFile(bitmap, dirs.getAbsolutePath() + "/image_" + i);
+            if (null == bitmap) {
+                new File(path_s + i).delete();
+            } else {
+                SaveImageFile(bitmap, path_s + i);
+            }
         }
     }
 

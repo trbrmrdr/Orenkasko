@@ -1,16 +1,12 @@
 package orenkasko.ru;
 
-import android.Manifest;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -250,8 +246,7 @@ public class PersonalDataActivity extends BaseActivity {
         } else {
             text_phone.setText(getText(R.string.phone_start_text));
         }
-        //todo photo
-        //....
+
     }
 
     private void readImage() {
@@ -262,6 +257,15 @@ public class PersonalDataActivity extends BaseActivity {
 
     private void saveData(final boolean success) {
         if (save_not_needed) return;
+        if (success) {
+            setVisibleProgress(true);
+            //after call saveData_saving(true);
+        } else {
+            saveData_saving(success);
+        }
+    }
+
+    private void saveData_saving(final boolean success) {
         save_not_needed = true;
         final String fio = text_fio.getText().toString();
         String email = text_email.getText().toString();
@@ -284,11 +288,10 @@ public class PersonalDataActivity extends BaseActivity {
         Application.getData().setChangedProcessLoad(new Data.changed_process_load() {
             @Override
             public void save_docs_start() {
-                setVisibleProgress(true);
             }
 
             @Override
-            public void save_docs_end() {
+            public void save_docs_end(String[] request) {
                 setVisibleProgress(false);
 
                 if (true) return;
@@ -299,12 +302,10 @@ public class PersonalDataActivity extends BaseActivity {
 
             @Override
             public void save_img_start() {
-                setVisibleProgress(true);
             }
 
             @Override
             public void save_img_end(String[] urls) {
-                setVisibleProgress(false);
                 Application.getData().saveDocs(order_id,
                         urls,
                         success, fio, time_docs, change_owner,
@@ -312,38 +313,36 @@ public class PersonalDataActivity extends BaseActivity {
             }
         });
 
-        Application.getData().saveImages(this,order_id, success, ImageLoader._images);
+        Application.getData().saveImages(this, order_id, success, ImageLoader._images);
     }
 
-    int count_progress = 0;
+
     MaterialDialog progress_dialog;
 
     private void setVisibleProgress(boolean visible) {
-        count_progress += visible ? 1 : -1;
-
-        if (count_progress > 0) {
+        if (visible) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-            if (null == progress_dialog) {
-                progress_dialog = new MaterialDialog.Builder(PersonalDataActivity.this)
-                        .title("Загружаются данные")
-                        .content("Пожалуйста подождите...")
-                        .progress(true, 0)
-                        .cancelable(false)
-                        //.autoDismiss(true)
-                        .show();
-
-            }
-        }
-
-        if (count_progress <= 0) {
+            progress_dialog = new MaterialDialog.Builder(PersonalDataActivity.this)
+                    .title("Загружаются данные")
+                    .content("Пожалуйста подождите...")
+                    .progress(true, 0)
+                    .cancelable(false)
+                    //.autoDismiss(true)
+                    .showListener(new DialogInterface.OnShowListener() {
+                        @Override
+                        public void onShow(DialogInterface dialogInterface) {
+                            new Handler(getMainLooper()).postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    saveData_saving(true);
+                                }
+                            }, 500);
+                        }
+                    })
+                    .show();
+        } else {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-            if (null != progress_dialog) {
-                progress_dialog.hide();
-                progress_dialog.dismiss();
-                progress_dialog = null;
-            }
+            progress_dialog.dismiss();
         }
     }
 }
