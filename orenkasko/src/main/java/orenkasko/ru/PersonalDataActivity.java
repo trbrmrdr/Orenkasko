@@ -87,6 +87,9 @@ public class PersonalDataActivity extends BaseActivity {
     void change_owner(CompoundButton button, boolean isChecked) {
         if (isChecked) {
             pasport_owner.setVisibility(View.GONE);
+            int size = ImageLoader._images.size();
+            if (size > 2) ImageLoader._images.get(2).setLoaded(false, null);
+            if (size > 3) ImageLoader._images.get(3).setLoaded(false, null);
         } else {
             pasport_owner.setVisibility(View.VISIBLE);
         }
@@ -192,9 +195,9 @@ public class PersonalDataActivity extends BaseActivity {
         //String comments = text_comments.getText().toString();
         String name_card = text_name_card.getText().toString();
 
-        String msg = "";
-        if (false) {
-            msg = fio.length() <= 0 ? "Введите имя" :
+        //if (false)
+        {
+            String msg = fio.length() <= 0 ? "Введите имя" :
                     !email.contains("@") ? "Некорректный адрес @" :
                             phone.length() != 17 ? "Неверный телефон" :
                                     //!pasport_owner.hasLoaded() ? "Незагржены документы" :
@@ -202,20 +205,23 @@ public class PersonalDataActivity extends BaseActivity {
 
             //if (msg.length() <= 0)
 
-            int i = 0;
+            boolean owner = pasport_owner.getVisibility() == View.GONE;
+            int i = -1;
             for (ItemDocs docs : items_docs) {
                 i++;
                 if (!docs.hasLoaded()) {
-                    msg = " чтото там - " + i;
+                    if (owner && (i == 2 || i == 3))
+                        continue;
+                    msg = i + "-ое фото незагружено.";
                     break;
                 }
             }
+            if (msg.length() > 0) {
+                Snackbar.make(view, msg, Snackbar.LENGTH_LONG).setAction("Error", null).show();
+                return;
+            }
         }
 
-        if (msg.length() > 0) {
-            Snackbar.make(view, msg, Snackbar.LENGTH_LONG).setAction("Error", null).show();
-            return;
-        }
         saveData(true);
     }
 

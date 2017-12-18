@@ -53,9 +53,9 @@ subprojects {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    task releasePublic(dependsOn: ["assembleRelease", "crashlyticsUploadSymbolsRelease"]) {
-
-    }
+    //task releasePublic(dependsOn: ["assembleRelease", "crashlyticsUploadSymbolsRelease"]) {
+    //    from ndk only
+    //}
 }
 
 
