@@ -14,34 +14,44 @@
     android:theme="@style/AppTheme.NoActionBar">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="match_parent">
 
+        <!--
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/empty_friend_big" />
 
-        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/main_profile_image"
             android:layout_width="128dp"
             android:layout_height="128dp"
             android:src="@null"
             app:civ_border_color="#00000000"
             app:civ_border_width="2dp" />
+        -->
+        <ImageView
+            android:layout_width="128dip"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/logo_small" />
+
+
     </RelativeLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:text="Имя"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/balance_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1000 р." />
+        android:text="1000 р."
+        android:visibility="gone" />
 
 </LinearLayout>

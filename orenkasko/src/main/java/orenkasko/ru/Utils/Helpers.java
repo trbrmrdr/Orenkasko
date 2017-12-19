@@ -1,10 +1,13 @@
 package orenkasko.ru.Utils;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -113,13 +116,14 @@ public class Helpers {
         }
     }
 
-    public static void StartClean(Context context, Class<?> clazz) {
-        Intent intent = new Intent(context, clazz);
+    public static void StartClean(Activity activity, Class<?> clazz) {
+        Intent intent = new Intent(activity, clazz);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK
                 | Intent.FLAG_ACTIVITY_NO_HISTORY);
-        context.startActivity(intent);
+        activity.startActivity(intent);
     }
+
 
     public static void StartClean(Context context, Intent intent) {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
@@ -643,7 +647,8 @@ public class Helpers {
 
     }
 
-    public static void SendImage(Context context, RequestCallback callback, ArrayList<ImageLoader> images) {
+    public static void SendImage(Context context, RequestCallback
+            callback, ArrayList<ImageLoader> images) {
         new ImagesRequest(context, callback, images).execute();
     }
 

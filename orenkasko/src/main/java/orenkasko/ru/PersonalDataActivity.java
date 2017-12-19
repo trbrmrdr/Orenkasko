@@ -195,7 +195,7 @@ public class PersonalDataActivity extends BaseActivity {
         //String comments = text_comments.getText().toString();
         String name_card = text_name_card.getText().toString();
 
-        //if (false)
+            if (false)
         {
             String msg = fio.length() <= 0 ? "Введите имя" :
                     !email.contains("@") ? "Некорректный адрес @" :
@@ -300,10 +300,11 @@ public class PersonalDataActivity extends BaseActivity {
             public void save_docs_end(String[] request) {
                 setVisibleProgress(false);
 
-                if (true) return;
+                //if (true) return;
                 Intent intent = new Intent(PersonalDataActivity.this, OrdersActivity.class);
                 intent.putExtra(OrdersActivity.OPEN_SUCCESS, true);
                 Helpers.StartClean(PersonalDataActivity.this, intent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
             }
 
             @Override

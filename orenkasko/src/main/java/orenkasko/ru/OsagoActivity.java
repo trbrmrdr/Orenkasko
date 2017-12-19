@@ -329,8 +329,6 @@ public class OsagoActivity extends BaseActivity {
     }
 
 
-
-
     //warning save data
     private void readData() {
         String str = Application.getData().getOsagoDat(order_loaded_id);
@@ -435,6 +433,7 @@ public class OsagoActivity extends BaseActivity {
         Intent intent = new Intent(this, PersonalDataActivity.class);
         intent.putExtra(Data.key_oreder_id, order_loaded_id);
         startActivity(intent);
+        overridePendingTransition(R.anim.right_in, R.anim.left_out);
     }
     //________________________________________
 

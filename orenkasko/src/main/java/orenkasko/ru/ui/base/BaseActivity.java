@@ -41,7 +41,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity";
 
     public final static void Log(final String msg) {
-        Log.e(TAG, msg);
+        //Log.e(TAG, msg);
     }
 
     protected static final int NAV_DRAWER_ITEM_INVALID = -1;
@@ -83,6 +83,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         //ButterKnife.bind(this);
 
 
+        /*
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View header_view = navigationView.getHeaderView(0);
         if (null != header_view) {
@@ -96,6 +97,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             circleImageView = (CircleImageView) header_view.findViewById(R.id.main_profile_image);
             setProfileImage(Application.getData().getProfileImage());
         }
+        */
     }
 
     public void setProfileImage(Bitmap bitmap) {
@@ -178,13 +180,14 @@ public abstract class BaseActivity extends AppCompatActivity {
                 startActivity(new Intent(this, BalanceActivity.class));
                 finish();
                 break;
-            */
+
 
             case R.id.nav_profile:
                 startActivity(new Intent(BaseActivity.this, ProfileActivity.class));
                 finish();
 
                 break;
+                */
             case R.id.nav_orders:
                 startActivity(new Intent(this, OrdersActivity.class));
                 break;
@@ -201,6 +204,17 @@ public abstract class BaseActivity extends AppCompatActivity {
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Class<?> clazz = getClass();
+        if (clazz == OsagoActivity.class) return;
+        if (clazz == OrdersActivity.class) return;
+
+        overridePendingTransition(R.anim.left_in, R.anim.right_out);
     }
 
     /**

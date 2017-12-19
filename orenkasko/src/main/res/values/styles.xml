@@ -1,7 +1,17 @@
 <resources>
 
+
+    <style name="LeftRightActivity" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/left_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/right_out</item>
+        <item name="android:activityCloseExitAnimation">@anim/left_in</item>
+        <item name="android:activityCloseEnterAnimation">@anim/right_in</item>
+    </style>
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <!--<item name="android:windowAnimationStyle">@style/LeftRightActivity</item>-->
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@android:color/holo_orange_light</item>
         <item name="colorPrimaryDark">@android:color/holo_orange_dark</item>

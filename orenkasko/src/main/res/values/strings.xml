@@ -5,10 +5,9 @@
 
     <string name="phone_start_text">+7(</string>
 
-    <string name="error_incorrect_phone">Телефонный номер несуществует</string>
+    <string name="error_incorrect_phone">Возможно телефонный номер несуществует</string>
+    <string name="error_incorrect_phone_code">Возможно пароль неверен</string>
     <string name="error_invalid_phone">Этот номер телефона некорректный</string>
-
-
     <string name="error_field_required">Это поле обязательно для заполнения</string>
 
 
@@ -26,15 +25,14 @@
 
     <string name="phone_text_hint">номер телефона</string>
     <string name="phone_text_hint_2">+7(xxx)-xxx-xx-xx</string>
-    <string name="phone_pass_text_hint">Код подтверждения из СМС</string>
+    <string name="phone_pass_text_hint">Пароль</string>
     <string name="phone_pass_replay">Отправить повторно</string>
 
-    <string name="error_invalid_phone_password">Код поддтверждения некорректный</string>
+    <string name="error_invalid_phone_password">Пароль некорректный</string>
     <string name="error_text_replay_pass">Отправить можно тольлко через </string>
     <string name="name_text_hint">Имя</string>
 
     <string name="text_credits">Я согласен с условиями <a href="https://www.google.ru">пользовательского соглашения</a></string>
-    <string name="error_incorrect_phone_code">Пароль неверен</string>
     <string name="credits_link">https://www.google.ru</string>
     <string name="credits_checked_error">Необходимо согласится с условиями пользовательского соглашения</string>
     <string name="item_balance">Баланс</string>
@@ -61,7 +59,7 @@
     <string name="action_osago">Оформить</string>
     <string name="amount_text" >Стоимость : </string>
     <string name="spin_name_insurance">Страховая компания</string>
-    <string name="item_profile">Провиль</string>
+    <string name="item_profile">Профиль</string>
     <string name="you_photo">Ваша фотография</string>
     <string name="personal_data">Личные данные</string>
     <string name="personal_data_2">Персональные данные</string>
@@ -82,5 +80,6 @@
     <string name="pasport_transport">ПТС или СТС</string>
     <string name="diagnostic_card">Диагностическая Карта</string>
     <string name="name_card">Номер карты</string>
+    <string name="error_incorrect_phone_pass">Неверный пароль или телефон!</string>
 
 </resources>
