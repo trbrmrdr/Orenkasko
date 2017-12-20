@@ -41,7 +41,7 @@
     <dimen name="card_height">165dp</dimen>
 
     <dimen name="spin_width">140dp</dimen>
-    <dimen name="spin_width_2">140dp</dimen>
+    <dimen name="spin_width_2">160dp</dimen>
     <dimen name="item_spin_height">60dp</dimen>
 
     <dimen name="image_loader_text">6pt</dimen>

@@ -26,7 +26,7 @@
             android:id="@+id/spin_type"
             style="@style/item_spin"
             android:layout_width="@dimen/spin_width_2"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:entries="@array/array_spin_type" />
 
@@ -76,6 +76,7 @@
         <Spinner
             android:id="@+id/spin_power"
             style="@style/item_spin"
+
             android:layout_width="@dimen/spin_width_2"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

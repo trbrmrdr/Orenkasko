@@ -1,13 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/text1"
-    style="?android:attr/spinnerDropDownItemStyle"
+    style="@style/item_spin"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:ellipsize="none"
-    android:minHeight="?android:attr/listPreferredItemHeight"
-    android:textAlignment="inherit"
-    android:singleLine="false" />
+    android:ellipsize="marquee"
+    android:singleLine="true"
+    android:text="test text" />
 
     <!--
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
