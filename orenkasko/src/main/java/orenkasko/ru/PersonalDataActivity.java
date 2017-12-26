@@ -83,6 +83,7 @@ public class PersonalDataActivity extends BaseActivity {
     @Bind(R.id.layout_from_docs)
     LinearLayout layout_from_docs;
 
+    //todo неработает удаление при смене страхователя это собственник
     @OnCheckedChanged(R.id.change_owner)
     void change_owner(CompoundButton button, boolean isChecked) {
         if (isChecked) {

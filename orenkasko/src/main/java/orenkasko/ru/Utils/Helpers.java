@@ -365,10 +365,12 @@ public class Helpers {
     }
 
     //#################################################################################################
-
-    private static final String _URL_DOCS = "https://orenkasko.herokuapp.com/applications";
-    private static final String _URL_IMG = "https://orenkasko.herokuapp.com/";
+    //private static final String _SERVER_URL = "https://orenkasko.herokuapp.com";
     //private static final String _URL_IMG = "0.0.0.0:80";
+    private static final String _SERVER_URL = "http://68ca7ed2.ngrok.io";
+
+    private static final String _URL_IMG = _SERVER_URL + "/";
+    private static final String _URL_DOCS = _SERVER_URL + "/applications";
 
     interface Service {
         @Multipart
@@ -412,6 +414,7 @@ public class Helpers {
                     i += 2;
                 }
                 content += "}}";
+                Log("PostRequest = " + content);
 
                 connection.setRequestProperty("Content-Type", "application/json");
                 connection.setRequestProperty("Content-Length", String.valueOf(content.getBytes().length));
@@ -471,7 +474,7 @@ public class Helpers {
 
             try {
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                bm.compress(Bitmap.CompressFormat.JPEG, 75, bos);
+                bm.compress(Bitmap.CompressFormat.JPEG, 50, bos);//last 75
                 byte[] data = bos.toByteArray();
                 String fileName = "image" + System.currentTimeMillis();
 

@@ -274,6 +274,7 @@ public class AppResource {
 
     public boolean SaveImageFile(Bitmap bitmap, String file_name) {
         try {
+            //todo dublicate in Helper ImgRequest doInBackground
             FileOutputStream out = new FileOutputStream(file_name);
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
         } catch (Exception e) {

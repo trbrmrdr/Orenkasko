@@ -162,10 +162,10 @@ public class Data extends AppResource {
                 } else {
                     imgs += ",";
                 }
+                //todo in Helpers bm.compress(Bitmap.CompressFormat.JPEG, 75, bos);
                 imgs += "\"" + str + "\"";
             }
-            imgs += ",\"количество завтра обясню(пока пустые, чтоб все негрузить)\"" +
-                    "]";
+            imgs += "]";
 
             String[] params = {
                     "switch_first", str_dat[0],
