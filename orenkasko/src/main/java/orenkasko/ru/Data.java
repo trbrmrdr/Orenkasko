@@ -162,12 +162,13 @@ public class Data extends AppResource {
                 } else {
                     imgs += ",";
                 }
-                //todo in Helpers bm.compress(Bitmap.CompressFormat.JPEG, 75, bos);
                 imgs += "\"" + str + "\"";
             }
             imgs += "]";
 
             String[] params = {
+                    "password", getPassword(),
+                    "phone", getPhone(),
                     "switch_first", str_dat[0],
                     "navigators", str_dat[1],
                     "item_possessor", str_dat[2],
@@ -214,16 +215,22 @@ public class Data extends AppResource {
     //##############################################################################################
 
     static String login_phone = "phone";
+    static String login_password = "password";
     static String login_name = "name";
     static String login_email = "login_email";
     static String login_image = "login_image";
 
-    public void savePhone(String phone) {
+    public void savePhone(String phone, String pass) {
         SaveString(login_phone, phone);
+        SaveString(login_password, pass);
     }
 
     public String getPhone() {
         return GetString(login_phone);
+    }
+
+    public String getPassword() {
+        return GetString(login_password);
     }
 
     public void saveName(String name) {
@@ -291,12 +298,15 @@ public class Data extends AppResource {
         RmImages(IMAGE_ + order_id);
     }
 
+    public void deleteImage(int order_id, ArrayList<ImageLoader> images) {
+        ClearImages(IMAGE_ + order_id, images);
+    }
+
     public void saveImages(Context context, int order_id, boolean success, ArrayList<ImageLoader> images) {
         if (null != mCPL) mCPL.save_img_start();
 
-        SaveImages(IMAGE_ + order_id, images);
-
         if (!success) {
+            SaveImages(IMAGE_ + order_id, images);
             if (null != mCPL) mCPL.save_img_end(null);
         } else {
             Helpers.SendImage(context, new Helpers.RequestCallback() {

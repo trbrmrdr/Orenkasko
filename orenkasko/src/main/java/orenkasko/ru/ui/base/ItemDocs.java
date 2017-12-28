@@ -3,7 +3,6 @@ package orenkasko.ru.ui.base;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -100,5 +99,10 @@ public class ItemDocs extends LinearLayout {
 
     public boolean hasLoaded() {
         return first_image.hasLoaded() && second_image.hasLoaded();
+    }
+
+    public void clear() {
+        first_image.setLoaded(false, null);
+        second_image.setLoaded(false, null);
     }
 }

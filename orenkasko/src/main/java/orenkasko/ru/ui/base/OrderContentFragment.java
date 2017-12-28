@@ -26,6 +26,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -38,26 +39,32 @@ import orenkasko.ru.Data;
 import orenkasko.ru.PersonalDataActivity;
 import orenkasko.ru.R;
 
+import static orenkasko.ru.ui.base.OrderContentFragment.TypeWork.SKETCH;
+
 /**
  * Provides UI for the view with Cards.
  */
 @SuppressLint("ValidFragment")
 public class OrderContentFragment extends Fragment {
 
-    //0 черновик
-    //1 в процессе
-    //2 выполненные
-    int mType = -1;
+    public enum TypeWork {
+        NONE,
+        SKETCH,          //0 черновик
+        IN_THE_WORK,    //1 в процессе
+        EXCUTED         //2 выполненные
+    }
+
+    TypeWork mType = TypeWork.NONE;
     ContentAdapter mAdapter;
     private Data.Order mOrder;
 
     private void buildData() {
         Data data = Application.getData();
-        if (mType == 0 && data.mOrder.data_order_count > 0) {
+        if (mType == SKETCH && data.mOrder.data_order_count > 0) {
             mOrder = data.mOrder;
             return;
         }
-        if (mType == 1 && data.mOrder_Success.data_order_count > 0) {
+        if (mType == TypeWork.IN_THE_WORK && data.mOrder_Success.data_order_count > 0) {
             mOrder = data.mOrder_Success;
             return;
         }
@@ -83,7 +90,7 @@ public class OrderContentFragment extends Fragment {
     }
 
     @SuppressLint("ValidFragment")
-    public OrderContentFragment(int type) {
+    public OrderContentFragment(TypeWork type) {
         super();
         mType = type;
     }
@@ -121,9 +128,16 @@ public class OrderContentFragment extends Fragment {
         @Bind(R.id.card_date)
         public TextView data;
 
+        @Bind(R.id.done_button)
+        public ImageButton done_button;
+
+        @Bind(R.id.erace_button)
+        public ImageButton erace_button;
+
         @OnClick(R.id.erace_button)
         public void erace_click(View v) {
             //Snackbar.make(v, "erace this content " + order_id, Snackbar.LENGTH_LONG).show();
+            if (mType != SKETCH) return;
 
             new MaterialDialog.Builder(this.itemView.getContext())
                     //.title(R.string.title)
@@ -147,6 +161,7 @@ public class OrderContentFragment extends Fragment {
         public void edit_click(View v) {
             //Snackbar.make(v, "edit this content " + order_id, Snackbar.LENGTH_LONG).show();
 
+            if (mType != SKETCH) return;
 
             final Context context = this.itemView.getContext();
             new MaterialDialog.Builder(context)
@@ -197,8 +212,26 @@ public class OrderContentFragment extends Fragment {
             return new ViewHolder(LayoutInflater.from(parent.getContext()), parent);
         }
 
+        @SuppressLint("RestrictedApi")
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
+            int id_image = -1;
+            switch (mType) {
+                case SKETCH:
+                    holder.done_button.setVisibility(View.GONE);
+                    holder.erace_button.setVisibility(View.VISIBLE);
+                    break;
+                case IN_THE_WORK:
+                    holder.done_button.setVisibility(View.GONE);
+                    holder.erace_button.setVisibility(View.GONE);
+                    break;
+                case EXCUTED:
+                    holder.done_button.setVisibility(View.VISIBLE);
+                    holder.erace_button.setVisibility(View.GONE);
+                    break;
+            }
+
+
             holder.position = position;
             holder.order_id = mOrder.ids[position];
             holder.title.setText("ОСАГО # " + mOrder.tids[position]);

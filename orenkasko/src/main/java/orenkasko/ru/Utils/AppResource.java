@@ -14,6 +14,8 @@ import java.util.Set;
 
 import orenkasko.ru.ui.base.ImageLoader;
 
+import static orenkasko.ru.Utils.Helpers.CompressBitmap;
+
 public class AppResource {
 
     private static final String TAG = "GameResource";
@@ -220,6 +222,28 @@ public class AppResource {
     }
 
 
+    public void ClearImages(String name, ArrayList<ImageLoader> images) {
+        SharedPreferences.Editor editor = getEditor();
+        editor.putInt(name, images.size());
+        editor.commit();
+
+        String path = GetFileCache(mContext).getAbsolutePath() + "/" + name + "/";
+        File dirs = new File(path);
+        boolean test = false;
+        if (!dirs.exists())
+            return;
+
+        if (dirs.delete())
+            return;
+
+        String path_s = dirs.getAbsolutePath() + "/image_";
+        int i = -1;
+        for (ImageLoader image : images) {
+            ++i;
+            new File(path_s + i).delete();
+        }
+    }
+
     public void SaveImages(String name, ArrayList<ImageLoader> images) {
         SharedPreferences.Editor editor = getEditor();
         editor.putInt(name, images.size());
@@ -276,7 +300,7 @@ public class AppResource {
         try {
             //todo dublicate in Helper ImgRequest doInBackground
             FileOutputStream out = new FileOutputStream(file_name);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            CompressBitmap(bitmap, out);
         } catch (Exception e) {
             e.printStackTrace();
             return false;

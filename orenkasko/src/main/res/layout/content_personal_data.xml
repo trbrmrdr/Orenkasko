@@ -139,6 +139,7 @@
                 android:gravity="center_horizontal">
 
                 <orenkasko.ru.ui.base.ItemDocs
+                    android:id="@+id/pasport_owner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     custom:text_item="@string/pasport_insurent" />
@@ -166,7 +167,7 @@
                 <include layout="@layout/separator_content_osago" />
 
                 <orenkasko.ru.ui.base.ItemDocs
-                    android:id="@+id/pasport_owner"
+                    android:id="@+id/pasport_change_owner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"

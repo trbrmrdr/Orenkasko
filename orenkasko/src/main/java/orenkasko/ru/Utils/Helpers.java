@@ -1,13 +1,11 @@
 package orenkasko.ru.Utils;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,17 +14,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -364,24 +362,33 @@ public class Helpers {
         return bitmap;
     }
 
+    public static void CompressBitmap(Bitmap bitmap, OutputStream outputStream) {
+        //bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); last old
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);//last 75
+    }
+
     //#################################################################################################
-    //private static final String _SERVER_URL = "https://orenkasko.herokuapp.com";
+    private static final String _SERVER_URL = "https://orenkasko.herokuapp.com";
     //private static final String _URL_IMG = "0.0.0.0:80";
-    private static final String _SERVER_URL = "http://68ca7ed2.ngrok.io";
+    //private static final String _SERVER_URL = "http://68ca7ed2.ngrok.io";
 
     private static final String _URL_IMG = _SERVER_URL + "/";
     private static final String _URL_DOCS = _SERVER_URL + "/applications";
+    private static final String _URL_LOGIN = _SERVER_URL + "/me?";//phone=9123456789&password=password";
 
     interface Service {
         @Multipart
         @POST("upload_image")
         Call<ResponseBody> postImage(@Part MultipartBody.Part image);
+
     }
 
     public interface RequestCallback {
         void callback(String[] result);
 
     }
+
+    //_________________________________________________________
 
     static class PostRequest extends AsyncTask<String[], Object, String> {
 
@@ -453,6 +460,8 @@ public class Helpers {
         new PostRequest(callback).execute(params);
     }
 
+    //_________________________________________________________
+
     static class ImgRequest extends AsyncTask<Bitmap, Object, String[]> {
         RequestCallback mCallback;
         int mId;
@@ -466,15 +475,15 @@ public class Helpers {
 
         @Override
         protected String[] doInBackground(Bitmap... bitmaps) {
-            Bitmap bm = bitmaps[0];
+            Bitmap bitmap = bitmaps[0];
             final String[] ret = new String[2];
             ret[0] = String.valueOf(mId);
             ret[1] = "";
-            if (null == bm) return ret;
+            if (null == bitmap) return ret;
 
             try {
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                bm.compress(Bitmap.CompressFormat.JPEG, 50, bos);//last 75
+                CompressBitmap(bitmap, bos);
                 byte[] data = bos.toByteArray();
                 String fileName = "image" + System.currentTimeMillis();
 
@@ -588,11 +597,14 @@ public class Helpers {
             return ret;
         }
 
+
         @Override
         protected void onPostExecute(String[] result) {
             mCallback.callback(result);
         }
     }
+
+    //_________________________________________________________
 
     static class ImagesRequest extends AsyncTask<Object, Object, String[]> {
         RequestCallback mCallback;
@@ -653,6 +665,64 @@ public class Helpers {
     public static void SendImage(Context context, RequestCallback
             callback, ArrayList<ImageLoader> images) {
         new ImagesRequest(context, callback, images).execute();
+    }
+
+    //_________________________________________________________
+
+    static class LogInRequest extends AsyncTask<String[], Object, String> {
+
+        RequestCallback mCallback;
+
+        LogInRequest(RequestCallback callback) {
+            mCallback = callback;
+        }
+
+        @Override
+        protected String doInBackground(String[]... params) {
+            try {
+                HttpURLConnection connection = (HttpURLConnection) (new URL(_URL_LOGIN + "phone=" + params[0][0] + "&password=" + params[0][1])).openConnection();
+                connection.setRequestMethod("GET");
+
+                int statusCode = connection.getResponseCode();
+                //connection.setDoOutput(true);
+                //connection.connect();
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String inputLine;
+                String ret = "";
+                while ((inputLine = in.readLine()) != null) {
+                    if (ret.length() > 0)
+                        ret += "\n";
+                    ret += inputLine;
+                }
+                in.close();
+                return ret;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            //{"name":"Тестовый пользователь"}
+
+            String name = "";
+            try {
+                JSONObject jsonObject = new JSONObject(result);
+                name = jsonObject.getString("name");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            mCallback.callback(new String[]{name});
+        }
+
+    }
+
+
+    public static void SendLogIn(RequestCallback callback, String phone, String pass) {
+        new LogInRequest(callback).execute(new String[]{phone, pass});
     }
 
 }

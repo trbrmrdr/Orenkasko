@@ -2,6 +2,7 @@ package orenkasko.ru;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import butterknife.Bind;
@@ -25,6 +28,12 @@ import orenkasko.ru.Utils.Helpers;
 import orenkasko.ru.ui.base.BaseActivity;
 
 public class OsagoActivity extends BaseActivity {
+
+    //int spinner_item = android.R.layout.simple_spinner_item;
+    int spinner_item = R.layout.spinner_item;
+    int spinner_dropdown_item = android.R.layout.simple_spinner_dropdown_item;
+
+
     //on_registration_way
     //period
     //is_registered_abroad
@@ -137,7 +146,7 @@ public class OsagoActivity extends BaseActivity {
         public void selected(int index) {
             int id = item_region_title[index];
             region_selected = regions.get(id);
-            if (region_selected.isEmpty()) {
+            if (null == region_selected || region_selected.isEmpty()) {
                 item_city.setVisibility(false);
                 cost();
             } else {
@@ -154,12 +163,15 @@ public class OsagoActivity extends BaseActivity {
 
     //___________________city_______________________________________________________________________
     Item item_city;
+    @Nullable
     float[] spin_city_title;
 
     CallbackSelected select_city = new CallbackSelected() {
         @Override
         public void selected(int index) {
-            if (-1 == index) {
+            if (null == region_selected) {
+                spin_city_title = null;
+            } else if (-1 == index) {
                 spin_city_title = region_selected.titles.get(0);
             } else {
                 spin_city_title = region_selected.titles.get(index);
@@ -277,34 +289,43 @@ public class OsagoActivity extends BaseActivity {
         setContentView(R.layout.activity_osago);
         ButterKnife.bind(this);
 
-        item_possessor = new Item(R.id.item_spin_possessor, R.id.spin_possessor, select_possessor);
+        item_possessor = new Item(R.id.item_spin_possessor, R.id.spin_possessor, select_possessor,
+                R.array.array_spin_possessor);
         //#
         sub_type_b = new Types(R.array.array_spin_type_b, R.array.array_spin_type_b_title);
         sub_type_c = new Types(R.array.array_spin_type_c, R.array.array_spin_type_c_title);
         sub_type_d = new Types(R.array.array_spin_type_d, R.array.array_spin_type_d_title);
         sub_type_def = new Types(R.array.array_spin_type_def);
 
-        item_type = new Item(R.id.item_spin_type, R.id.spin_type, select_type);
-        item_sub_type = new Item(R.id.item_spin_sub_type, R.id.spin_sub_type, select_sub_type);
+        item_type = new Item(R.id.item_spin_type, R.id.spin_type, select_type,
+                R.array.array_spin_type);
+        item_sub_type = new Item(R.id.item_spin_sub_type, R.id.spin_sub_type, select_sub_type,
+                sub_type_b);
         //#
         item_power_title = Helpers.getFloatArray(this, R.array.array_spin_power_title);
-        item_power = new Item(R.id.item_spin_power, R.id.spin_power, select_power);
+        item_power = new Item(R.id.item_spin_power, R.id.spin_power, select_power,
+                R.array.array_spin_power);
         //#
         item_period_ispolzovania_title = Helpers.getFloatArray(this, R.array.array_spin_period_ispolzovania_title);
-        item_period_ispolzovania = new Item(R.id.item_spin_period_ispolzovania, R.id.spin_period_ispolzovania, select_period_ispolzovania);
+        item_period_ispolzovania = new Item(R.id.item_spin_period_ispolzovania, R.id.spin_period_ispolzovania, select_period_ispolzovania,
+                R.array.array_spin_period_ispolzovania
+        );
         //#
         item_region_title = getResources().getIntArray(R.array.array_spin_region_value);
         read_regions();
-        item_region = new Item(R.id.item_spin_region, R.id.spin_region, select_region);
+        item_region = new Item(R.id.item_spin_region, R.id.spin_region, select_region,
+                R.array.array_spin_region);
         //_
         item_city = new Item(R.id.item_spin_city, R.id.spin_city, select_city);
         //#
         item_driverAgeStage_title = Helpers.getFloatArray(this, R.array.array_spin_driverAgeStage_title);
-        item_driverAgeStage = new Item(R.id.item_spin_driverAgeStage, R.id.spin_driverAgeStage, select_driverAgeStage);
+        item_driverAgeStage = new Item(R.id.item_spin_driverAgeStage, R.id.spin_driverAgeStage, select_driverAgeStage,
+                R.array.array_spin_driverAgeStage);
         change_navigators();
         //#
         item_discount_title = Helpers.getFloatArray(this, R.array.array_spin_discount_val);
-        item_discount = new Item(R.id.item_spin_discount, R.id.spin_discount, select_discount);
+        item_discount = new Item(R.id.item_spin_discount, R.id.spin_discount, select_discount,
+                R.array.array_spin_discount);
         //-
         spin_insurance.setEnabled(false);
         switch_first_changed(null, switch_first.isChecked());
@@ -409,6 +430,7 @@ public class OsagoActivity extends BaseActivity {
 
         float sum = (Tb * Kt * Kvs_Ko * Km * Kc * Kp * Kbm * 100.f) / 100.f;
 
+        /*
         Log(
                 "Базовая ставка (Tb):=" + Tb + "\n" +
                         "коэф региона (Kt):=" + Kt + "\n" +
@@ -420,6 +442,7 @@ public class OsagoActivity extends BaseActivity {
                         "Стоимость :=" + sum + "\n" +
                         "######################################################\n"
         );
+        */
         one_step = true;
         item_amount_value.setText(" " + sum + " Р");
     }
@@ -485,10 +508,8 @@ public class OsagoActivity extends BaseActivity {
 
         public void end() {
             if (items.size() == 0) return;
-            arrayAdapter = new ArrayAdapter<>(OsagoActivity.this,
-                    android.R.layout.simple_spinner_item,
-                    items);
-            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            //arrayAdapter = createAdapter(items);
+            arrayAdapter = createAdapter(items);
         }
     }
 
@@ -552,8 +573,18 @@ public class OsagoActivity extends BaseActivity {
     }
 
     private ArrayAdapter<?> createAdapter(int array_res_id) {
-        ArrayAdapter<?> ret = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(array_res_id));
-        ret.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        return createAdapter(Arrays.asList(getResources().getStringArray(array_res_id)));
+    }
+
+    private ArrayAdapter<?> createAdapter(List<?> array) {
+        ArrayAdapter<?> ret = new ArrayAdapter<>(this, spinner_item, array);
+        ret.setDropDownViewResource(spinner_dropdown_item);
+        return ret;
+    }
+
+    private ArrayAdapter<?> createAdapter() {
+        ArrayAdapter<?> ret = new ArrayAdapter<>(this, spinner_item);
+        ret.setDropDownViewResource(spinner_dropdown_item);
         return ret;
     }
 
@@ -571,6 +602,22 @@ public class OsagoActivity extends BaseActivity {
 
         public Item(int layout_id_res, int spin_id_res, final CallbackSelected callback) {
             init(layout_id_res, spin_id_res, callback);
+
+            mSpin.setAdapter(createAdapter());
+        }
+
+        public Item(int layout_id_res, int spin_id_res, final CallbackSelected callback
+                , int array_res_id) {
+            init(layout_id_res, spin_id_res, callback);
+
+            mSpin.setAdapter(createAdapter(array_res_id));
+        }
+
+        public Item(int layout_id_res, int spin_id_res, final CallbackSelected callback
+                , Types types) {
+            init(layout_id_res, spin_id_res, callback);
+
+            mSpin.setAdapter(types.types);
         }
 
         private void init(int layout_id_res, int spin_id_res, final CallbackSelected callback) {

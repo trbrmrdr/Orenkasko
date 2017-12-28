@@ -30,32 +30,42 @@
 
                 <RelativeLayout
                     android:id="@+id/item_spin_possessor"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/item_spin_height"
                     android:layout_gravity="center_vertical"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp">
 
-                    <TextView
-                        style="@style/item_spin_text"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/spin_way" />
+                        android:orientation="horizontal"
+                        android:weightSum="@dimen/spin_weight_sum">
 
-                    <Spinner
-                        android:id="@+id/spin_possessor"
-                        style="@style/item_spin"
-                        android:layout_width="@dimen/spin_width_2"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:entries="@array/array_spin_possessor" />
+                        <TextView
+                            style="@style/item_spin_text"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="@dimen/spin_weight_l"
+                            android:text="@string/spin_way" />
+
+                        <Spinner
+                            android:id="@+id/spin_possessor"
+                            style="@style/item_spin"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_weight="@dimen/spin_weight_2"
+                            android:entries="@array/array_spin_possessor" />
+
+                    </LinearLayout>
 
                     <include layout="@layout/separator_content_osago" />
+
                 </RelativeLayout>
 
-                <!--
-                -->
-                <include layout="@layout/tmp_content_osago" />
+                <!-- -->
+                <include layout="@layout/content_osago_include_original" />
 
 
                 <!-- ############### discount ###################### -->
@@ -68,20 +78,30 @@
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp">
 
-                    <TextView
-                        style="@style/item_spin_text"
-                        android:layout_width="@dimen/spin_width"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="@dimen/spin_weight_sum">
 
-                        android:text="@string/spin_discount" />
+                        <TextView
+                            style="@style/item_spin_text"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="@dimen/spin_weight_l"
 
-                    <Spinner
-                        android:id="@+id/spin_discount"
-                        style="@style/item_spin"
-                        android:layout_width="@dimen/spin_width_2"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:entries="@array/array_spin_discount" />
+                            android:text="@string/spin_discount" />
+
+                        <Spinner
+                            android:id="@+id/spin_discount"
+                            style="@style/item_spin"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_weight="@dimen/spin_weight_2"
+                            android:entries="@array/array_spin_discount" />
+
+                    </LinearLayout>
 
                     <include layout="@layout/separator_content_osago" />
                 </RelativeLayout>
@@ -89,27 +109,34 @@
                 <!-- ############### discount ###################### -->
 
                 <RelativeLayout
-
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/item_spin_height"
                     android:layout_gravity="center_vertical"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp">
 
-                    <TextView
-                        style="@style/item_spin_text"
-                        android:layout_width="@dimen/spin_width"
-
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/spin_name_insurance" />
+                        android:orientation="horizontal"
+                        android:weightSum="@dimen/spin_weight_sum">
 
-                    <Spinner
-                        android:id="@+id/spin_insurance"
-                        style="@style/item_spin"
-                        android:layout_width="@dimen/spin_width_2"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:entries="@array/array_spin_insurance" />
+                        <TextView
+                            style="@style/item_spin_text"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="@dimen/spin_weight_2"
+                            android:text="@string/spin_name_insurance" />
+
+                        <Spinner
+                            android:id="@+id/spin_insurance"
+                            style="@style/item_spin"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_weight="@dimen/spin_weight_2"
+                            android:entries="@array/array_spin_insurance" />
+                    </LinearLayout>
 
                     <include layout="@layout/separator_content_osago" />
                 </RelativeLayout>

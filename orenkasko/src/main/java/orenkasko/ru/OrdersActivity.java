@@ -57,9 +57,9 @@ public class OrdersActivity extends BaseActivity {
     // Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new OrderContentFragment(0), "Ченовики");
-        adapter.addFragment(new OrderContentFragment(1), "Оформление");
-        adapter.addFragment(new OrderContentFragment(2), "Выполненные");
+        adapter.addFragment(new OrderContentFragment(OrderContentFragment.TypeWork.SKETCH), "Ченовики");
+        adapter.addFragment(new OrderContentFragment(OrderContentFragment.TypeWork.IN_THE_WORK), "Оформление");
+        adapter.addFragment(new OrderContentFragment(OrderContentFragment.TypeWork.EXCUTED), "Выполненные");
         viewPager.setAdapter(adapter);
     }
 

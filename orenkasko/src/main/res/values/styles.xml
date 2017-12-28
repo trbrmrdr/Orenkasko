@@ -83,6 +83,10 @@
         <item name="android:layout_marginTop">@dimen/bd_margin_top</item>
     </style>
 
+
+
+
+    <!-- left -->
     <style name="item_spin_text">
         <item name="android:textColor">@color/dark_grey</item>
         <!--
@@ -91,20 +95,22 @@
 -->
     </style>
 
+    <!-- right -->
+    <style name="item_spin" parent="@android:style/Widget.TextView.SpinnerItem">
+        <item name="android:textSize">12sp</item>
+
+        <!--<item name="android:textStyle">italic</item>-->
+    </style>
+
+
+
+
+
     <style name="item_personel_data_text">
         <item name="android:textColor">@color/dark_grey</item>
     </style>
 
-    <!--
-    <style name="item_spin">
-        <item name="android:textSize">1sp</item>
-        <item name="android:textStyle">italic</item>
-    </style>
--->
-    <style name="item_spin" parent="@android:style/Widget.TextView.SpinnerItem">
-        <item name="android:textSize">17sp</item>
-        <!--<item name="android:textStyle">italic</item>-->
-    </style>
+
 
     <style name="text_time">
         <item name="android:textSize">@dimen/abc_text_size_title_material</item>

@@ -41,7 +41,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity";
 
     public final static void Log(final String msg) {
-        //Log.e(TAG, msg);
+        Log.e(TAG, msg);
     }
 
     protected static final int NAV_DRAWER_ITEM_INVALID = -1;

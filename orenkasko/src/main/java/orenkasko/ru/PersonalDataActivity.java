@@ -42,6 +42,12 @@ public class PersonalDataActivity extends BaseActivity {
     @Bind(R.id.pasport_owner)
     ItemDocs pasport_owner;
 
+    @Bind(R.id.pasport_change_owner)
+    ItemDocs pasport_change_owner;
+
+    @Bind(R.id.pasport_transport)
+    ItemDocs pasport_transport;
+
     @Bind(R.id.text_fio)
     EditText text_fio;
     @Bind(R.id.text_email)
@@ -83,16 +89,15 @@ public class PersonalDataActivity extends BaseActivity {
     @Bind(R.id.layout_from_docs)
     LinearLayout layout_from_docs;
 
-    //todo неработает удаление при смене страхователя это собственник
     @OnCheckedChanged(R.id.change_owner)
     void change_owner(CompoundButton button, boolean isChecked) {
         if (isChecked) {
-            pasport_owner.setVisibility(View.GONE);
+            pasport_change_owner.setVisibility(View.GONE);
             int size = ImageLoader._images.size();
             if (size > 2) ImageLoader._images.get(2).setLoaded(false, null);
             if (size > 3) ImageLoader._images.get(3).setLoaded(false, null);
         } else {
-            pasport_owner.setVisibility(View.VISIBLE);
+            pasport_change_owner.setVisibility(View.VISIBLE);
         }
     }
 
@@ -133,6 +138,9 @@ public class PersonalDataActivity extends BaseActivity {
 
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
+        items_docs.add(pasport_owner);
+        items_docs.add(pasport_change_owner);
+        items_docs.add(pasport_transport);
         //__________________
         count_docs = Application.getData().getNavigators(order_id);
         String driving_permits = getResources().getString(R.string.drivings_permits);
@@ -196,25 +204,36 @@ public class PersonalDataActivity extends BaseActivity {
         //String comments = text_comments.getText().toString();
         String name_card = text_name_card.getText().toString();
 
-            if (false)
-        {
+        //if (false)
+        if (true) {
             String msg = fio.length() <= 0 ? "Введите имя" :
                     !email.contains("@") ? "Некорректный адрес @" :
                             phone.length() != 17 ? "Неверный телефон" :
-                                    //!pasport_owner.hasLoaded() ? "Незагржены документы" :
+                                    //!pasport_change_owner.hasLoaded() ? "Незагржены документы" :
                                     name_card.length() <= 0 ? "Номер карты невведёт" : "";
 
-            //if (msg.length() <= 0)
-
-            boolean owner = pasport_owner.getVisibility() == View.GONE;
-            int i = -1;
-            for (ItemDocs docs : items_docs) {
-                i++;
-                if (!docs.hasLoaded()) {
-                    if (owner && (i == 2 || i == 3))
+            if (msg.length() <= 0) {
+                boolean owner = pasport_change_owner.getVisibility() == View.GONE;
+                int i = -1;
+                for (ItemDocs docs : items_docs) {
+                    i++;
+                    if (i == 1 && owner) {
+                        //если страховаетель есть собственник то пропускаем
+                        if (docs.hasLoaded()) {//проверка на ошибку
+                            docs.clear();
+                        }
                         continue;
-                    msg = i + "-ое фото незагружено.";
-                    break;
+                    }
+                    if (!docs.hasLoaded()) {
+                        int c_i = i + 1;
+                        if (owner && i > 0) c_i -= 1;
+                        msg = c_i + (
+                                c_i == 2 || (c_i >= 6 && c_i <= 8) ? "-ой"
+                                        : c_i == 3 ? "-ий"
+                                        : "-ый"
+                        ) + " документ незагружен.";
+                        break;
+                    }
                 }
             }
             if (msg.length() > 0) {
@@ -266,7 +285,7 @@ public class PersonalDataActivity extends BaseActivity {
         if (save_not_needed) return;
         if (success) {
             setVisibleProgress(true);
-            //after call saveData_saving(true);
+            //after useed -> call saveData_saving(true); (see in setVisibleProgress)
         } else {
             saveData_saving(success);
         }
@@ -290,7 +309,7 @@ public class PersonalDataActivity extends BaseActivity {
                 time_card;
 
         final String time_docs = text_time.getText().toString();
-        final boolean change_owner = pasport_owner.getVisibility() == View.GONE;
+        final boolean change_owner = pasport_change_owner.getVisibility() == View.GONE;
 
         Application.getData().setChangedProcessLoad(new Data.changed_process_load() {
             @Override
@@ -301,9 +320,12 @@ public class PersonalDataActivity extends BaseActivity {
             public void save_docs_end(String[] request) {
                 setVisibleProgress(false);
 
+                Application.getData().deleteImage(order_id, ImageLoader._images);
                 //if (true) return;
                 Intent intent = new Intent(PersonalDataActivity.this, OrdersActivity.class);
                 intent.putExtra(OrdersActivity.OPEN_SUCCESS, true);
+                intent.removeExtra(Data.key_oreder_id);
+
                 Helpers.StartClean(PersonalDataActivity.this, intent);
                 overridePendingTransition(R.anim.right_in, R.anim.left_out);
             }
