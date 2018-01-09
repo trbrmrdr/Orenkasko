@@ -640,10 +640,24 @@ public class OsagoActivity extends BaseActivity {
             });
         }
 
+
+        int lastAction = -1;
+
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            //mSpin.performClick();
-            return false;
+            int action = event.getAction();
+            //Log("action = " + action);
+            boolean ret = false;
+            if (MotionEvent.ACTION_DOWN == lastAction &&
+                    MotionEvent.ACTION_UP == action) {
+                if (mSpin.isEnabled())
+                    mSpin.performClick();
+                ret = true;
+            } else if (MotionEvent.ACTION_DOWN == action) {
+                ret = true;
+            }
+            lastAction = action;
+            return ret;
         }
 
         public void setAdapter(ArrayAdapter<?> types) {

@@ -69,8 +69,9 @@
                     android:inputType="phone"
                     android:maxLength="17"
                     android:maxLines="1"
+                    android:nextFocusDown="@id/phone_pass"
                     android:selectAllOnFocus="false"
-
+                    android:singleLine="true"
                     android:text="@string/phone_start_text"
                     android:textAlignment="center" />
 
@@ -98,7 +99,9 @@
                     android:inputType="textPassword"
                     android:maxLength="10"
                     android:maxLines="1"
+                    android:nextFocusDown="@id/sign_next_button"
                     android:selectAllOnFocus="false"
+                    android:singleLine="true"
 
                     android:textAlignment="center" />
             </android.support.design.widget.TextInputLayout>

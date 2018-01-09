@@ -9,11 +9,13 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -63,11 +65,12 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.phone_form)
     LinearLayout mPhoneForm;
 
+
     private static final int MY_PERMISSIONS_REQUEST_INTERNET = 1;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2;
 
     @OnClick(R.id.sign_next_button)
-    public void next_button(View v) {
+    public void next_button(@Nullable View v) {
 
         if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET)) {
             new MaterialDialog.Builder(this)
@@ -158,6 +161,20 @@ public class LoginActivity extends AppCompatActivity {
 
         getWindow().getDecorView().clearFocus();
         mProgressView.setFocusable(true);
+
+
+        mPhoneCodeText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                ///*
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    next_button(null);
+                    return true;
+                }
+                /**/
+                return false;
+            }
+        });
     }
 
 

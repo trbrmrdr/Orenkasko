@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/root_scroll"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
@@ -43,20 +45,19 @@
                     style="@style/item_personel_data_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/email" />
+                    android:hint="@string/email"
+                    android:nextFocusDown="@id/text_phone" />
 
                 <EditText
                     android:id="@+id/text_phone"
                     style="@style/item_personel_data_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:digits="0123456789"
 
                     android:hint="@string/phone_text_hint_2"
                     android:inputType="phone"
-                    android:maxLength="17"
-                    android:maxLines="1" />
+                    android:maxLength="17" />
 
                 <EditText
                     android:id="@+id/text_comments"
@@ -80,6 +81,7 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/layout_change_data"
                 style="@style/Widget.CardContentDocs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -94,7 +96,7 @@
                     android:text="@string/docs_data_text_start" />
 
                 <RelativeLayout
-                    android:id="@+id/layout_change_data"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
@@ -152,8 +154,8 @@
                     <android.support.v7.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="13sp"
-                        android:text="Страхователь это собственник" />
+                        android:text="Страхователь это собственник"
+                        android:textSize="13sp" />
 
                     <Switch
                         android:id="@+id/change_owner"
@@ -209,9 +211,12 @@
                     style="@style/item_personel_data_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/name_card" />
+                    android:hint="@string/name_card"
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
                 <LinearLayout
+                    android:id="@+id/layout_change_data_card"
                     style="@style/Widget.CardContentDocs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -226,7 +231,6 @@
                         android:text="@string/docs_data_text_end" />
 
                     <RelativeLayout
-                        android:id="@+id/layout_change_data_card"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 

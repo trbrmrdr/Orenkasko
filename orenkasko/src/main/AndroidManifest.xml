@@ -26,7 +26,8 @@
         <activity
             android:name=".LoginActivity"
             android:noHistory="true"
-            android:theme="@style/AppTheme.NoTopBar">
+            android:theme="@style/AppTheme.NoTopBar"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,9 +48,9 @@
         <activity
             android:name=".PersonalDataActivity"
             android:label="@string/item_osago"
-
             android:parentActivityName=".OsagoActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize"></activity>
 
         <!--
         <activity

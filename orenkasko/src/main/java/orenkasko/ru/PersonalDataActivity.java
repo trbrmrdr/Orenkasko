@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -35,6 +36,9 @@ import orenkasko.ru.ui.base.ItemDocs;
 //https://github.com/Mariovc/ImagePicker.git
 
 public class PersonalDataActivity extends BaseActivity {
+
+    @Bind(R.id.root_scroll)
+    NestedScrollView root_scroll;
 
     @Bind(R.id.fab)
     FloatingActionButton fab;
@@ -261,16 +265,62 @@ public class PersonalDataActivity extends BaseActivity {
         String[] strs = Application.getData().getDocs(order_id).split("\n");
 
         text_time.setText(Application.getData().getTimeDocs(order_id));
+        boolean showKeyboard = false;
+
         if (strs.length > 1) {
             text_fio.setText(strs[0]);
+            text_fio.setSelection(strs[0].length());
+
             text_email.setText(strs[1]);
+            text_email.setSelection(strs[1].length());
+
             text_phone.setText(strs[2]);
+            //text_phone.setSelection(strs[2].length());
+
             text_comments.setText(strs[3]);
+            text_comments.setSelection(strs[3].length());
 
             text_name_card.setText(strs[4]);
+            text_name_card.setSelection(strs[4].length());
+
             text_time_card.setText(strs[5]);
-        } else {
+
+            if (strs[0].length() <= 0) {
+                text_fio.setFocusable(true);
+                showKeyboard = true;
+            } else {
+                text_fio.clearFocus();
+                if (strs[1].length() <= 0) {
+                    text_email.requestFocus();
+                    showKeyboard = true;
+                } else {
+                    text_email.clearFocus();
+                    if (strs[2].length() <= 4) {
+
+                        text_phone.requestFocus();
+                        showKeyboard = true;
+                    } else if (strs[4].length() <= 0) {
+                        text_phone.clearFocus();
+                        text_name_card.requestFocus();
+                        //root_scroll.scrollTo(0, root_scroll.getMaxScrollAmount());
+                        showKeyboard = true;
+                    }
+                }
+            }
+        } else
+
+        {
             text_phone.setText(getText(R.string.phone_start_text));
+            showKeyboard = true;
+        }
+        text_phone.setSelection(text_phone.getText().
+
+                length());
+
+        if (!showKeyboard)
+
+        {
+            this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         }
 
     }

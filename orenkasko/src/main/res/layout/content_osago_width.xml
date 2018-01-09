@@ -320,7 +320,8 @@
                     android:layout_height="@dimen/item_spin_height"
                     android:layout_gravity="center_vertical"
                     android:paddingBottom="10dp"
-                    android:paddingTop="10dp">
+                    android:paddingTop="10dp"
+                    android:visibility="gone">
 
                     <TextView
                         style="@style/item_spin_text"
@@ -342,12 +343,13 @@
                 <!-- ############### discount ###################### -->
 
                 <RelativeLayout
-
                     android:layout_width="match_parent"
+
                     android:layout_height="@dimen/item_spin_height"
                     android:layout_gravity="center_vertical"
                     android:paddingBottom="10dp"
-                    android:paddingTop="10dp">
+                    android:paddingTop="10dp"
+                    android:visibility="gone">
 
                     <TextView
                         style="@style/item_spin_text"
