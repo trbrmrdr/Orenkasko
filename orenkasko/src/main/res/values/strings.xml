@@ -76,10 +76,14 @@
     <string name="second_list">Вторая страница</string>
     <string name="docs_data_text_start">Дата начала</string>
     <string name="docs_data_text_end">Дата окончания</string>
-    <string name="drivings_permits">Водительские удостовирения</string>
+    <string name="drivings_permits">Водительские удостоверения</string>
     <string name="pasport_transport">ПТС или СТС</string>
     <string name="diagnostic_card">Диагностическая Карта</string>
     <string name="name_card">Номер карты</string>
     <string name="error_incorrect_phone_pass">Неверный пароль или телефон!</string>
+
+    <string name="order_tabs_sketch">Черновики</string>
+    <string name="order_tabs_in_the_work">Оформление</string>
+    <string name="order_tabs_excuted">Выполненные</string>
 
 </resources>
